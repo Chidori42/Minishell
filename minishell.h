@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:25:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 08:48:16 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/23 20:10:51 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ typedef struct s_data
 
 int     ft_strlen(char *s);
 int		ft_isalnum(int c);
+int		ft_isalpha(int c);
 char	*ft_strchr(char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
 void	ft_putchar_fd(char c, int fd);
+int		isvalid_var_name(char *str);
 int		ft_free(char **str);
 void	ft_strcpy(char *dest, char *src);
 char	*get_next_line(int fd);
@@ -60,7 +62,8 @@ int		ft_env(t_data *arg, char *str);
 int		ft_echo(char *p);
 char	*ft_help_exp(char *p);
 int		ft_export(t_data *arg, char *p);
-char	**set_new_env(t_data *arg, char *p);
+char	**set_new_env(t_data *arg, char *str);
+int		check_repeat_var(t_data *arg, char *str, char *tmp);
 int		ft_unset(t_data *arg, char *p);
 
 #endif

@@ -20,7 +20,9 @@ SRCS = main.c ft_putchar_fd.c \
 	ft_export.c \
 	utils2.c \
 	free.c \
-	ft_isalnum.c
+	utils_export.c \
+	ft_isalpha.c \
+	ft_isalnum.c 
 #ft_wildcard.c
 
 OBJECTS = $(SRCS:.c=.o)
