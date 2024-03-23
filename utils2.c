@@ -44,7 +44,7 @@ int  check_var(char *p)
 	i = 0;
 	while (p[i])
 	{
-		if (p[i] == '=')
+		if (p[i] != '_' && !ft_isalnum(p[i]))
 			return(perror("unset: =: invalid parameter name"), 1);
 		i++;
 	}
@@ -66,7 +66,6 @@ int	ft_unset(t_data *arg, char *p)
 			return (ft_free(str), ft_putstr_fd("Error\n", 2), 1);
 		check_env(arg, str[1]);
 	}
-	printf("%p\n", str);
 	ft_free(str);
 	return (0);
 }

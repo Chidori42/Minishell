@@ -17,7 +17,9 @@
 #  define BUFFER_SIZE 1486969768
 # endif
 
-# include <libc.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
 #include <stdlib.h>
 # include <signal.h>
 # include <limits.h>

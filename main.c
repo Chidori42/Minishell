@@ -29,8 +29,8 @@ void    hundler(int sig)
         rl_replace_line("", 0);
         rl_redisplay();
     }
-	else if (sig == SIGQUIT)
-		return ;
+	// else if (sig == SIGQUIT)
+	// 	return ;
 }
 
 char	**join_env(t_data *arg, char **p)
@@ -62,7 +62,7 @@ int main(int ac, char **av, char **env)
 	signal(SIGINT, hundler);
 	while(1)
 	{
-	system("leaks minishell");
+	// system("leaks minishell");
 		arg.str = readline("Minishel > ");
 		if (arg.str == NULL || arg.str[0] == '\0')
 		{

@@ -1,6 +1,6 @@
-CC = cc
+CC = cc -g
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
 NAME = minishell
 
@@ -29,11 +29,11 @@ RM = rm -f
 all: $(NAME)
 
 %.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) -fsanitize=address $(CFLAGS) -c -o $@ $<
 
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -lreadline
+	$(CC) -fsanitize=address $(CFLAGS) $(OBJECTS) -o $(NAME) -lreadline
 clean:
 	$(RM) $(OBJECTS)
 

@@ -14,27 +14,35 @@
 
 int	check_repeat_var(t_data *arg, char *str, char *tmp)
 {
-	int		i;
+    int		i;
+    char    *new_str;
 
-	i = 0;
-	if (!str || !tmp)
-		return (free(str), free(tmp), -1);
-	while (arg->envp[i])
-	{
-		if (ft_strncmp(arg->envp[i], str, ft_strlen(str)) == 0)
-		{
-			str = ft_strjoin(str, "=");
-			str = ft_strjoin(str, tmp);
-			arg->envp[i] = ft_strdup(str);
-			if (!arg->envp[i])
-				return (free(arg->envp[i]), -1);
-			free(tmp);
-			return (1);
-		}
-		i++;
-	}
-	free(str);
-	return (0);
+    i = 0;
+    if (!str || !tmp)
+    {
+        free(str);
+        free(tmp);
+        return (-1);
+    }
+    while (arg->envp[i])
+    {
+        if (ft_strncmp(arg->envp[i], str, ft_strlen(str)) == 0)
+        {
+            new_str = ft_strjoin(str, "=");
+            //free(str);
+            new_str = ft_strjoin(new_str, tmp);
+            arg->envp[i] = ft_strdup(new_str);
+            if (!arg->envp[i])
+            {
+                free(new_str);
+                return (-1);
+            }
+            free(new_str);
+            return (1);
+        }
+        i++;
+    }
+    return (0);
 }
 
 char **set_new_env(t_data *arg, char *str)
@@ -64,16 +72,16 @@ char **set_new_env(t_data *arg, char *str)
 
 char	*my_getenv(t_data *arg, char *name)
 {
-	int	i;
+    int	i;
     int	len;
 
-	len = ft_strlen(name);
-	i = 0;
+    len = ft_strlen(name);
+    i = 0;
     while (arg->envp[i])
-	{
+    {
         if (ft_strncmp(arg->envp[i], name, len) == 0)
             return (&(arg->envp[i][len]));
-		i++;
+        i++;
     }
     return (NULL);
 }
@@ -90,7 +98,8 @@ int	my_setenv(t_data *arg, char *name, char *value)
     ft_strcpy(new_var, name);
 	strcat(new_var, "=");
     strcat(new_var, value);
-	set_new_env(arg, new_var);
+	if(set_new_env(arg, new_var) == NULL)
+		return (-1);
     return (0);
 }
 
@@ -165,6 +174,5 @@ int	ft_export(t_data *arg, char *p)
             i++;
         }
     }
-	ft_free(str);
     return 0;
 }

@@ -51,7 +51,7 @@ int	ft_pwd(char *p)
 	// if (ft_strcmp(str[0], "pwd") != 0)
 	// 	return (printf("commond not found"), -1);
 	if (str[1] && str[1][0] == '-')
-		printf("%s: invalid option", str[0]);
+		printf("%s: invalid option\n", str[0]);
 	else
 	{
 		if (getcwd(tmp, sizeof(tmp)))
