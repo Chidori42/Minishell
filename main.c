@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:40:30 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/21 18:06:27 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:50:30 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void    hundler(int sig)
     if (sig == SIGUSR1)
 	{
 		rl_clear_history();
-		free(arg.str);
 		exit(0);
 	}
     else if (sig == SIGINT)
@@ -33,20 +32,27 @@ void    hundler(int sig)
 	// 	return ;
 }
 
-char	**join_env(t_data *arg, char **p)
+char	**join_env(char **p)
 {
-	int i;
+	int		i;
+	char	**res;
+	char	*new_str;
 
 	i = 0;
+	new_str = NULL;
 	while (p[i])
 	{
-		arg->tmp = ft_strjoin(arg->tmp, p[i]);
-		arg->tmp = ft_strjoin(arg->tmp, "\n");
-		if (!arg->tmp)
+		new_str = ft_strjoin(new_str, p[i]);
+		new_str = ft_strjoin(new_str, "\n");
+		if (!new_str)
 			return (NULL);
 		i++;
 	}
-	return (ft_split(arg->tmp, '\n'));
+	res = ft_split(new_str, '\n');
+	if (!res)
+		return (NULL);
+	free(new_str);
+	return (res);
 }
 
 int main(int ac, char **av, char **env)
@@ -55,16 +61,16 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	arg.pid = getpid();
 	set_parameter(&arg);
-	arg.envp = join_env(&arg, env);
+	arg.envp = join_env(env);
 	if (!arg.envp)
 		return (-1);
 	signal(SIGUSR1, hundler);
 	signal(SIGINT, hundler);
 	while(1)
 	{
-	// system("leaks minishell");
+		system("leaks minishell");
 		arg.str = readline("Minishel > ");
-		if (arg.str == NULL || arg.str[0] == '\0')
+		if (arg.str == NULL || arg.str[0] == '\0' || arg.str[0] == '\n')
 		{
 			if (arg.str == NULL)
 			{
@@ -73,7 +79,6 @@ int main(int ac, char **av, char **env)
 			}
 			else
 				kill(arg.pid, SIGINT);
-			free(arg.str);
 		}
 		else
 		{

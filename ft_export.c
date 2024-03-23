@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/21 20:11:46 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:57:10 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,12 @@ int	check_repeat_var(t_data *arg, char *str, char *tmp)
 
     i = 0;
     if (!str || !tmp)
-    {
-        free(str);
-        free(tmp);
         return (-1);
-    }
     while (arg->envp[i])
     {
         if (ft_strncmp(arg->envp[i], str, ft_strlen(str)) == 0)
         {
             new_str = ft_strjoin(str, "=");
-            //free(str);
             new_str = ft_strjoin(new_str, tmp);
             arg->envp[i] = ft_strdup(new_str);
             if (!arg->envp[i])
@@ -100,6 +95,7 @@ int	my_setenv(t_data *arg, char *name, char *value)
     strcat(new_var, value);
 	if(set_new_env(arg, new_var) == NULL)
 		return (-1);
+    free(new_var);
     return (0);
 }
 
@@ -137,7 +133,7 @@ int	ft_export(t_data *arg, char *p)
 
     str = ft_split(p, ' ');
     if (!str)
-        return (ft_free(str), -1);
+        return (-1);
 
     if (str[1] == NULL)
 	{
@@ -174,5 +170,6 @@ int	ft_export(t_data *arg, char *p)
             i++;
         }
     }
+    //ft_free(str);
     return 0;
 }

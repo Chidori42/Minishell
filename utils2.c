@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/21 12:19:02 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:21:52 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int    check_env(t_data *arg, char *str)
 				arg->envp[i] = ft_strdup(arg->envp[i + 1]);
 				if (!arg->envp[i])
 					return (free(arg->envp[i]), -1);
-				ft_strcpy(arg->envp[i], arg->envp[i + 1]);
 				i++;
 			}
 			arg->envp[i] = NULL;
@@ -57,7 +56,7 @@ int	ft_unset(t_data *arg, char *p)
 
 	str = ft_split(p, ' ');
 	if (!str)
-		return (ft_free(str), -1);
+		return (free(p), -1);
 	if (str[1])
 	{
 		if (check_var(str[1]) == 1)

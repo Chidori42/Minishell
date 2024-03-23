@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_param.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 15:42:32 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 08:48:28 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/10/30 19:25:05 by ael-fagr          #+#    #+#             */
+/*   Updated: 2024/03/23 06:43:39 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void set_parameter(t_data *arg)
+int	ft_isalnum(int c)
 {
-    arg->tab = NULL;
-    arg->str = NULL;
-    arg->envp = NULL;
-    arg->cmds = NULL;
-    arg->opers = NULL;
-    arg->sig = 0;
+	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z'))
+		return (1);
+	else
+		return (0);
 }

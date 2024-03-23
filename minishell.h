@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:25:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/19 23:00:09 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:48:16 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ typedef struct s_data
 	int		sig;
 	int		pid;
 	char 	*str;
-	char 	*tmp;
 }       t_data;
 
 int     ft_strlen(char *s);
+int		ft_isalnum(int c);
 char	*ft_strchr(char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
 void	ft_putchar_fd(char c, int fd);

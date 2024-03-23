@@ -19,7 +19,8 @@ SRCS = main.c ft_putchar_fd.c \
 	ft_strncmp.c \
 	ft_export.c \
 	utils2.c \
-	free.c
+	free.c \
+	ft_isalnum.c
 #ft_wildcard.c
 
 OBJECTS = $(SRCS:.c=.o)
@@ -29,11 +30,11 @@ RM = rm -f
 all: $(NAME)
 
 %.o: %.c minishell.h
-	$(CC) -fsanitize=address $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 
 $(NAME): $(OBJECTS)
-	$(CC) -fsanitize=address $(CFLAGS) $(OBJECTS) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -lreadline
 clean:
 	$(RM) $(OBJECTS)
 
