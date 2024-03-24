@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 23:52:15 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/24 21:43:43 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int    ft_set_export(t_data *arg, char **str)
 	while (str[i])
 	{
 		name = get_var_name(str[i], "=");
-		if (isvalid_var_name(name) != 1)
-			return (printf("Check var name\n"), -1);
 		value = get_var_name(NULL, "=");
 		if (!value)
 		{
@@ -94,10 +92,7 @@ int    ft_set_export(t_data *arg, char **str)
 		if (check_repeat_var(arg, name, value) != 1)
 		{
 			if (name && value)
-			{
-				printf("here aim\n");
 				my_setenv(arg, name, value);
-			}
 		}
 		i++;
 	}
@@ -112,7 +107,11 @@ int	ft_export(t_data *arg, char *p)
 	str = ft_split(p, ' ');
 	if (!str)
 		return (-1);
-
+	if (ft_check_vars(str) == 1)
+	{
+		printf("Check var name\n");
+		return (1);
+	}
 	if (str[1] == NULL)
 	{
 		i = 0;

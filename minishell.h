@@ -6,7 +6,7 @@
 /*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:25:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 20:10:51 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/24 21:15:44 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int		ft_echo(char *p);
 char	*ft_help_exp(char *p);
 int		ft_export(t_data *arg, char *p);
 char	**set_new_env(t_data *arg, char *str);
+int		ft_check_vars(char **str);
+char	*get_var_name(char *str, char	*op);
 int		check_repeat_var(t_data *arg, char *str, char *tmp);
 int		ft_unset(t_data *arg, char *p);
 
