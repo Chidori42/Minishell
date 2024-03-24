@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:40:30 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 08:50:30 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/23 23:26:23 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int main(int ac, char **av, char **env)
 	signal(SIGINT, hundler);
 	while(1)
 	{
-		system("leaks minishell");
+		//system("leaks minishell");
 		arg.str = readline("Minishel > ");
 		if (arg.str == NULL || arg.str[0] == '\0' || arg.str[0] == '\n')
 		{

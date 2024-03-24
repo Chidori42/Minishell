@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 20:34:19 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/23 23:52:15 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int    ft_set_export(t_data *arg, char **str)
 		if (check_repeat_var(arg, name, value) != 1)
 		{
 			if (name && value)
+			{
+				printf("here aim\n");
 				my_setenv(arg, name, value);
+			}
 		}
 		i++;
 	}
