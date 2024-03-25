@@ -6,7 +6,7 @@
 /*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:00:06 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/03/24 21:42:56 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:33:08 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int isvalid_var_name(char *str)
 
     i = 1;
     if (!ft_isalpha(str[0]) && str[0] != '_')
-        return 0;
+        return (0);
     while (str[i] != '\0')
     {
         if (!ft_isalnum(str[i]) && str[i] != '_')
-            return 0;
+            return (0);
         i++;
     }
     return (1);
@@ -41,6 +41,8 @@ int	check_repeat_var(t_data *arg, char *str, char *tmp)
     while (arg->envp[i])
     {
         p = ft_split(arg->envp[i], '=');
+        if (!p)
+            return (-1);
         if (ft_strcmp(p[0], str) == 0)
         {
             ft_strcpy(new_str, str);
@@ -49,12 +51,10 @@ int	check_repeat_var(t_data *arg, char *str, char *tmp)
             (free(arg->envp[i]) , arg->envp[i] = NULL);
             arg->envp[i] = ft_strdup(new_str);
             if (!arg->envp[i])
-            {
-                free(new_str);
-                return (-1);
-            }
+                return (free(new_str), -1);
             return (1);
         }
+        (free(p), p = NULL);
         i++;
     }
     return (0);

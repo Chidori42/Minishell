@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 02:44:38 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/13 22:04:07 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:50:58 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	**ft_split(char *s, char c)
 			i++;
 		arr[index] = ft_strndup(s, i);
 		if (arr[index] == NULL)
-			return (free2d(arr, index));
+			return (free2d(arr, index), NULL);
 		while (*s && *s != c)
 			s++;
 	}

@@ -6,7 +6,7 @@
 /*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/24 21:43:43 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:38:57 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int    ft_set_export(t_data *arg, char **str)
 		value = get_var_name(NULL, "=");
 		if (!value)
 		{
-			value = malloc(1);
+			value = (char *)malloc(1);
 			if (!value)
 				return (-1);
 			value[0] = '\0';
@@ -104,14 +104,13 @@ int	ft_export(t_data *arg, char *p)
 	char	**str;
 	int		i;
 
+	if (p == NULL)
+		return (0);
 	str = ft_split(p, ' ');
 	if (!str)
 		return (-1);
 	if (ft_check_vars(str) == 1)
-	{
-		printf("Check var name\n");
-		return (1);
-	}
+		return (printf("Check var name\n"), 1);
 	if (str[1] == NULL)
 	{
 		i = 0;
