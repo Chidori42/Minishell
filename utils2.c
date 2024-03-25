@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 08:21:52 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/24 23:27:10 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 int    check_env(t_data *arg, char *str)
 {
 	int i;
+	char **p;
 
 	i = 0;
 	while (arg->envp[i])
 	{
-		if (ft_strncmp(arg->envp[i], str, ft_strlen(str)) == 0)
-		{
+        p = ft_split(arg->envp[i], '=');
+        if (ft_strcmp(p[0], str) == 0)
+        {
 			while (arg->envp[i + 1])
 			{
 				arg->envp[i] = ft_strdup(arg->envp[i + 1]);

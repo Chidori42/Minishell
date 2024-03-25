@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builthing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 08:23:52 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/25 07:45:54 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ void ft_builthing(t_data *arg)
 			ft_export(arg, arg->cmds[i]);
 		else if (ft_strncmp(arg->cmds[i], "exit", 4) == 0)
 			exit(0);
+		// else
+		// {
+		// 	char **mm = ft_split(arg->cmds[i], ' ');
+        // 	execv(mm[0], mm);
+		// }
 		i++;
 	}
 	ft_free(arg->cmds);

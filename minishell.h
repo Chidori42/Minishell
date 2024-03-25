@@ -6,7 +6,7 @@
 /*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:25:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/24 21:15:44 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/25 08:04:10 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_data
 int     ft_strlen(char *s);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
+char	*ft_itoa(int nbr);
 char	*ft_strchr(char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
 void	ft_putchar_fd(char c, int fd);
@@ -65,6 +66,8 @@ int		ft_export(t_data *arg, char *p);
 char	**set_new_env(t_data *arg, char *str);
 int		ft_check_vars(char **str);
 char	*get_var_name(char *str, char	*op);
+char	*my_getenv(t_data *arg, char *name);
+void    ft_expand(t_data *arg, char **str);
 int		check_repeat_var(t_data *arg, char *str, char *tmp);
 int		ft_unset(t_data *arg, char *p);
 

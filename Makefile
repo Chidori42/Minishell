@@ -1,4 +1,4 @@
-CC = cc -g
+CC = cc -g -fsanitize=address
 
 CFLAGS = -Wall -Wextra -Werror 
 
@@ -22,7 +22,9 @@ SRCS = main.c ft_putchar_fd.c \
 	free.c \
 	utils_export.c \
 	ft_isalpha.c \
-	ft_isalnum.c 
+	ft_isalnum.c \
+	ft_expand.c \
+	ft_itoa.c \
 #ft_wildcard.c
 
 OBJECTS = $(SRCS:.c=.o)

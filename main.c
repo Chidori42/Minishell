@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:40:30 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/23 23:26:23 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/25 08:12:27 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int main(int ac, char **av, char **env)
 		{
 			add_history(arg.str);
 			parcing(&arg);
+			ft_expand(&arg, arg.cmds);
 			ft_builthing(&arg);
 		}
 		free(arg.str);
