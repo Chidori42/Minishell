@@ -6,7 +6,7 @@
 /*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:00:06 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/03/25 23:33:08 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/28 02:16:05 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,16 @@ int isvalid_var_name(char *str)
 
     i = 1;
     if (!ft_isalpha(str[0]) && str[0] != '_')
-        return (0);
+        return (1);
     while (str[i] != '\0')
     {
-        if (!ft_isalnum(str[i]) && str[i] != '_')
+        if (str[i] == '+' && str[i + 1] == '=')
             return (0);
+        if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '=')
+            return (1);
         i++;
     }
-    return (1);
+    return (0);
 }
 
 int	check_repeat_var(t_data *arg, char *str, char *tmp)
@@ -46,8 +48,8 @@ int	check_repeat_var(t_data *arg, char *str, char *tmp)
         if (ft_strcmp(p[0], str) == 0)
         {
             ft_strcpy(new_str, str);
-            strcat(new_str, "=");
-            strcat(new_str, tmp);
+            ft_strcat(new_str, "=");
+            ft_strcat(new_str, tmp);
             (free(arg->envp[i]) , arg->envp[i] = NULL);
             arg->envp[i] = ft_strdup(new_str);
             if (!arg->envp[i])
@@ -88,6 +90,7 @@ char **set_new_env(t_data *arg, char *str)
 char	*get_variable(char *str, char	*op)
 {
     int         i;
+    char       *tmp;
 
     i = 0;
 	while (str[i] != '\0')
@@ -96,24 +99,6 @@ char	*get_variable(char *str, char	*op)
 			break;    
 		i++;
 	}
-    char *tmp = strndup(str, i);
+    tmp = strndup(str, i);
 	return (tmp);
-}
-
-int ft_check_vars(char **str)
-{
-    int     i;
-    int     j;
-    char    *name;
-
-    i = 0;
-    j = 0;
-    while (str[i])
-	{
-		name = get_variable(str[i], "=");
-		if (isvalid_var_name(name) != 1)
-            j = 1;
-		i++;
-	}
-    return (j);
 }

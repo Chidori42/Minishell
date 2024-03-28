@@ -6,7 +6,7 @@
 /*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/25 23:38:57 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/28 03:08:46 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	my_setenv(t_data *arg, char *name, char *value)
 	if (!new_var)
 		return (-1);
 	ft_strcpy(new_var, name);
-	strcat(new_var, "=");
-	strcat(new_var, value);
+	ft_strcat(new_var, "=");
+	ft_strcat(new_var, value);
 	if(set_new_env(arg, new_var) == NULL)
 		return (-1);
 	free(new_var);
@@ -76,28 +76,41 @@ int    ft_set_export(t_data *arg, char **str)
 	char	*name;
 	char	*value;
 	int		i;
-	
+
 	i = 1;
 	while (str[i])
 	{
-		name = get_var_name(str[i], "=");
-		value = get_var_name(NULL, "=");
-		if (!value)
+		if (isvalid_var_name(str[i]) == 1)
+			return(printf("export: `%s': not a valid identifier\n", str[i]), 1);
+		else if (append_value(arg, str[i]) == 1)
+			return (0);
+		else if (if_change(str[i]) == 1)
 		{
-			value = (char *)malloc(1);
+			name = get_var_name(str[i], "=");
+			value = get_var_name(NULL, "=");
 			if (!value)
-				return (-1);
-			value[0] = '\0';
+			{
+				value = (char *)malloc(1);
+				if (!value)
+					return (-1);
+				value[0] = '\0';
+			}
+			if (check_repeat_var(arg, name, value) != 1)
+			{
+				if (name && value)
+					my_setenv(arg, name, value);
+			}
 		}
-		if (check_repeat_var(arg, name, value) != 1)
-		{
-			if (name && value)
-				my_setenv(arg, name, value);
-		}
+			else
+			{
+				if (check_repeat_var(arg, str[i], NULL) != 1)
+					my_setenv(arg, str[i], "");
+			}
 		i++;
 	}
 	return (0);
 }
+
 
 int	ft_export(t_data *arg, char *p)
 {
@@ -109,18 +122,18 @@ int	ft_export(t_data *arg, char *p)
 	str = ft_split(p, ' ');
 	if (!str)
 		return (-1);
-	if (ft_check_vars(str) == 1)
-		return (printf("Check var name\n"), 1);
 	if (str[1] == NULL)
 	{
 		i = 0;
 		while (arg->envp[i])
 		{
-			printf("%s\n", arg->envp[i]);
+			printf("declare -x %s\n", arg->envp[i]);
 			i++;
 		}
 	}
 	else
+	{
 		ft_set_export(arg, str);
+	}
 	return 0;
 }

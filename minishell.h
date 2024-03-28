@@ -6,7 +6,7 @@
 /*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:25:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/25 08:04:10 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/28 01:35:39 by abdeltif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ int		ft_isalpha(int c);
 char	*ft_itoa(int nbr);
 char	*ft_strchr(char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlcpy(char *dst, char *src, int len);
 void	ft_putchar_fd(char c, int fd);
+void	ft_strcat(char *dest, const char *src);
 int		isvalid_var_name(char *str);
 int		ft_free(char **str);
 void	ft_strcpy(char *dest, char *src);
@@ -67,7 +69,9 @@ char	**set_new_env(t_data *arg, char *str);
 int		ft_check_vars(char **str);
 char	*get_var_name(char *str, char	*op);
 char	*my_getenv(t_data *arg, char *name);
-void    ft_expand(t_data *arg, char **str);
+void	ft_expand(t_data *arg, char **str);
+int		if_change(char *str);
+int		append_value(t_data *arg, char *str);
 int		check_repeat_var(t_data *arg, char *str, char *tmp);
 int		ft_unset(t_data *arg, char *p);
 

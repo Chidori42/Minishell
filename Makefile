@@ -7,7 +7,9 @@ NAME = minishell
 SRCS = main.c ft_putchar_fd.c \
 	ft_putstr_fd.c \
 	ft_putnbr_fd.c \
+	ft_strlcpy.c \
 	ft_split.c \
+	ft_strcat.c \
 	get_next_line.c \
 	get_next_line_utils.c \
 	set_param.c \
@@ -18,9 +20,10 @@ SRCS = main.c ft_putchar_fd.c \
 	ft_strcmp.c \
 	ft_strncmp.c \
 	ft_export.c \
-	utils2.c \
+	utils_unset.c \
 	free.c \
 	utils_export.c \
+	utils2_export.c \
 	ft_isalpha.c \
 	ft_isalnum.c \
 	ft_expand.c \
