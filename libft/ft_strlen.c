@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 18:04:11 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 08:11:14 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/10/31 17:38:28 by bramzil           #+#    #+#             */
+/*   Updated: 2024/03/27 03:29:35 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ft_free(char **str)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t			l;
 
-	i = -1;
-	while (str[++i])
-		free (str[i]);
-	free (str);
-	return (0);
+	l = 0;
+	while (s && *s && ++l)
+		s++;
+	return (l);
 }

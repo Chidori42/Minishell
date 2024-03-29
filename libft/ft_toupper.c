@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 18:04:11 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 08:11:14 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/11/01 10:32:49 by bramzil           #+#    #+#             */
+/*   Updated: 2024/02/22 01:24:16 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_free(char **str)
+int	ft_toupper(int c)
 {
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		free (str[i]);
-	free (str);
-	return (0);
+	if (97 <= c && c <= 122)
+		c -= 32;
+	return (c);
 }

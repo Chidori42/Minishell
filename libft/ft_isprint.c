@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 18:04:11 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 08:11:14 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/10/31 15:18:21 by bramzil           #+#    #+#             */
+/*   Updated: 2023/10/31 15:23:08 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_free(char **str)
+int	ft_isprint(int c)
 {
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		free (str[i]);
-	free (str);
+	if (32 <= c && c < 127)
+		return (1);
 	return (0);
 }

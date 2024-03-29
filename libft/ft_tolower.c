@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 18:04:11 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 08:11:14 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/11/01 10:43:17 by bramzil           #+#    #+#             */
+/*   Updated: 2023/11/01 10:43:31 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_free(char **str)
+int	ft_tolower(int c)
 {
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		free (str[i]);
-	free (str);
-	return (0);
+	if (65 <= c && c <= 90)
+		c += 32;
+	return (c);
 }

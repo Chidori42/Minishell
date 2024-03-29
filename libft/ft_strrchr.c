@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 18:04:11 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 08:11:14 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/11/01 10:44:59 by bramzil           #+#    #+#             */
+/*   Updated: 2023/11/09 10:34:34 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ft_free(char **str)
+char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	size_t				slen;
 
-	i = -1;
-	while (str[++i])
-		free (str[i]);
-	free (str);
+	slen = ft_strlen(s);
+	s += slen;
+	while ((*s != (char)c) && slen--)
+		s--;
+	if (*s == (char)c)
+		return ((char *) s);
 	return (0);
 }

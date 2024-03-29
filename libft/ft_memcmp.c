@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 18:04:11 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 08:11:14 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/11/02 15:44:18 by bramzil           #+#    #+#             */
+/*   Updated: 2023/11/12 20:07:48 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ft_free(char **str)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		free (str[i]);
-	free (str);
-	return (0);
+	if (!n)
+		return (0);
+	while (--n && (*(unsigned char *)s1) == (*(unsigned char *)s2))
+	{
+		s2++;
+		s1++;
+	}
+	return ((*(unsigned char *)s1) - (*(unsigned char *)s2));
 }

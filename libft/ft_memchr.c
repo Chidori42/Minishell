@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 18:04:11 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 08:11:14 by ael-fagr         ###   ########.fr       */
+/*   Created: 2023/11/02 12:52:44 by bramzil           #+#    #+#             */
+/*   Updated: 2023/11/11 23:37:58 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ft_free(char **str)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	int	i;
+	unsigned char		*str;
 
-	i = -1;
-	while (str[++i])
-		free (str[i]);
-	free (str);
+	str = (unsigned char *)s;
+	while (0 < n--)
+		if (*str++ == (unsigned char)c)
+			return (--str);
 	return (0);
 }

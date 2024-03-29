@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdeltif <abdeltif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/28 03:08:46 by abdeltif         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:41:06 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*my_getenv(t_data *arg, char *name)
+char	*my_getenv(t_pars *arg, char *name)
 {
 	int	i;
 	int	len;
@@ -28,20 +28,24 @@ char	*my_getenv(t_data *arg, char *name)
 	return (NULL);
 }
 
-int	my_setenv(t_data *arg, char *name, char *value)
+int	my_setenv(t_pars *arg, char *name, char *value)
 {
+	int		name_len;
+	int		value_len;
+	char	*new_var = NULL;
+
 	if (my_getenv(arg, name) != NULL)
 		return (0);
-	int name_len = ft_strlen(name);
-	int value_len = ft_strlen(value);
-	char *new_var = malloc(name_len + value_len + 2);
+	name_len = ft_strlen(name);
+	value_len = ft_strlen(value);
+	new_var = malloc(name_len + value_len + 2);
 	if (!new_var)
 		return (-1);
 	ft_strcpy(new_var, name);
 	ft_strcat(new_var, "=");
 	ft_strcat(new_var, value);
-	if(set_new_env(arg, new_var) == NULL)
-		return (-1);
+	if (set_new_env(arg, new_var) == NULL)
+		return (free(new_var), -1);
 	free(new_var);
 	return (0);
 }
@@ -62,7 +66,7 @@ char	*get_var_name(char *str, char	*op)
 		{
 			*next_token = '\0';
 			next_token++;
-			break;
+			break ;
 		}
 		next_token++;
 	}
@@ -71,7 +75,7 @@ char	*get_var_name(char *str, char	*op)
 	return (token_start);
 }
 
-int    ft_set_export(t_data *arg, char **str)
+int	ft_set_export(t_pars *arg, char **str)
 {
 	char	*name;
 	char	*value;
@@ -81,9 +85,9 @@ int    ft_set_export(t_data *arg, char **str)
 	while (str[i])
 	{
 		if (isvalid_var_name(str[i]) == 1)
-			return(printf("export: `%s': not a valid identifier\n", str[i]), 1);
+			return (printf("export: `%s': not a valid identifier\n", str[i]), 1);
 		else if (append_value(arg, str[i]) == 1)
-			return (0);
+			return (ft_free(str), 0);
 		else if (if_change(str[i]) == 1)
 		{
 			name = get_var_name(str[i], "=");
@@ -101,28 +105,23 @@ int    ft_set_export(t_data *arg, char **str)
 					my_setenv(arg, name, value);
 			}
 		}
-			else
-			{
-				if (check_repeat_var(arg, str[i], NULL) != 1)
-					my_setenv(arg, str[i], "");
-			}
+		else
+		{
+			if (check_repeat_var(arg, str[i], NULL) != 1)
+				my_setenv(arg, str[i], "");
+		}
 		i++;
 	}
 	return (0);
 }
 
-
-int	ft_export(t_data *arg, char *p)
+int	ft_export(t_pars *arg, char **p)
 {
-	char	**str;
 	int		i;
 
 	if (p == NULL)
 		return (0);
-	str = ft_split(p, ' ');
-	if (!str)
-		return (-1);
-	if (str[1] == NULL)
+	if (p[1] == NULL)
 	{
 		i = 0;
 		while (arg->envp[i])
@@ -132,8 +131,6 @@ int	ft_export(t_data *arg, char *p)
 		}
 	}
 	else
-	{
-		ft_set_export(arg, str);
-	}
-	return 0;
+		ft_set_export(arg, p);
+	return (0);
 }
