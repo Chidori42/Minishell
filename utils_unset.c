@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 10:28:49 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:11:11 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_var(char *p)
 	while (p[i])
 	{
 		if (p[i] != '_' && !ft_isalnum(p[i]))
-			return (perror("unset: =: invalid parameter name"), 1);
+			return (perror ("unset: invalid option"), 1);
 		i++;
 	}
 	return (0);

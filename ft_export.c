@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 11:41:06 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/29 16:15:08 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ int	ft_set_export(t_pars *arg, char **str)
 	i = 1;
 	while (str[i])
 	{
-		if (isvalid_var_name(str[i]) == 1)
-			return (printf("export: `%s': not a valid identifier\n", str[i]), 1);
-		else if (append_value(arg, str[i]) == 1)
+		if (append_value(arg, str[i]) == 1)
 			return (ft_free(str), 0);
 		else if (if_change(str[i]) == 1)
 		{
 			name = get_var_name(str[i], "=");
+			if (isvalid_var_name(name) == 1)
+				return (printf("export: `%s': not a valid identifier\n", str[i]), 1);
 			value = get_var_name(NULL, "=");
 			if (!value)
 			{

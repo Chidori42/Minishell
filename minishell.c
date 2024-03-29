@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/29 11:31:33 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/29 14:09:43 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ void    hundler(int sig)
     }
 	// else if (sig == SIGQUIT)
 	// 	return ;
+}
+
+void ff(void)
+{
+	system("leaks minishell");
 }
 
 void	send_segnal(t_pars *args, char *str)
@@ -53,7 +58,8 @@ int main(int ac, char **av, char **envp)
 	signal(SIGUSR1, hundler);
 	signal(SIGINT, hundler);
 	while (true)
-	{	
+	{
+		//atexit(ff);
 		args.input = ft_is_complet();
 		send_segnal(&args, args.input);
 		add_history(args.input);
@@ -63,6 +69,7 @@ int main(int ac, char **av, char **envp)
 		tmp = args.lst;
 		ft_builthing(tmp, &args);
 		ft_execute_lst(&args);
+		free(args.input);
 	}
 	return (0);
 }

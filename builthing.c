@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 11:08:37 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/29 13:43:36 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,11 @@ int	ft_pwd(char **p)
 	char	tmp[256];
 
 	if (p[1] && p[1][0] == '-')
-		printf("%s: invalid option\n", p[0]);
+		printf("%s: -%c: invalid option\n", p[0], p[1][1]);
 	else
 	{
 		if (getcwd(tmp, sizeof(tmp)))
-		{
-			ft_putstr_fd(tmp, 1);
-			ft_putchar_fd('\n', 1);
-		}
+			printf("%s\n", tmp);
 		else
 			printf("Error\n");
 	}
@@ -83,15 +80,15 @@ int	ft_cd(char **p)
 	j = 0;
 	while (p[j])
 		j++;
-	if (j > 1)
+	if (j > 1 && ft_strcmp("~", p[1]))
 	{
 		if (chdir(p[1]) != 0)
-			printf("%s : Not a directory\n", p[1]);
+			printf("cd: %s : No such file or directory\n", p[1]);
 	}
 	else
 	{
-		if (chdir("~") != 0)
-			perror("Error\n");
+		if (chdir(getenv("HOME")) != 0)
+			printf("Error\n");
 	}
 	ft_free(p);
 	return (0);
