@@ -6,13 +6,13 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/27 17:25:00 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/03/30 03:39:45 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_check_last(char *input)
+int	ft_check_last(char *input)
 {
 	int			l;
 	

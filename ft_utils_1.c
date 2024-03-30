@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/29 10:36:16 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/29 22:25:08 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_free_2_dm(char **arr)
 	return (0);
 }
 
-int	ft_strcmp(char *s_1, char *s_2)
+int 	ft_strcmp(char *s_1, char *s_2)
 {
 	int			i;
 
@@ -45,7 +45,7 @@ void	ft_parse_error(char *str)
 	free (str);
 }
 
-char	*ft_strs_join(char *s1, char *s2)
+char 	*ft_strs_join(char *s1, char *s2)
 {
 	char		*str;
 
@@ -67,8 +67,9 @@ char	*ft_get_redir(char **tab, int i)
     while (tab && tab[i] && \
 		ft_strcmp(tab[i], "|"))
     {
-		if (!ft_strncmp("<<", tab[i], 1) ||
-			!ft_strncmp(">>", tab[i], 1))
+		if (!ft_strcmp("<", tab[i]) || \
+			!ft_strcmp(">", tab[i]) || \
+			!ft_strcmp(">>", tab[i]))
 		{
 			std = ft_strs_join(std, ft_strdup(tab[i]));
 			std = ft_strs_join(std, ft_strdup(" "));
@@ -79,6 +80,3 @@ char	*ft_get_redir(char **tab, int i)
     }
     return (std);
 }
-
-
-

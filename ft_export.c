@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 16:15:08 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/30 14:11:30 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,19 +117,10 @@ int	ft_set_export(t_pars *arg, char **str)
 
 int	ft_export(t_pars *arg, char **p)
 {
-	int		i;
-
 	if (p == NULL)
 		return (0);
 	if (p[1] == NULL)
-	{
-		i = 0;
-		while (arg->envp[i])
-		{
-			printf("declare -x %s\n", arg->envp[i]);
-			i++;
-		}
-	}
+		print_env(arg);
 	else
 		ft_set_export(arg, p);
 	return (0);

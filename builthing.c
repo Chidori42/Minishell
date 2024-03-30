@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 13:43:36 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/30 14:33:08 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_cd(char **p)
 	j = 0;
 	while (p[j])
 		j++;
-	if (j > 1 && ft_strcmp("~", p[1]))
+	if (j > 1)
 	{
 		if (chdir(p[1]) != 0)
 			printf("cd: %s : No such file or directory\n", p[1]);

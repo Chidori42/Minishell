@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 21:31:36 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/03/29 10:30:37 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/30 14:14:47 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,27 @@ int	append_value(t_pars *arg, char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	print_env(t_pars *arg)
+{
+	int	i;
+	char	**tmp;
+	char	*var;
+	char	*value;
+
+	i = 0;
+	tmp = arg->envp;
+	while (arg->envp[i])
+	{
+		var = get_var_name(arg->envp[i], "=");
+		value = get_var_name(NULL, "=");
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(var, 1);
+		write(1, "=\"", 2);
+		ft_putstr_fd(value, 1);
+		write(1, "\"\n", 2);
+		i++;
+	}
+	arg->envp = tmp;
 }

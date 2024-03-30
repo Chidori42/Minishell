@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:14:10 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/27 17:17:02 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/03/30 03:53:39 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@ static int	ft_is_redir(char *s)
 
 int	ft_check_flu_ct(char *s, int i)
 {
+	int			rmid;
+
+	rmid = i;
 	while (i && s[--i])
 	{
 		if ((s[i] < 9 || 13 < s[i]) && s[i] != 32)
 		{
 			if (s[i] == '|' || s[i] == '&' || s[i] == '<' || \
 				s[i] == '>')
-				return (-1);
+				return (ft_parse_error(ft_strdup(&s[rmid])), -1);
 			else
 				return (0);
 		} 

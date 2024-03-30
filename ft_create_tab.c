@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/27 17:30:33 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/03/30 03:54:49 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,26 @@ static int	ft_count_words(char *input)
 
 char	**ft_split_input(char *input)
 {
-	int			i;
-	int			j;
-	int			k;
+	int			t[3];
 	int			l_nb;
 	int			wrd_len;
 	char		**words;
 
-	j = 0;
-	k = 0;
+	t[1] = 0;
+	t[2] = 0;
 	l_nb = ft_count_words(input);
 	words = (char **)malloc(sizeof(char *) * (l_nb + 1));
 	if (words)
 	{
-		i = -1;
-		while (++i < l_nb)
+		t[0] = -1;
+		while (++t[0] < l_nb)
 		{
-			k = ft_scape_spaces(input, k);
-			wrd_len = ft_word_len(input, &j);
-			words[i] = ft_substr(input, k, wrd_len);
-			k += wrd_len;
+			t[2] = ft_scape_spaces(input, t[2]);
+			wrd_len = ft_word_len(input, &t[1]);
+			words[t[0]] = ft_substr(input, t[2], wrd_len);
+			t[2] += wrd_len;
 		}
 		words[l_nb] = NULL;
-		ft_remove_quotes(words);
 	}
 	return (words);
 }

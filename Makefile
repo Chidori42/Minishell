@@ -4,8 +4,6 @@
 #Mandatory source files names.
 
 SRCS                    =	minishell.c \
-							utils_export.c \
-							utils2_export.c \
 							ft_check_parse.c \
 							ft_check_quotes.c \
 							ft_inject_spaces.c \
@@ -16,12 +14,15 @@ SRCS                    =	minishell.c \
 							ft_is_complet.c \
 							ft_create_tab.c \
 							ft_check_red.c \
-							utils_unset.c \
 							ft_utils_1.c \
+							ft_utils_2.c \
+							ft_expand.c \
 							ft_export.c \
 							builthing.c \
-							ft_utils_2.c \
-							free.c 
+							free.c \
+							utils_export.c \
+							utils_unset.c \
+							utils2_export.c \
 
 
 #Mandatory object files name.
