@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/30 03:39:45 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/07 09:52:14 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	ft_check_last(char *input)
 {
 	int			l;
-	
+
 	if (input)
-	{	
+	{
 		l = ft_strlen(input);
 		while (l && input[--l])
 		{

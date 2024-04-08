@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:55:04 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/30 10:50:47 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/07 09:54:59 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ static	int	ft_check_frst(char *input)
 
 char	*ft_is_complet(void)
 {
-	char 		*tmp;
-	char 		*input;
-	char		*prompt;
+	char	*tmp;
+	char	*input;
+	char	*prompt;
 
 	input = NULL;
-	prompt = "Minishell$ ";
+	prompt = "prompt: ";
 	while (true)
 	{
 		tmp = readline (prompt);
-		if (!tmp)
+		if (!tmp || !ft_strcmp("exit", tmp))
 			exit(0);
 		input = ft_strs_join(input, tmp);
 		add_history(input);
@@ -43,7 +43,7 @@ char	*ft_is_complet(void)
 			prompt = "> ";
 			continue ;
 		}
-		break;
+		break ;
 	}
 	return (input);
 }

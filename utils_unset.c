@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/29 15:11:11 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/07 09:59:36 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_env(t_pars *arg, char *str)
 			{
 				arg->envp[i] = ft_strdup(arg->envp[i + 1]);
 				if (!arg->envp[i])
-					return (free(arg->envp[i]), -1);
+					return (-1);
 				i++;
 			}
 			arg->envp[i] = NULL;
@@ -35,6 +35,7 @@ int	check_env(t_pars *arg, char *str)
 		}
 		i++;
 	}
+	ft_free(p);
 	return (0);
 }
 
@@ -46,7 +47,7 @@ int	check_var(char *p)
 	while (p[i])
 	{
 		if (p[i] != '_' && !ft_isalnum(p[i]))
-			return (perror ("unset: invalid option"), 1);
+			return (printf("unset: invalid option"), 1);
 		i++;
 	}
 	return (0);
@@ -62,6 +63,5 @@ int	ft_unset(t_pars *arg, char **p)
 			return (ft_free(p), ft_putstr_fd("Error\n", 2), 1);
 		check_env(arg, p[1]);
 	}
-	ft_free(p);
 	return (0);
 }

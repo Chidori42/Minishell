@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand.c                                        :+:      :+:    :+:   */
+/*   ft_expander.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/30 14:32:05 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/07 09:54:12 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,34 +34,30 @@ int	ft_word_len(char *s, int i)
 
 static char	*ft_expand(char *s, int ind, int len)
 {
+	char		*tmp;
 	char		*ptr;
 	char		*value;
 
 	ptr = s;
-	value = getenv(ft_substr(s, (ind + 1), len));
-	if (value)
-	{
-		ptr = ft_strs_join(ft_substr(s, 0, ind), \
-			ft_strdup(value));
-		ptr = ft_strs_join(ptr, ft_substr(s, \
-			(ind + len + 1), (ft_strlen(s) - (ind + len))));
-		free (s);
-	}
-	return (ptr);
+	tmp = ft_substr(s, (ind + 1), len);
+	value = getenv(tmp);
+	ptr = ft_strs_join(ft_substr(s, 0, ind), \
+		ft_strdup(value));
+	ptr = ft_strs_join(ptr, ft_substr(s, \
+		(ind + len + 1), (ft_strlen(s) - (ind + len))));
+	free (s);
+	return (free(tmp), ptr);
 }
 
-static int	ft_expansion(char *s)
+static int	ft_expansion(char *s, int i)
 {
-	int			i;
-
-	i = -1;
 	while (s && s[++i])
 	{
 		if (s[i] == '\'')
 			i = ft_scape_quotes(s, i);
 		else if (s[i] == '\"')
 		{
-			while (s[++i] != '\"')
+			while (s[++i] && s[i] != '\"')
 				if (s[i] == '$' && ft_is_valid(s[i + 1]))
 					return (i);
 		}
@@ -79,11 +75,12 @@ void	ft_expander(char **tab)
 	int			ind;
 	int			len;
 	char		*tmp;
-	
+
 	i = -1;
+	ind = 0;
 	while (tab && tab[++i])
 	{
-		ind = ft_expansion(tab[i]);
+		ind = ft_expansion(tab[i], ind);
 		if (0 <= ind)
 		{
 			tmp = tab[i];

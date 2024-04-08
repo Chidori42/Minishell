@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_remove_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/30 03:57:05 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/07 09:55:29 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_quotes_cpy(char *d, char *s, char qt, int *t)
 	}
 }
 
-static int ft_count_qts(char *s)
+static int	ft_count_qts(char *s)
 {
 	int			i;
 	int			nb;
@@ -60,7 +60,7 @@ static char	*ft_remove_qts(char *s)
 	int			t[2];
 	int			qts;
 	char		*str;
-	
+
 	t[0] = -1;
 	t[1] = 0;
 	qts = ft_count_qts(s);
@@ -77,22 +77,24 @@ static char	*ft_remove_qts(char *s)
 		}
 		str[t[1]] = '\0';
 	}
+	free (s);
 	return (str);
 }
 
-void	ft_remove_quotes(char **tab)
+void	ft_remove_quotes(t_cmd *lst)
 {
 	int			i;
-	char		*tmp;
 
-	i = -1;
-	while (tab && tab[++i])
+	while (lst)
 	{
-		if (ft_is_there_quotes(tab[i]))
-		{
-			tmp = tab[i];
-			tab[i] = ft_remove_qts(tab[i]);
-			free (tmp);
-		}
+		i = -1;
+		while (lst->data && lst->data[++i])
+			if (ft_is_there_quotes(lst->data[i]))
+				lst->data[i] = ft_remove_qts(lst->data[i]);
+		i = -1;
+		while (lst->redir && lst->redir[++i])
+			if (ft_is_there_quotes(lst->redir[i]))
+				lst->redir[i] = ft_remove_qts(lst->redir[i]);
+		lst = lst->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/29 22:25:08 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/07 21:11:03 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	ft_free_2_dm(char **arr)
 	int			i;
 
 	i = -1;
-	while (arr[++i])
+	while (arr && arr[++i])
 		free (arr[i]);
 	free (arr);
 	return (0);
 }
 
-int 	ft_strcmp(char *s_1, char *s_2)
+int	ft_strcmp(char *s_1, char *s_2)
 {
 	int			i;
 
@@ -39,13 +39,13 @@ int 	ft_strcmp(char *s_1, char *s_2)
 
 void	ft_parse_error(char *str)
 {
-	write(1, "parse error near `", 18);
-	write(1, str, ft_strlen(str));
-	write(1, "'\n", 2);
+	write(2, "parse error near `", 18);
+	write(2, str, ft_strlen(str));
+	write(2, "'\n", 2);
 	free (str);
 }
 
-char 	*ft_strs_join(char *s1, char *s2)
+char	*ft_strs_join(char *s1, char *s2)
 {
 	char		*str;
 
@@ -56,27 +56,44 @@ char 	*ft_strs_join(char *s1, char *s2)
 		str = ft_strdup(s1);
 	else if (s1 && s2)
 		str = ft_strjoin(s1, s2);
-	return (free (s1), free (s2), str);
+	return(str);
+	//return (free (s1), free (s2), str);
 }
 
-char	*ft_get_redir(char **tab, int i)
+static int	ft_redir_nbr(char **tab, int i)
 {
-    char		*std;
+	int			nb;
 
-    std = NULL;
-    while (tab && tab[i] && \
+	nb = 0;
+	while (tab && tab[i] && ft_strcmp(tab[i], "|"))
+	{
+		if (ft_is_redir(tab[i]))
+			nb += 2;
+		i++;
+	}
+	return (nb);
+}
+
+char	**ft_get_redir(char **tab, int i)
+{
+	int			j;
+	int			rdr_nbr;
+	char		**std;
+
+	j = -1;
+	std = NULL;
+	rdr_nbr = ft_redir_nbr(tab, i);
+	std = (char **)malloc(sizeof(char *) * (rdr_nbr + 1));
+	while (std && tab && tab[i] && \
 		ft_strcmp(tab[i], "|"))
-    {
-		if (!ft_strcmp("<", tab[i]) || \
-			!ft_strcmp(">", tab[i]) || \
-			!ft_strcmp(">>", tab[i]))
+	{
+		if (ft_is_redir(tab[i]))
 		{
-			std = ft_strs_join(std, ft_strdup(tab[i]));
-			std = ft_strs_join(std, ft_strdup(" "));
-			std = ft_strs_join(std, ft_strdup(tab[i + 1]));
-			std = ft_strs_join(std, ft_strdup(" "));
+			std[++j] = ft_strdup(tab[i]);
+			std[++j] = ft_strdup(tab[++i]);
 		}
 		i++;
-    }
-    return (std);
+	}
+	std[++j] = NULL;
+	return (std);
 }

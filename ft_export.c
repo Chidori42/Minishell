@@ -5,123 +5,146 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 15:34:14 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/03/30 14:11:30 by ael-fagr         ###   ########.fr       */
+/*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
+/*   Updated: 2024/04/07 21:52:50 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*my_getenv(t_pars *arg, char *name)
+char	**ft_dup_env(char **envp, char *var)
 {
-	int	i;
-	int	len;
+	int		i;
+	char	**env;
+	char	*tmp;
 
-	len = ft_strlen(name);
 	i = 0;
-	while (arg->envp[i])
+	while (envp && envp[i])
 	{
-		if (ft_strncmp(arg->envp[i], name, len) == 0)
-			return (&(arg->envp[i][len]));
+		tmp = ft_strs_join(tmp, ft_strdup(envp[i]));
+		tmp = ft_strs_join(tmp, ft_strdup("\n"));
+		if (!tmp)
+			return (NULL);
 		i++;
 	}
+	tmp = ft_strs_join(tmp, var);
+	if (!tmp)
+		return (NULL);
+	env = ft_split(tmp, '\n');
+	return (free(tmp), env);
+}
+
+static char	*ft_get_operator(char *arg)
+{
+	int			i;
+
+	i = ft_var_len(arg);
+	if (arg && arg[i] == '+')
+		return (ft_substr(arg, i, 2));
+	else if (arg && arg[i] == '=')
+		return (ft_substr(arg, i, 1));
 	return (NULL);
 }
 
-int	my_setenv(t_pars *arg, char *name, char *value)
+
+static int	ft_update_env(char **envp, char *arg, int i)
 {
-	int		name_len;
-	int		value_len;
-	char	*new_var = NULL;
+	int			b;
+	char		*opr;
+	char		*tmp;
+	char		*v_name;
 
-	if (my_getenv(arg, name) != NULL)
-		return (0);
-	name_len = ft_strlen(name);
-	value_len = ft_strlen(value);
-	new_var = malloc(name_len + value_len + 2);
-	if (!new_var)
-		return (-1);
-	ft_strcpy(new_var, name);
-	ft_strcat(new_var, "=");
-	ft_strcat(new_var, value);
-	if (set_new_env(arg, new_var) == NULL)
-		return (free(new_var), -1);
-	free(new_var);
-	return (0);
-}
-
-char	*get_var_name(char *str, char	*op)
-{
-	char		*token_start;
-	static char	*next_token = NULL;
-
-	if (str != NULL)
-		next_token = str;
-	if (next_token == NULL)
-		return (NULL);
-	token_start = next_token;
-	while (*next_token != '\0')
+	b = 1;
+	opr = ft_get_operator(arg);
+	tmp = ft_substr(envp[i], 0, ft_var_len(envp[i]));
+	v_name = ft_substr(arg, 0, ft_var_len(arg));
+	if (!ft_strcmp(tmp, v_name))
 	{
-		if (ft_strchr(op, *next_token) != NULL)
+		b = 0;
+		if (!ft_strcmp(opr, "+="))
 		{
-			*next_token = '\0';
-			next_token++;
-			break ;
+			envp[i] = ft_strs_join(envp[i], \
+			ft_substr(arg, (ft_var_len(arg) + 2), \
+			(ft_strlen(arg) - ft_strlen(v_name))));
 		}
-		next_token++;
+		else if (!ft_strcmp(opr, "="))
+			envp[i] = ft_strdup(arg);
 	}
-	if (token_start == next_token)
-		return (NULL);
-	return (token_start);
+	return (free (tmp), free(v_name), b);
 }
 
-int	ft_set_export(t_pars *arg, char **str)
+static char	**ft_check_set(char **envp, char *v_name, char *str)
 {
-	char	*name;
-	char	*value;
-	int		i;
+	int	i;
+	int	b;
 
-	i = 1;
-	while (str[i])
+	i = -1;
+	b = 0;
+	while (str[++i])
 	{
-		if (append_value(arg, str[i]) == 1)
-			return (ft_free(str), 0);
-		else if (if_change(str[i]) == 1)
-		{
-			name = get_var_name(str[i], "=");
-			if (isvalid_var_name(name) == 1)
-				return (printf("export: `%s': not a valid identifier\n", str[i]), 1);
-			value = get_var_name(NULL, "=");
-			if (!value)
-			{
-				value = (char *)malloc(1);
-				if (!value)
-					return (-1);
-				value[0] = '\0';
-			}
-			if (check_repeat_var(arg, name, value) != 1)
-			{
-				if (name && value)
-					my_setenv(arg, name, value);
-			}
-		}
-		else
-		{
-			if (check_repeat_var(arg, str[i], NULL) != 1)
-				my_setenv(arg, str[i], "");
-		}
-		i++;
+		if (str[i] == '+' && str[i + 1] == '=')
+			b = 1;
 	}
-	return (0);
-}
-
-int	ft_export(t_pars *arg, char **p)
-{
-	if (p == NULL)
-		return (0);
-	if (p[1] == NULL)
-		print_env(arg);
+	if (b)
+		envp = ft_dup_env(envp, ft_strs_join(ft_strjoin(v_name, "="), \
+			ft_substr(str, (ft_var_len(str) + 2), \
+			(ft_strlen(str) - ft_strlen(v_name)))));
 	else
-		ft_set_export(arg, p);
-	return (0);
+		envp = ft_dup_env(envp, ft_strs_join(ft_strjoin(v_name, "="), \
+			ft_substr(str, (ft_var_len(str) + 1), \
+			(ft_strlen(str) - ft_strlen(v_name)))));
+	return (envp);
+}
+
+static char	**ft_set_variable(char **envp, char *arg)
+{
+	int			i;
+	int			b;
+	char		*v_name;
+	char		**tmp;
+
+	b = 1;
+	i = -1;
+	v_name = ft_substr(arg, 0, ft_var_len(arg));
+	if (arg && envp)
+	{
+		while (envp[++i])
+			b = ft_update_env(envp, arg, i);
+		if (b)
+		{
+			tmp = envp;
+			envp = ft_check_set(envp, v_name, arg);
+			ft_free_2_dm(tmp);
+			free(v_name);
+		}
+	}
+	return (envp);
+}
+
+void	ft_export(t_pars *data, char **envp, char **args)
+{
+	int		i;
+	char	*v_name;
+
+	i = -1;
+	if (args[1] == NULL)
+	{
+		while (envp[++i])
+		{
+			v_name = ft_substr(envp[i], 0, ft_var_len(envp[i]));
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(v_name, 1);
+			write(1, "=\"", 2);
+			ft_putstr_fd(ft_substr(envp[i], (ft_var_len(envp[i]) + 2), \
+			(ft_strlen(envp[i]) - ft_strlen(v_name))), 1);
+			write(1, "\"\n", 2);
+		}
+	}
+	i = 0;
+	while (envp && args && args[++i])
+	{
+		if (!ft_check_arg(args[i]) && \
+			!ft_check_var(args[i]))
+			data->envp = ft_set_variable(envp, args[i]);
+	}
 }

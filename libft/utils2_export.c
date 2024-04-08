@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 21:31:36 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/03/30 14:14:47 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/03 02:49:11 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,59 @@ int	if_change(char *str)
 		i++;
 	}
 	return (0);
+}
+
+char	*get_value_name(char *str, char	*op)
+{
+	int		i;
+	int		j;
+	char	*tmp = NULL;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_strchr(op, str[i]) != NULL)
+		{
+			i++;
+			j = i;
+			while (str[j])
+				j++;
+			tmp = (char *)malloc((j - i) + 1);
+			j = 0;
+			while (str[i])
+				tmp[j++] = str[i++];
+			tmp[j] = '\0'; 
+			break ;
+		}
+		i++;
+	}
+	return (tmp);
+}
+
+char	*get_var_name(char *str, char	*op)
+{
+	int		i;
+	int		j;
+	char	*tmp = NULL;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_strchr(op, str[i]) != NULL)
+		{
+			j = 0;
+			tmp = (char *)malloc(i + 1);
+			while(j < i)
+			{
+				tmp[j] = str[j];
+				j++;
+			}
+			tmp[j] = '\0';
+			break ;
+		}
+		i++;
+	}
+	return (tmp);
 }
 
 int	set_to_env(t_pars *arg, char *str, int i)
@@ -81,7 +134,7 @@ void	print_env(t_pars *arg)
 	while (arg->envp[i])
 	{
 		var = get_var_name(arg->envp[i], "=");
-		value = get_var_name(NULL, "=");
+		value = get_value_name(arg->envp[i], "=");
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(var, 1);
 		write(1, "=\"", 2);

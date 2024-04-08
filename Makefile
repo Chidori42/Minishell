@@ -4,6 +4,7 @@
 #Mandatory source files names.
 
 SRCS                    =	minishell.c \
+							ft_execute_cmd.c \
 							ft_check_parse.c \
 							ft_check_quotes.c \
 							ft_inject_spaces.c \
@@ -14,15 +15,15 @@ SRCS                    =	minishell.c \
 							ft_is_complet.c \
 							ft_create_tab.c \
 							ft_check_red.c \
+							ft_expander.c \
 							ft_utils_1.c \
+							ft_heredoc.c \
 							ft_utils_2.c \
-							ft_expand.c \
 							ft_export.c \
-							builthing.c \
-							free.c \
-							utils_export.c \
 							utils_unset.c \
-							utils2_export.c \
+							free.c \
+							builthing.c \
+							pars_export.c \
 
 
 #Mandatory object files name.
@@ -98,13 +99,13 @@ all                     : $(NAME)
 #       cc -c $(FLAGS) $< -o $@
 
 %o                      : %c minishell.h $(LIBFT) $(LIBFT_H)
-	cc -c $(FLAGS) $< -o $@
+	cc  -c $(FLAGS) $< -o $@
 
 $(LIBFT)                : $(LIBFT_SRCS) $(LIBFT_H)
 	make -C ./libft
 
 $(NAME)                 : $(LIBFT) $(OBJS)
-	cc $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+	cc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline 
 
 # bonus                 : $(LIBFT) $(BONUS_OBJS)
 #       cc $(FLAGS) $(BONUS_OBJS) $(LIBFT) -o checker

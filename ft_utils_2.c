@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:14:10 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/30 03:53:39 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/07 09:57:05 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_is_redir(char *s)
+int	ft_is_redir(char *s)
 {
 	if (s)
 	{
@@ -37,24 +37,23 @@ int	ft_check_flu_ct(char *s, int i)
 				return (ft_parse_error(ft_strdup(&s[rmid])), -1);
 			else
 				return (0);
-		} 
+		}
 	}
 	return (1);
 }
 
-static int	ft_cmd_elmnts(char **tab)
+static int	ft_cmd_elmnts(char **tab, int i)
 {
-	int			i;
 	int			nb;
 
-	i = -1;
 	nb = 0;
-	while (tab && tab[++i])
+	while (tab && tab[i] && ft_strcmp(tab[i], "|"))
 	{
 		if ((i == 0 && !ft_is_redir(tab[i])) || \
 			(0 < i && !ft_is_redir(tab[i]) && \
 			!ft_is_redir(tab[i - 1])))
 			nb++;
+		i++;
 	}
 	return (nb);
 }
@@ -63,11 +62,11 @@ char	**ft_get_cmd(char **tab, int i)
 {
 	int			j;
 	int			nb;
-    char		**cmd;
+	char		**cmd;
 
 	j = -1;
-    cmd = NULL;
-	nb = ft_cmd_elmnts(tab);
+	cmd = NULL;
+	nb = ft_cmd_elmnts(tab, i);
 	if (nb)
 	{
 		cmd = (char **)malloc(sizeof(char *) * (nb + 1));
@@ -77,10 +76,11 @@ char	**ft_get_cmd(char **tab, int i)
 			if ((i == 0 && !ft_is_redir(tab[i])) || \
 				(0 < i && !ft_is_redir(tab[i]) && \
 				!ft_is_redir(tab[i - 1])))
-				cmd[++j] = tab[i];
+				cmd[++j] = ft_strdup(tab[i]);
 			i++;
 		}
 		cmd[++j] = NULL;
 	}
-    return (cmd);
+	ft_expander(cmd);
+	return (cmd);
 }
