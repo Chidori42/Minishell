@@ -17,7 +17,6 @@ SRCS                    =	minishell.c \
 							ft_check_red.c \
 							ft_expander.c \
 							ft_utils_1.c \
-							ft_heredoc.c \
 							ft_utils_2.c \
 							ft_export.c \
 							utils_unset.c \

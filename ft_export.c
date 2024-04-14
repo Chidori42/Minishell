@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/07 21:52:50 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:28:59 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,11 @@ static char	**ft_check_set(char **envp, char *v_name, char *str)
 			ft_substr(str, (ft_var_len(str) + 2), \
 			(ft_strlen(str) - ft_strlen(v_name)))));
 	else
+	{
 		envp = ft_dup_env(envp, ft_strs_join(ft_strjoin(v_name, "="), \
 			ft_substr(str, (ft_var_len(str) + 1), \
 			(ft_strlen(str) - ft_strlen(v_name)))));
+	}
 	return (envp);
 }
 
@@ -103,31 +105,34 @@ static char	**ft_set_variable(char **envp, char *arg)
 	char		*v_name;
 	char		**tmp;
 
+	if (!arg || !envp)
+		return (NULL);
 	b = 1;
 	i = -1;
 	v_name = ft_substr(arg, 0, ft_var_len(arg));
-	if (arg && envp)
+	while (envp[++i])
 	{
-		while (envp[++i])
-			b = ft_update_env(envp, arg, i);
-		if (b)
-		{
-			tmp = envp;
-			envp = ft_check_set(envp, v_name, arg);
-			ft_free_2_dm(tmp);
-			free(v_name);
-		}
+		if (b == 0)
+			return (envp);
+		b = ft_update_env(envp, arg, i);
+	}
+	if (b)
+	{
+		tmp = envp;
+		envp = ft_check_set(envp, v_name, arg);
+		ft_free_2_dm(tmp);
+		free(v_name);
 	}
 	return (envp);
 }
 
-void	ft_export(t_pars *data, char **envp, char **args)
+char	**ft_export(t_pars *data, char **envp, char **args)
 {
 	int		i;
 	char	*v_name;
 
 	i = -1;
-	if (args[1] == NULL)
+	if (!args[1])
 	{
 		while (envp[++i])
 		{
@@ -135,7 +140,7 @@ void	ft_export(t_pars *data, char **envp, char **args)
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(v_name, 1);
 			write(1, "=\"", 2);
-			ft_putstr_fd(ft_substr(envp[i], (ft_var_len(envp[i]) + 2), \
+			ft_putstr_fd(ft_substr(envp[i], (ft_var_len(envp[i]) + 1), \
 			(ft_strlen(envp[i]) - ft_strlen(v_name))), 1);
 			write(1, "\"\n", 2);
 		}
@@ -147,4 +152,5 @@ void	ft_export(t_pars *data, char **envp, char **args)
 			!ft_check_var(args[i]))
 			data->envp = ft_set_variable(envp, args[i]);
 	}
+	return (data->envp);
 }

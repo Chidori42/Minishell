@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/07 23:04:42 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:30:33 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_cd(t_pars *data, char **p)
 
 	j = 0;
 	pwd = getenv("PWD");
-	cmd = ft_strjoin("export ", ft_strjoin("OLDPWD=", pwd));
+	cmd = ft_strdup(ft_strs_join("export ", ft_strs_join("OLDPWD=", pwd)));
 	ft_export(data, data->envp, ft_split(cmd, ' '));
 	while (p[j])
 		j++;
@@ -89,7 +89,7 @@ int	ft_cd(t_pars *data, char **p)
 			printf("Error\n");
 		pwd = getenv("HOME");
 	}
-	cmd = ft_strjoin("export ", ft_strjoin("PWD=", pwd));
+	cmd = ft_strdup(ft_strs_join("export ", ft_strs_join("PWD=", pwd)));
 	ft_export(data, data->envp, ft_split(cmd, ' '));
 	return (0);
 }
@@ -98,11 +98,17 @@ void	ft_builthing(t_cmd *cmd, t_pars *arg)
 {
 	while (cmd)
 	{
-		if (ft_strcmp(cmd->data[0], "export") == 0)
+		if (!ft_strcmp(cmd->data[0], "export"))
 			ft_export(arg, arg->envp, cmd->data);
-		else if (ft_strcmp(cmd->data[0], "cd") == 0)
+		else if (!ft_strcmp(cmd->data[0], "cd"))
 			ft_cd(arg, cmd->data);
-		else if (ft_strcmp(cmd->data[0], "exit") == 0)
+		else if (!ft_strcmp(cmd->data[0], "pwd"))
+			ft_pwd(cmd->data);
+		else if (!ft_strcmp(cmd->data[0], "echo"))
+			ft_echo(cmd->data);
+		else if (!ft_strcmp(cmd->data[0], "unset"))
+			ft_unset(arg, cmd->data);
+		else if (!ft_strcmp(cmd->data[0], "exit"))
 			exit(0);
 		cmd = cmd->next;
 	}

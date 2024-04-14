@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/07 10:45:09 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/14 17:35:56 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		ft_check_arg(char *arg);
 int		ft_var_len(char *arg);
 int		ft_check_var(char *arg);
 void	ft_builthing(t_cmd *cmd, t_pars *arg);
-void	ft_export(t_pars *data, char **envp, char **args);
+char	**ft_export(t_pars *data, char **envp, char **args);
 int		isvalid_var_name(char *str);
 int		check_repeat_var(t_pars *arg, char *str, char *tmp);
 int		ft_unset(t_pars *arg, char **p);
