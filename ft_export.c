@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/15 12:12:30 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:01:08 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,22 @@ char	**ft_dup_env(char **envp, char *var)
 {
 	int		i;
 	char	**env;
+	char	*str;
 	char	*tmp;
 
 	i = 0;
 	while (envp && envp[i])
 	{
-		tmp = ft_strs_join(tmp, ft_strdup(envp[i]));
-		tmp = ft_strs_join(tmp, ft_strdup("\n"));
-		if (!tmp)
-			return (NULL);
+		str = ft_strs_join(ft_strdup(str), ft_strdup(envp[i]));
+		str = ft_strs_join(str, ft_strdup("\n"));
+		if (!str)
+			return (free(str), NULL);
 		i++;
 	}
-	tmp = ft_strs_join(tmp, var);
+	tmp = ft_strs_join(ft_strdup(str), ft_strdup(var));
 	if (!tmp)
 		return (NULL);
+	free (str);
 	env = ft_split(tmp, '\n');
 	return (free(tmp), env);
 }
@@ -63,7 +65,7 @@ static int	ft_update_env(char **envp, char *arg, int i)
 		b = 0;
 		if (!ft_strcmp(opr, "+="))
 		{
-			envp[i] = ft_strs_join(envp[i], \
+			envp[i] = ft_strs_join(ft_strdup(envp[i]), \
 			ft_substr(arg, (ft_var_len(arg) + 2), \
 			(ft_strlen(arg) - ft_strlen(v_name))));
 		}
@@ -86,12 +88,12 @@ static char	**ft_check_set(char **envp, char *v_name, char *str)
 			b = 1;
 	}
 	if (b)
-		envp = ft_dup_env(envp, ft_strs_join(ft_strs_join(v_name, "="), \
+		envp = ft_dup_env(envp, ft_strs_join(ft_strs_join(ft_strdup(v_name), ft_strdup("=")), \
 			ft_substr(str, (ft_var_len(str) + 2), \
 			(ft_strlen(str) - ft_strlen(v_name)))));
 	else
 	{
-		envp = ft_dup_env(envp, ft_strs_join(ft_strs_join(v_name, "="), \
+		envp = ft_dup_env(envp, ft_strs_join(ft_strs_join(ft_strdup(v_name), ft_strdup("=")), \
 			ft_substr(str, (ft_var_len(str) + 1), \
 			(ft_strlen(str) - ft_strlen(v_name)))));
 	}
