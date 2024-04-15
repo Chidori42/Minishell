@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/14 19:30:33 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:19:20 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	ft_cd(t_pars *data, char **p)
 	char	*cmd;
 
 	j = 0;
-	pwd = getenv("PWD");
-	cmd = ft_strdup(ft_strs_join("export ", ft_strs_join("OLDPWD=", pwd)));
+	cmd = ft_strs_join(ft_strdup("export OLDPWD="),
+		ft_strdup(getcwd(NULL, 0)));
 	ft_export(data, data->envp, ft_split(cmd, ' '));
 	while (p[j])
 		j++;
@@ -81,7 +81,7 @@ int	ft_cd(t_pars *data, char **p)
 	{
 		if (chdir(p[1]) != 0)
 			printf("cd: %s : No such file or directory\n", p[1]);
-		pwd = getenv(p[1]);
+		pwd = getcwd(NULL, 0);
 	}
 	else
 	{
@@ -89,7 +89,7 @@ int	ft_cd(t_pars *data, char **p)
 			printf("Error\n");
 		pwd = getenv("HOME");
 	}
-	cmd = ft_strdup(ft_strs_join("export ", ft_strs_join("PWD=", pwd)));
+	cmd = ft_strs_join(ft_strdup("export PWD="), ft_strdup(pwd));
 	ft_export(data, data->envp, ft_split(cmd, ' '));
 	return (0);
 }

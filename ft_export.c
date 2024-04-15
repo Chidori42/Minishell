@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/15 14:01:08 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:34:04 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**ft_dup_env(char **envp, char *var)
 		return (NULL);
 	free (str);
 	env = ft_split(tmp, '\n');
-	return (free(tmp), env);
+	return (free(tmp),env);
 }
 
 static char	*ft_get_operator(char *arg)
