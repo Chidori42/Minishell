@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/13 19:30:37 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:52:14 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	main(int ac, char **av, char **envp)
 	rl_catch_signals = 0;
 	while (true)
 	{
+	system("leaks minishell");
 		args.input = ft_is_complet();
 		if (args.input == NULL)
 			kill(args.pid, SIGUSR1);

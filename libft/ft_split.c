@@ -3,82 +3,95 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:28:37 by bramzil           #+#    #+#             */
-/*   Updated: 2024/02/21 15:37:35 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:24:55 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_wrdlen(char const *s, char c)
+static int	count_words(char const *s, char c)
 {
-	size_t				wrd_len;
-
-	wrd_len = 0;
-	while (*s && (*s != c) && ++wrd_len)
-		s++;
-	return (wrd_len);
-}
-
-static void	ft_free_mem(char **strs)
-{
-	size_t			i;
+	int	i;
+	int	cnt;
 
 	i = 0;
-	while (strs[i])
+	cnt = 0;
+	if (!s)
+		return (0);
+	while (s[i])
 	{
-		free(strs[i]);
-		strs[i] = 0;
-		i++;
+		while (s[i] == c)
+			i++;
+		if (s[i] != '\0')
+			cnt++;
+		while (s[i] != c && s[i])
+			i++;
 	}
-	free (strs);
-	strs = 0;
+	return (cnt);
 }
 
-static size_t	ft_count_words(char const *s, char c)
+static char	*ft_strndup(const char *s1, int n)
 {
-	size_t				count;
+	int		i;
+	char	*new;
 
-	count = 0;
-	while (*s)
+	if (!s1)
+		return (NULL);
+	i = 0;
+	new = (char *)malloc(n + 1);
+	if (new == NULL)
+		return (NULL);
+	while (i < n)
 	{
-		while (*s && *s == c)
-			s++;
-		if (*s && *s != c)
-			count++;
-		while (*s && *s != c)
-			s++;
+		new[i] = s1[i];
+		i++;
 	}
-	return (count);
+	new[i] = '\0';
+	return (new);
+}
+
+static char	**free2d(char **arr, int index)
+{
+	int	i;
+
+	i = 0;
+	while (index - i >= 0)
+	{
+		free(arr[index - i]);
+		i++;
+	}
+	free(arr);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char			**strs;
-	char			**ref;
+	int		i;
+	int		index;
+	int		tail_matrice;
+	char	**arr;
 
-	if (!s)
-		return (0);
-	strs = (char **)malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
-	if (!strs)
-		return (0);
-	ref = strs;
-	while (*s)
+	tail_matrice = count_words(s, c);
+	index = -1;
+	arr = (char **)malloc(sizeof(char *) * (tail_matrice + 1));
+	if (!(arr))
+		return (NULL);
+	while (++index < tail_matrice)
 	{
-		while (*s && (*s == c))
+		i = 0;
+		while (*s && *s == c)
 			s++;
-		if (!(*s))
-			break ;
-		*strs = ft_substr(s, 0, ft_wrdlen(s, c));
-		if (!(*strs++))
-		{
-			ft_free_mem(ref);
-			return (0);
-		}
-		s += ft_wrdlen(s, c);
+		while (*(s + i) != c && *(s + i))
+			i++;
+		arr[index] = ft_strndup(s, i);
+		if (arr[index] == NULL)
+			return (free2d(arr, index));
+		while (*s && *s != c)
+			s++;
 	}
-	*strs = 0;
-	return (ref);
+	arr[index] = NULL;
+	return (arr);
 }

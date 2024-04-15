@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/07 21:11:03 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:13:26 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ char	*ft_strs_join(char *s1, char *s2)
 		str = ft_strdup(s1);
 	else if (s1 && s2)
 		str = ft_strjoin(s1, s2);
-	return(str);
-	//return (free (s1), free (s2), str);
+	return (free (s1), free (s2), str);
 }
 
 static int	ft_redir_nbr(char **tab, int i)
