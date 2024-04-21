@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:55:34 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 13:13:34 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,18 @@ void	ft_parse_error(char *str)
 	free (str);
 }
 
-int	ft_strcmp(char *s_1, char *s_2)
+int	ft_free_2_dm(char **arr)
+{
+	int			i;
+
+	i = -1;
+	while (arr && arr[++i])
+		free (arr[i]);
+	free (arr);
+	return (0);
+}
+
+int 	ft_strcmp(char *s_1, char *s_2)
 {
 	int			i;
 
@@ -34,7 +45,7 @@ int	ft_strcmp(char *s_1, char *s_2)
 	return (s_1[i] - s_2[i]);
 }
 
-char	*ft_strs_join(char *s1, char *s2)
+char 	*ft_strs_join(char *s1, char *s2)
 {
 	char		*str;
 
@@ -47,41 +58,18 @@ char	*ft_strs_join(char *s1, char *s2)
 		str = ft_strjoin(s1, s2);
 	return (free (s1), free (s2), str);
 }
-
-static int	ft_redir_nbr(char **tab, int i)
+char **ft_resplit_input(char **tab)
 {
-	int			nb;
+	int				i;
+	char			*tmp;
 
-	nb = 0;
-	while (tab && tab[i] && ft_strcmp(tab[i], "|"))
+	i = -1;
+	tmp = NULL;
+	while (tab && tab[++i])
 	{
-		if (ft_is_redir(tab[i]))
-			nb += 2;
-		i++;
+		tmp = ft_strs_join(tmp, ft_strdup(" "));
+		tmp = ft_strs_join(tmp, tab[i]);
 	}
-	return (nb);
-}
-
-char	**ft_get_redir(char **tab, int i)
-{
-	int			j;
-	int			rdr_nbr;
-	char		**std;
-
-	j = -1;
-	std = NULL;
-	rdr_nbr = ft_redir_nbr(tab, i);
-	std = (char **)malloc(sizeof(char *) * (rdr_nbr + 1));
-	while (std && tab && tab[i] && \
-		ft_strcmp(tab[i], "|"))
-	{
-		if (ft_is_redir(tab[i]))
-		{
-			std[++j] = ft_strdup(tab[i]);
-			std[++j] = ft_strdup(tab[++i]);
-		}
-		i++;
-	}
-	std[++j] = NULL;
-	return (std);
+	free (tab);
+	return (ft_split_input(tmp));
 }

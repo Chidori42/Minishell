@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_remove_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:56:13 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/20 12:27:06 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_quotes_cpy(char *d, char *s, char qt, int *t)
 	}
 }
 
-static int	ft_count_qts(char *s)
+static int ft_count_qts(char *s)
 {
 	int			i;
 	int			nb;
@@ -60,7 +60,7 @@ static char	*ft_remove_qts(char *s)
 	int			t[2];
 	int			qts;
 	char		*str;
-
+	
 	t[0] = -1;
 	t[1] = 0;
 	qts = ft_count_qts(s);

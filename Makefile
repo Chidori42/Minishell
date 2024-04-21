@@ -14,11 +14,12 @@ SRCS                    =	minishell.c \
 							ft_redirection.c \
 							ft_create_tab.c \
 							ft_check_red.c \
+							ft_get_redir.c \
 							ft_execution.c \
 							ft_expander.c \
 							ft_utils_1.c \
 							ft_heredoc.c \
-							ft_utils_2.c \
+							ft_get_cmd.c \
 							ft_signals.c \
 							ft_export.c \
 							utils_unset.c \

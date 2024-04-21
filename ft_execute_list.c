@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:15:56 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/20 10:52:04 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_initiate_fds(t_pars *args)
 	args->p_2[1] = 1;
 }
 
-static	void	ft_set_fds(t_pars *args, int i)
+static void ft_set_fds(t_pars *args, int i)
 {
 	if ((i % 2) != 0)
 		args->p_2[1] = 1;
@@ -35,17 +35,17 @@ static int	ft_close_fd(t_pars *args, t_cmd *node, int i)
 		if (args->p_1[0] != 0 && (args->p_1[0] != 0) && \
 			(close(args->p_1[0]) < 0))
 			return (ft_putendl_fd(strerror(errno), 2), -1);
-		if (!node->next && (*node->out != 1) && \
+		if (!node->next && (*node->out != 1 ) && \
 			(close(*node->out) < 0))
 			return (ft_putendl_fd(strerror(errno), 2), -1);
 		args->p_1[0] = 0;
-	}
+	} 
 	else if ((i % 2 != 0))
 	{
 		if (args->p_2[0] != 0 && (args->p_2[0] != 0) && \
 			(close(args->p_2[0]) < 0))
 			return (ft_putendl_fd(strerror(errno), 2), -1);
-		if (!node->next && (*node->out != 1) && \
+		if (!node->next && (*node->out != 1 ) && \
 			(close(*node->out) < 0))
 			return (ft_putendl_fd(strerror(errno), 2), -1);
 		args->p_2[0] = 0;
@@ -73,7 +73,7 @@ static int	ft_pipe(t_pars *args, t_cmd *node, int i)
 			((close(args->p_2[1]) < 0) || (pipe(args->p_1) < 0)))
 			return (ft_putendl_fd(strerror(errno), 2), -1);
 	}
-	return (0);
+	return (0); 
 }
 
 int	ft_execute_lst(t_pars *args)
@@ -102,3 +102,14 @@ int	ft_execute_lst(t_pars *args)
 		;
 	return (WEXITSTATUS(args->ext_st));
 }
+
+// bash-3.2$ sleep 100
+// ^C
+// bash-3.2$ echo $?
+// 130
+// bash-3.2$ sleep 100
+// ^\Quit: 3
+// bash-3.2$ echo $?
+// 131
+// bash-3.2$ 
+// executable file must be handled (./minishell | ok, minishell | no)

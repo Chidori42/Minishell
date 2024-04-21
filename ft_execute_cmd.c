@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:15:06 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:30:56 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	ft_is_there_slash(char *s)
 	return (0);
 }
 
+
 static void	ft_close_fd(t_pars *args, int i)
 {
 	if (((i % 2) != 0) && (args->p_1[0] != 0) && \
@@ -33,7 +34,7 @@ static void	ft_close_fd(t_pars *args, int i)
 		ft_putendl_fd(strerror(errno), 2);
 }
 
-char	*ft_getenv(char **envp, char *name)
+char *ft_getenv(char **envp, char *name)
 {
 	int			i;
 	char		*vl;

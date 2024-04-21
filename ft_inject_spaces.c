@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_inject_spaces.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:06:54 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:57:40 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:14:53 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_is_operator(char *s, int i)
 {
 	if (s)
-	{
+	{	
 		if ((s[i] == '>' && s[i + 1] == '>') || \
 			(s[i] == '<' && s[i + 1] == '<'))
 			return (2);

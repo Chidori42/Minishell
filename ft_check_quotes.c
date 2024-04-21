@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:21:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:13:46 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:10:47 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_check_quotes(char *s)
 {
 	int			i;
 	int			pos;
-
+	
 	i = -1;
 	while (s && s[++i])
 	{
@@ -49,5 +49,6 @@ int	ft_check_quotes(char *s)
 			i = pos;
 		}
 	}
-	return (0);
+	return (0);	
 }
+

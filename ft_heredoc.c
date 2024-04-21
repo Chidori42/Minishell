@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/20 12:27:43 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/21 13:51:09 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	ft_pipe_file(int *tab)
 	return (free(pipe), 0);
 }
 
-static int ft_read(t_pars *ags, char *buf, char *lm, char *rf, int *fds)
+static int ft_read(t_pars *ags, char **buf, char **lim, int *fds)
 {
 	pid_t			pid;
 	int				ext_st;
@@ -75,17 +75,17 @@ static int ft_read(t_pars *ags, char *buf, char *lm, char *rf, int *fds)
 	else if (pid == 0)
 	{
 		ft_heredoc_signals();
-		buf= ft_strdup("");
+		buf[0] = ft_strdup("");
 		while (true)
 		{
-			free (buf);
-			buf= readline("> ");
-			if (!buf|| !ft_strcmp(buf, lm))
+			free (buf[0]);
+			buf[0]= readline("> ");
+			if (!buf[0]|| !ft_strcmp(buf[0], lim[0]))
 				kill(getpid(), SIGUSR1);
-			if (!ft_is_there_quotes(rf))
-				ft_expander(ags, &buf);
-			buf= ft_strs_join(buf, ft_strdup("\n"));
-			ft_putstr_fd(buf, fds[1]);
+			if (!ft_is_there_quotes(lim[1]))
+				ft_expander(ags, &buf[0]);
+			buf[0]= ft_strs_join(buf[0], ft_strdup("\n"));
+			ft_putstr_fd(buf[0], fds[1]);
 		}
 	}
 	waitpid(pid, &ext_st, 0);
@@ -97,19 +97,28 @@ static int ft_read(t_pars *ags, char *buf, char *lm, char *rf, int *fds)
 int	ft_heredoc(t_pars *ags, char *lm, char *rf, int *fd)
 	{
 	int		fds[2];
-	char	*buf;
+	char	**buf;
+	char	**lim;
 
 	fds[0] = -1;
+	lim = NULL;
 	if (0 <= ft_pipe_file(fds) && lm)
 	{
 		*fd = fds[0];
-		buf = (char *)malloc(sizeof(char) * 10);
+		buf = (char **)malloc(sizeof(char*) * 2);
+		lim = (char **)malloc(sizeof(char*) * 2);
+		if (!buf || !lim)
+			return (ft_putendl_fd("malloc failure", 2), -1);
 		if (buf)
 		{
-			if (!ft_read(ags, buf, lm, rf, fds))
-				return (fds[0]);
+			buf[0] = (char *)malloc(sizeof(char) * 10);
+			buf[1] = NULL;
+			lim[0] = lm;
+			lim[1] = rf;
+			if (!ft_read(ags, buf,lim, fds))
+				return (free(lim), fds[0]);
 		}
 		ft_close_pipe(fds);
 	}
-	return (-1);
+	return (free(lim), -1);
 }

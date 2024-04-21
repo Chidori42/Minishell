@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_red.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:18:39 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:13:56 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/06 03:29:22 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_check_red_left(char *s, int i)
 				return (1);
 			else
 				return (0);
-		}
+		} 
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:14:48 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 12:31:11 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ static int	ft_scape_spaces(char *input, int i)
 {
 	while (input[i] == 32 || (9 <= input[i] && \
 			input[i] <= 13))
-		i++;
+			i++;
 	return (i);
 }
 
 static int	ft_scape_word(char *input, int i)
 {
 	while (input && input[i])
-	{
+	{	
 		if (input[i] == '\'' || input[i] == '\"')
 			i = ft_scape_quotes(input, i);
 		else if (input[i] == 32 || (9 <= input[i] && \
@@ -33,8 +33,7 @@ static int	ft_scape_word(char *input, int i)
 	}
 	return (i);
 }
-
-static	int	ft_word_len(char *input, int *i)
+static int	ft_word_len(char *input, int *i)
 {
 	int			l;
 
@@ -52,7 +51,7 @@ static	int	ft_word_len(char *input, int *i)
 	return (*i - l);
 }
 
-static int	ft_count_words(char *input)
+int	ft_count_words(char *input)
 {
 	int			i;
 	int			nb;
@@ -73,7 +72,7 @@ static int	ft_count_words(char *input)
 		else if (input[i])
 			i++;
 	}
-	return (nb);
+	return  (nb);
 }
 
 char	**ft_split_input(char *input)

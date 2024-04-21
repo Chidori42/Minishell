@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils_2.c                                       :+:      :+:    :+:   */
+/*   ft_get_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 17:14:10 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:54:58 by ael-fagr         ###   ########.fr       */
+/*   Created: 2024/04/21 11:45:56 by bramzil           #+#    #+#             */
+/*   Updated: 2024/04/21 11:52:09 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,6 @@ int	ft_is_redir(char *s)
 	return (0);
 }
 
-int	ft_free_2_dm(char **arr)
-{
-	int			i;
-
-	i = -1;
-	while (arr && arr[++i])
-		free (arr[i]);
-	free (arr);
-	return (0);
-}
-
 int	ft_check_flu_ct(char *s, int i)
 {
 	int			rmid;
@@ -47,7 +36,7 @@ int	ft_check_flu_ct(char *s, int i)
 				return (ft_parse_error(ft_strdup(&s[rmid])), -1);
 			else
 				return (0);
-		}
+		} 
 	}
 	return (1);
 }
@@ -63,19 +52,19 @@ static int	ft_cmd_elmnts(char **tab, int i)
 			(0 < i && !ft_is_redir(tab[i]) && \
 			!ft_is_redir(tab[i - 1])))
 			nb++;
-		i++;
+			i++;
 	}
 	return (nb);
 }
 
-char	**ft_get_cmd(char **tab, int i)
+char	**ft_get_cmd(t_pars *args, char **tab, int i)
 {
 	int			j;
 	int			nb;
-	char		**cmd;
+    char		**cmd;
 
 	j = -1;
-	cmd = NULL;
+    cmd = NULL;
 	nb = ft_cmd_elmnts(tab, i);
 	if (nb)
 	{
@@ -90,6 +79,7 @@ char	**ft_get_cmd(char **tab, int i)
 			i++;
 		}
 		cmd[++j] = NULL;
+		ft_expander(args, cmd);
 	}
-	return (cmd);
+    return (ft_resplit_input(cmd));
 }

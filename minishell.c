@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:54:00 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:06:20 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,19 @@
 
 int			g_sig;
 
-// void	f(void)
-// {
-// 	// system("lsof minishell > file");
-// 	system("leaks minishell");
-// }
-
-int	main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **envp)
 {
+	(void)		av;
 	t_pars		args;
 
-	(void) av;
 	ft_parent_signals();
 	if (ac == 1)
 	{
 		args.envp = ft_dup_env(envp, NULL);
 		while (true)
-		{
+		{	
 			g_sig = 0;
+			system("leaks minishell");
 			args.input = readline("prompt: ");
 			if (!args.input || !ft_strcmp("exit", args.input))
 				kill(getpid(), SIGUSR1);

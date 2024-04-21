@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 10:03:42 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 11:40:03 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	ft_check_parse(t_pars *args, char *input)
 		}
 		if (ft_is_operator(args->tab[--i]))
 			return (ft_parse_error(ft_strdup("\\n")), 258);
-		ft_expander(args, args->tab);
 	}
 	return (0);
 }
