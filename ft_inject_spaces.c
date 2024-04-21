@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:06:54 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/07 09:54:24 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:57:40 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ static int	ft_is_operator(char *s, int i)
 {
 	if (s)
 	{
-		if ((s[i] == '|' && s[i + 1] == '|') || \
-			(s[i] == '&' && s[i + 1] == '&') || \
-			(s[i] == '>' && s[i + 1] == '>') || \
+		if ((s[i] == '>' && s[i + 1] == '>') || \
 			(s[i] == '<' && s[i + 1] == '<'))
 			return (2);
 		else if (s[i] == '|' || s[i] == '<' || \
@@ -70,5 +68,5 @@ char	*ft_inject_space(char *input)
 			j += w_len;
 		}
 	}
-	return (free (input), str);
+	return (free(input), str);
 }

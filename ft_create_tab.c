@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/07 09:53:27 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:14:48 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_scape_word(char *input, int i)
 	return (i);
 }
 
-static int	ft_word_len(char *input, int *i)
+static	int	ft_word_len(char *input, int *i)
 {
 	int			l;
 
@@ -99,5 +99,5 @@ char	**ft_split_input(char *input)
 		}
 		words[l_nb] = NULL;
 	}
-	return (words);
+	return (free(input), words);
 }

@@ -12,17 +12,19 @@ SRCS                    =	minishell.c \
 							ft_execute_list.c \
 							ft_create_list.c \
 							ft_redirection.c \
-							ft_is_complet.c \
 							ft_create_tab.c \
 							ft_check_red.c \
+							ft_execution.c \
 							ft_expander.c \
 							ft_utils_1.c \
+							ft_heredoc.c \
 							ft_utils_2.c \
+							ft_signals.c \
 							ft_export.c \
 							utils_unset.c \
-							free.c \
-							builthing.c \
+							builting.c \
 							pars_export.c \
+							utils_builting.c
 
 
 #Mandatory object files name.
@@ -98,13 +100,13 @@ all                     : $(NAME)
 #       cc -c $(FLAGS) $< -o $@
 
 %o                      : %c minishell.h $(LIBFT) $(LIBFT_H)
-	cc  -c $(FLAGS) $< -o $@
+	gcc  -c $(FLAGS) $< -o $@
 
 $(LIBFT)                : $(LIBFT_SRCS) $(LIBFT_H)
 	make -C ./libft
 
 $(NAME)                 : $(LIBFT) $(OBJS)
-	cc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline 
+	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 # bonus                 : $(LIBFT) $(BONUS_OBJS)
 #       cc $(FLAGS) $(BONUS_OBJS) $(LIBFT) -o checker

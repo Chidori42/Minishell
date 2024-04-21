@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/07 09:54:02 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:15:56 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_initiate_fds(t_pars *args)
 	args->p_2[1] = 1;
 }
 
-static void	ft_set_fds(t_pars *args, int i)
+static	void	ft_set_fds(t_pars *args, int i)
 {
 	if ((i % 2) != 0)
 		args->p_2[1] = 1;
@@ -79,7 +79,7 @@ static int	ft_pipe(t_pars *args, t_cmd *node, int i)
 int	ft_execute_lst(t_pars *args)
 {
 	int			i;
-	int			pid;
+	pid_t		pid;
 	t_cmd		*lst;
 
 	i = 1;
@@ -88,8 +88,8 @@ int	ft_execute_lst(t_pars *args)
 	while (lst)
 	{
 		if ((ft_pipe(args, lst, i) < 0) || \
-			(ft_redirection(lst) < 0))
-			return (-1);
+			(ft_redirection(args, lst) < 0))
+			return (1);
 		ft_set_fds(args, i);
 		pid = fork();
 		if (pid == 0)
@@ -98,7 +98,7 @@ int	ft_execute_lst(t_pars *args)
 		lst = lst->next;
 		i++;
 	}
-	while (0 < wait(NULL))
+	while (0 < wait(&args->ext_st))
 		;
-	return (0);
+	return (WEXITSTATUS(args->ext_st));
 }

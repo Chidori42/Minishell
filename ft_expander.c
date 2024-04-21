@@ -6,33 +6,38 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/15 16:16:36 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:16:07 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_is_valid(char c)
-{
-	if (c < 9 || ((13 < c) && (c != 32) && \
-		(c != '\'') && (c != '\"')))
-		return (1);
-	return (0);
-}
 
 int	ft_word_len(char *s, int i)
 {
 	int			len;
 
 	len = 0;
-	while (s && s[++i] && (s[i] < 9 || \
-		(13 < s[i] && s[i] != 32)) && \
-		(s[i] != '\'') && (s[i] != '\"'))
+	if (ft_isdigit(s[i]))
+		return (1);
+	while (s && s[i] && (ft_isalnum(s[i]) || \
+		s[i] == '_') && ++i)
 		len++;
 	return (len);
 }
 
-static char	*ft_expand(char *s, int ind, int len)
+static int	ft_is_identifier(char *id)
+{
+	int			i;
+	int			l;
+
+	i = -1;
+	l = ft_word_len(id, 0);
+	if (0 < l)
+		return (1);
+	return (0);
+}
+
+static char	*ft_expand(t_pars *args, char *s, int ind, int len)
 {
 	char		*tmp;
 	char		*ptr;
@@ -40,13 +45,13 @@ static char	*ft_expand(char *s, int ind, int len)
 
 	ptr = s;
 	tmp = ft_substr(s, (ind + 1), len);
-	value = getenv(tmp);
+	value = ft_getenv(args->envp, tmp);
 	ptr = ft_strs_join(ft_substr(s, 0, ind), \
 		ft_strdup(value));
 	ptr = ft_strs_join(ptr, ft_substr(s, \
 		(ind + len + 1), (ft_strlen(s) - (ind + len))));
 	free (s);
-	return (free(tmp), ptr);
+	return (free(value), free(tmp), ptr);
 }
 
 static int	ft_expansion(char *s, int i)
@@ -58,10 +63,10 @@ static int	ft_expansion(char *s, int i)
 		else if (s[i] == '\"')
 		{
 			while (s[++i] && s[i] != '\"')
-				if (s[i] == '$' && ft_is_valid(s[i + 1]))
+				if (s[i] == '$' && ft_is_identifier(&s[i + 1]))
 					return (i);
 		}
-		else if (s[i] == '$' && ft_is_valid(s[i + 1]))
+		else if (s[i] == '$' && ft_is_identifier(&s[i + 1]))
 			return (i);
 		if (!s[i])
 			break ;
@@ -69,7 +74,7 @@ static int	ft_expansion(char *s, int i)
 	return (-1);
 }
 
-void	ft_expander(char **tab)
+void	ft_expander(t_pars *args, char **tab)
 {
 	int			i;
 	int			ind;
@@ -77,16 +82,19 @@ void	ft_expander(char **tab)
 	char		*tmp;
 
 	i = -1;
-	ind = 0;
+	ind = -1;
 	while (tab && tab[++i])
 	{
-		ind = ft_expansion(tab[i], ind);
-		if (0 <= ind)
+		if ((i == 0) || (0 < i && strcmp(tab[i - 1], "<<")))
 		{
-			tmp = tab[i];
-			len = ft_word_len(tmp, ind);
-			tab[i] = ft_expand(tmp, ind, len);
-			i--;
+			ind = ft_expansion(tab[i], ind);
+			if (0 <= ind)
+			{
+				tmp = tab[i];
+				len = ft_word_len(tmp, (ind + 1));
+				tab[i] = ft_expand(args, tmp, ind, len);
+				i--;
+			}
 		}
 	}
 }

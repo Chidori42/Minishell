@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/15 18:34:04 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:06:22 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ char	**ft_dup_env(char **envp, char *var)
 	char	*tmp;
 
 	i = 0;
+	tmp = ft_strdup("");
 	while (envp && envp[i])
 	{
-		str = ft_strs_join(ft_strdup(str), ft_strdup(envp[i]));
-		str = ft_strs_join(str, ft_strdup("\n"));
-		if (!str)
-			return (free(str), NULL);
+		tmp = ft_strs_join(tmp, ft_strs_join(ft_strdup(envp[i]), \
+			ft_strdup("\n")));
+		if (!tmp)
+			return (NULL);
 		i++;
 	}
-	tmp = ft_strs_join(ft_strdup(str), ft_strdup(var));
-	if (!tmp)
+	str = ft_strs_join(tmp, ft_strdup(var));
+	if (!str)
 		return (NULL);
-	free (str);
-	env = ft_split(tmp, '\n');
-	return (free(tmp),env);
+	env = ft_split(str, '\n');
+	return (free(str), env);
 }
 
 static char	*ft_get_operator(char *arg)
@@ -47,7 +47,6 @@ static char	*ft_get_operator(char *arg)
 		return (ft_substr(arg, i, 1));
 	return (NULL);
 }
-
 
 static int	ft_update_env(char **envp, char *arg, int i)
 {
@@ -65,94 +64,67 @@ static int	ft_update_env(char **envp, char *arg, int i)
 		b = 0;
 		if (!ft_strcmp(opr, "+="))
 		{
+			free(envp[i]);
 			envp[i] = ft_strs_join(ft_strdup(envp[i]), \
 			ft_substr(arg, (ft_var_len(arg) + 2), \
 			(ft_strlen(arg) - ft_strlen(v_name))));
 		}
 		else if (!ft_strcmp(opr, "="))
-			envp[i] = ft_strdup(arg);
+			(free(envp[i]), envp[i] = ft_strdup(arg));
 	}
 	return (free(opr), free (tmp), free(v_name), b);
-}
-
-static char	**ft_check_set(char **envp, char *v_name, char *str)
-{
-	int	i;
-	int	b;
-
-	i = -1;
-	b = 0;
-	while (str[++i])
-	{
-		if (str[i] == '+' && str[i + 1] == '=')
-			b = 1;
-	}
-	if (b)
-		envp = ft_dup_env(envp, ft_strs_join(ft_strs_join(ft_strdup(v_name), ft_strdup("=")), \
-			ft_substr(str, (ft_var_len(str) + 2), \
-			(ft_strlen(str) - ft_strlen(v_name)))));
-	else
-	{
-		envp = ft_dup_env(envp, ft_strs_join(ft_strs_join(ft_strdup(v_name), ft_strdup("=")), \
-			ft_substr(str, (ft_var_len(str) + 1), \
-			(ft_strlen(str) - ft_strlen(v_name)))));
-	}
-	return (envp);
 }
 
 static char	**ft_set_variable(char **envp, char *arg)
 {
 	int			i;
 	int			b;
-	char		*v_name;
 	char		**tmp;
+	char		*v_name;
 
-	if (!arg || !envp)
-		return (NULL);
 	b = 1;
 	i = -1;
-	v_name = ft_substr(arg, 0, ft_var_len(arg));
+	tmp = NULL;
+	v_name = NULL;
 	while (envp[++i])
 	{
+		b = ft_update_env(envp, arg, i);
 		if (b == 0)
 			return (envp);
-		b = ft_update_env(envp, arg, i);
 	}
 	if (b)
 	{
-		tmp = envp;
-		envp = ft_check_set(envp, v_name, arg);
+		v_name = ft_substr(arg, 0, ft_var_len(arg));
+		tmp = ft_check_set(envp, v_name, arg);
 		free(v_name);
 	}
-	return (envp);
+	return (tmp);
 }
 
-char	**ft_export(t_pars *data, char **envp, char **args)
+int	ft_export(t_pars *data, char **args)
 {
 	int		i;
-	// char	*v_name;
+	char	*v_name;
+	char	*v_value;
 
-	// i = -1;
-	// if (!args[1])
-	// {
-	// 	while (envp[++i])
-	// 	{
-	// 		v_name = ft_substr(envp[i], 0, ft_var_len(envp[i]));
-	// 		ft_putstr_fd("declare -x ", 1);
-	// 		ft_putstr_fd(v_name, 1);
-	// 		write(1, "=\"", 2);
-	// 		ft_putstr_fd(ft_substr(envp[i], (ft_var_len(envp[i]) + 1), \
-	// 		(ft_strlen(envp[i]) - ft_strlen(v_name))), 1);
-	// 		write(1, "\"\n", 2);
-	// 		free(v_name);
-	// 	}
-	// }
+	i = -1;
+	if (!args[1])
+	{
+		while (data->envp[++i])
+		{
+			v_name = ft_substr(data->envp[i], 0, ft_var_len(data->envp[i]));
+			v_value = ft_substr(data->envp[i], (ft_var_len(data->envp[i]) + 1), \
+			(ft_strlen(data->envp[i]) - ft_strlen(v_name)));
+			printf("declare -x %s=\"%s\"\n", v_name, v_value);
+			(free(v_name), free(v_value));
+		}
+	}
 	i = 0;
-	while (envp && args && args[++i])
+	while (data->envp && args[++i])
 	{
 		if (!ft_check_arg(args[i]) && \
 			!ft_check_var(args[i]))
-			data->envp = ft_set_variable(envp, args[i]);
+			data->envp = ft_set_variable(data->envp, args[i]);
 	}
-	return (data->envp);
+	return (0);
 }

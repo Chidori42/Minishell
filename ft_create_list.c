@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:26:36 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/07 09:52:52 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:14:20 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void	ft_free_list(t_cmd *lst)
 		while (lst->redir && lst->redir[++i])
 			free (lst->redir[i]);
 		free (lst->redir);
+		i = -1;
+		while (lst->ref && lst->ref[++i])
+			free (lst->ref[i]);
+		free (lst->ref);
 		lst = lst->next;
 		free (tmp);
 	}
@@ -58,13 +62,13 @@ static t_cmd	*ft_create_node(void)
 		node->out = NULL;
 		node->data = NULL;
 		node->redir = NULL;
-		node->hered = NULL;
+		node->ref = NULL;
 		node->next = NULL;
 	}
 	return (node);
 }
 
-static void	ft_lst_add_back(t_cmd **head, t_cmd *new)
+static	void	ft_lst_add_back(t_cmd **head, t_cmd *new)
 {
 	t_cmd		*tmp;
 
@@ -100,11 +104,13 @@ t_cmd	*ft_create_list(t_pars *args, char **tab)
 			ft_set_fds(args, node, ++j);
 			node->data = ft_get_cmd(tab, i);
 			node->redir = ft_get_redir(tab, i);
+			node->ref = ft_get_redir(tab, i);
 			ft_lst_add_back(&head, node);
 		}
 		while (tab[i + 1] && tab[++i] && \
 			ft_strcmp("|", tab[i]))
 			;
 	}
+	ft_remove_quotes(head);
 	return (head);
 }

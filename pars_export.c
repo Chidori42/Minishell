@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:00:06 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/04/14 19:27:36 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:01:33 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ int	ft_check_var(char *arg)
 				while (var_name[++i])
 					if (!ft_isalnum(var_name[i]) && \
 						var_name[i] != '_')
-						return (ft_export_error(arg), -1);
+						return (free(var_name), ft_export_error(arg), -1);
 			}
-		else
-			return (ft_export_error(arg), -1);
-	}
+			else
+				return (free(var_name), ft_export_error(arg), -1);
+		}
+		free(var_name);
 	}
 	return (0);
 }

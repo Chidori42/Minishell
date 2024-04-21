@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:17:54 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/15 12:23:57 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/03/27 03:29:52 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ char	*get_next_line(int fd);
 
 size_t	ft_strlen(const char *s);
 size_t	ft_strllen(char *s, char c);
-void	ft_strcpy(char *dst, const char *src);
-void	ft_strcat(char *dst, const char *src);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 

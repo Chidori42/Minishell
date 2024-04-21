@@ -6,21 +6,18 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/15 18:40:50 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:55:34 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_free_2_dm(char **arr)
+void	ft_parse_error(char *str)
 {
-	int			i;
-
-	i = -1;
-	while (arr && arr[++i])
-		free (arr[i]);
-	free (arr);
-	return (0);
+	write(2, "parse error near `", 18);
+	write(2, str, ft_strlen(str));
+	write(2, "'\n", 2);
+	free (str);
 }
 
 int	ft_strcmp(char *s_1, char *s_2)
@@ -35,14 +32,6 @@ int	ft_strcmp(char *s_1, char *s_2)
 	while (s_1[i] && s_2[i] && s_1[i] == s_2[i])
 		i++;
 	return (s_1[i] - s_2[i]);
-}
-
-void	ft_parse_error(char *str)
-{
-	write(2, "parse error near `", 18);
-	write(2, str, ft_strlen(str));
-	write(2, "'\n", 2);
-	free (str);
 }
 
 char	*ft_strs_join(char *s1, char *s2)

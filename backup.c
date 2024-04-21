@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backup.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:27:15 by bramzil           #+#    #+#             */
-/*   Updated: 2024/03/27 17:06:02 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/21 10:13:13 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_check_red_left(char *s, int i)
 				return (1);
 			else
 				return (0);
-		} 
+		}
 	}
 	return (0);
 }
@@ -72,7 +72,7 @@ static int	ft_check_red_left(char *s, int i)
 				return (1);
 			else
 				return (0);
-		} 
+		}
 	}
 	return (0);
 }
@@ -318,4 +318,117 @@ int	ft_check_parenthesis(char *s)
 		}
 	}
 	return (nb);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_is_complet.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/14 22:55:04 by bramzil           #+#    #+#             */
+/*   Updated: 2024/04/04 03:10:45 by bramzil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static	int	ft_check_frst(char *input)
+{
+	if (input && (input[0] == '|' || \
+		input[0] == '&' || input[0] == ')'))
+		return (ft_parse_error(ft_substr(input, 0, 1)), -1);
+	return (0);
+}
+
+char	*ft_is_complet(char *prmt)
+{
+	char 		*tmp;
+	char 		*input;
+
+	input = NULL;
+	if (!prmt)
+		prmt = "prompt: ";
+	tmp = readline (prmt);
+	if (tmp == NULL || !ft_strcmp("exit", tmp))
+		kill(getpid(), SIGUSR1);
+	input = ft_strs_join(input, tmp);
+	add_history(input);
+	if ((ft_check_frst(input) < 0) || \
+		(ft_check_parse(input) < 0))
+		return (free(input), NULL);
+	else if (ft_check_last(input) == 1)
+		ft_is_complet("> ");
+	return (input);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_inject_spaces.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/12 15:06:54 by bramzil           #+#    #+#             */
+/*   Updated: 2024/04/20 14:26:09 by bramzil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static int	ft_is_operator(char *s, int i)
+{
+	if (s)
+	{	
+		if (s[i] == '|' || s[i] == '<' || \
+			s[i] == '>')
+			return (1);
+	}
+	return (0);
+}
+
+static int	ft_word_len(char *s, int *i)
+{
+	int			l;
+
+	if ((l = ft_is_operator(s, *i)) == 0)
+	{
+		l = *i;
+		while (s && s[*i])
+		{
+			if (s[*i] == '\'' || s[*i] == '\"')
+				*i = ft_scape_quotes(s, *i);
+			else if (ft_is_operator(s, *i))
+				break ;
+			else
+				(*i)++;
+		}
+		return (*i - l);
+	}
+	*i += l;
+	return (l);
+}
+
+char	*ft_inject_space(char *input)
+{
+	int			i;
+	int			j;
+	int			w_len;
+	char		*str;
+
+	j = 0;
+	i = 0;
+	str = ft_strdup("");
+	while (input && input[i])
+	{
+		w_len = ft_word_len(input, &i);
+		if (w_len)
+		{
+			str = ft_strs_join(str, ft_substr(input, j, w_len));
+			str = ft_strs_join(str, ft_strdup(" "));
+			j += w_len;
+		}
+	}
+	return (free (input), str);
 }
