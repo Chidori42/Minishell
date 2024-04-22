@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/21 10:06:22 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:12:36 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,27 +104,19 @@ static char	**ft_set_variable(char **envp, char *arg)
 int	ft_export(t_pars *data, char **args)
 {
 	int		i;
-	char	*v_name;
-	char	*v_value;
 
-	i = -1;
-	if (!args[1])
-	{
-		while (data->envp[++i])
-		{
-			v_name = ft_substr(data->envp[i], 0, ft_var_len(data->envp[i]));
-			v_value = ft_substr(data->envp[i], (ft_var_len(data->envp[i]) + 1), \
-			(ft_strlen(data->envp[i]) - ft_strlen(v_name)));
-			printf("declare -x %s=\"%s\"\n", v_name, v_value);
-			(free(v_name), free(v_value));
-		}
-	}
 	i = 0;
-	while (data->envp && args[++i])
+	if (!args[1])
+		ft_display_env(data);
+	else
 	{
-		if (!ft_check_arg(args[i]) && \
-			!ft_check_var(args[i]))
-			data->envp = ft_set_variable(data->envp, args[i]);
+		while (data->envp && args[++i])
+		{
+			if (!ft_check_arg(args[i]) && \
+				!ft_check_var(args[i]))
+				data->envp = ft_set_variable(data->envp, \
+					args[i]);
+		}
 	}
 	return (0);
 }

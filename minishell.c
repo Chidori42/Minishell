@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 17:06:20 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/22 23:16:52 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int main(int ac, char **av, char **envp)
 	ft_parent_signals();
 	if (ac == 1)
 	{
-		args.envp = ft_dup_env(envp, NULL);
+		ft_set_env(&args, envp);
 		while (true)
-		{	
+		{
 			g_sig = 0;
-			system("leaks minishell");
+			//system("leaks minishell");
 			args.input = readline("prompt: ");
 			if (!args.input || !ft_strcmp("exit", args.input))
 				kill(getpid(), SIGUSR1);

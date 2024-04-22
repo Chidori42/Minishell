@@ -25,7 +25,8 @@ SRCS                    =	minishell.c \
 							utils_unset.c \
 							builting.c \
 							pars_export.c \
-							utils_builting.c
+							utils_builting.c \
+							set_env.c
 
 
 #Mandatory object files name.

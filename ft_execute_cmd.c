@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/20 16:30:56 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:07:32 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 	i = -1;
 	cmd_path = cmd;
 	tmp = ft_getenv(args->envp, "PATH");
+	if (!tmp)
+		tmp = ft_strdup(args->def_path);
 	paths = ft_split(tmp, ':');
 	if (paths)
 	{

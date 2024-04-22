@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/21 09:58:44 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/22 21:10:45 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@ int	ft_echo(char **p)
 	int		j;
 	int		i;
 
-	j = 1;
+	j = 0;
 	i = 0;
-	while (p[j])
+	while (p[++j])
 	{
-		while (!ft_strcmp(p[j], "-n"))
-		{
-			i = 1;
+		while (p[j] && !ft_strcmp(p[j], "-n") && ++i)
 			j++;
+		if (p[j])
+		{
+			printf("%s", p[j]);
+			if (p[j + 1])
+				printf(" ");
 		}
-		printf("%s", p[j]);
-		if (p[j + 1])
-			printf(" ");
-		j++;
 	}
 	if (i == 0)
 		printf("\n");
@@ -40,17 +39,14 @@ int	ft_pwd(char **p)
 {
 	char	tmp[256];
 
-	if (p[1] && p[1][0] == '-')
-	{
-		printf("%s: -%c: invalid option\n", p[0], p[1][1]);
-		return (1);
-	}
+	if (p[1])
+		return (ft_putendl_fd("Invalid arg's number", 2), 1);
 	else
 	{
 		if (getcwd(tmp, sizeof(tmp)))
 			printf("%s\n", tmp);
 		else
-			printf("Error\n");
+			return (ft_putendl_fd("getcwd failure", 2), 1);
 	}
 	return (0);
 }
@@ -61,13 +57,13 @@ int	ft_env(t_pars *arg, char **str)
 
 	i = -1;
 	if (str[1])
-	{
-		printf("%s: %s: No such file or directory\n", str[0], str[1]);
-		return (1);
-	}
+		return (ft_putendl_fd("Invalid arg's number", 2), 1);
 	else
 		while (arg->envp && arg->envp[++i])
-			printf("%s\n", arg->envp[i]);
+		{
+			if (ft_strchr(arg->envp[i], '='))
+				printf("%s\n", arg->envp[i]);
+		}
 	return (0);
 }
 
@@ -83,18 +79,19 @@ int	ft_cd(t_pars *data, char **p)
 	if (p[1])
 	{
 		if (ft_strlen(p[1]) > 255)
-			return (printf("cd: %s: File name too long", p[1]), -1);
+			return (ft_putendl_fd("file name to long!", 2), -1);
 		else if (chdir(p[1]) != 0)
-			return (printf("cd: %s : No such file or directory\n", p[1]), -1);
+			return (ft_putendl_fd(strerror(errno), 2), -1);
 	}
 	else
 	{
-		if (chdir(getenv("HOME")) != 0)
-			printf("Error\n");
+		cmd = ft_getenv(data->envp, "HOME");
+		if (chdir(cmd) != 0)
+			return (free(cmd), ft_putendl_fd(strerror(errno), 2), -1);
+		free(cmd);
 	}
 	cmd = ft_strs_join(ft_strdup("export PWD="), getcwd(NULL, 0));
-	tmp = ft_split(cmd, ' ');
-	ft_export(data, tmp);
+	(tmp = ft_split(cmd, ' '), ft_export(data, tmp));
 	(free(cmd), ft_free_2_dm(tmp));
 	return (0);
 }

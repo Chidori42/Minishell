@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 16:14:20 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/22 21:02:02 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct  s_pars
 	int			p_1[2];
 	int			p_2[2];
 	int			ext_st;
+	char		*def_path;
 	char		*input;
 	char		**tab;
 	char		**envp;
@@ -95,5 +96,7 @@ int		ft_builthing(t_cmd *cmd, t_pars *arg);
 int		ft_export(t_pars *data, char **args);
 int		ft_unset(t_pars *arg, char **p);
 char	**ft_check_set(char **envp, char *v_name, char *str);
+void	ft_display_env(t_pars *data);
+void	ft_set_env(t_pars *data, char **env);
 
 #endif
