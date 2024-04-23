@@ -6,12 +6,13 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 01:45:07 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 03:22:32 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 
 //**************************** included header files *************************//
 
@@ -27,7 +28,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 // # define malloc(void) NULL
-
 //******************************* command node *******************************//
 
 typedef struct   s_cmd

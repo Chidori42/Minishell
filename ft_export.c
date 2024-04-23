@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/22 19:12:36 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 04:47:02 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ static char	*ft_get_operator(char *arg)
 {
 	int			i;
 
-	i = ft_var_len(arg);
-	if (arg && arg[i] == '+')
-		return (ft_substr(arg, i, 2));
-	else if (arg && arg[i] == '=')
-		return (ft_substr(arg, i, 1));
+	if (arg)
+	{
+		i = ft_var_len(arg);
+		if (arg && arg[i] == '+')
+			return (ft_substr(arg, i, 2));
+		else if (arg && arg[i] == '=')
+			return (ft_substr(arg, i, 1));
+	}
 	return (NULL);
 }
 
@@ -56,6 +59,8 @@ static int	ft_update_env(char **envp, char *arg, int i)
 	char		*v_name;
 
 	b = 1;
+	if (!envp || !arg)
+		return (-1);
 	opr = ft_get_operator(arg);
 	tmp = ft_substr(envp[i], 0, ft_var_len(envp[i]));
 	v_name = ft_substr(arg, 0, ft_var_len(arg));
@@ -86,13 +91,13 @@ static char	**ft_set_variable(char **envp, char *arg)
 	i = -1;
 	tmp = NULL;
 	v_name = NULL;
-	while (envp[++i])
+	while (envp && arg && envp[++i])
 	{
 		b = ft_update_env(envp, arg, i);
 		if (b == 0)
 			return (envp);
 	}
-	if (b)
+	if (b && arg && envp)
 	{
 		v_name = ft_substr(arg, 0, ft_var_len(arg));
 		tmp = ft_check_set(envp, v_name, arg);
@@ -106,11 +111,11 @@ int	ft_export(t_pars *data, char **args)
 	int		i;
 
 	i = 0;
-	if (!args[1])
+	if (args && data && !args[1])
 		ft_display_env(data);
-	else
+	else if (data)
 	{
-		while (data->envp && args[++i])
+		while (data->envp && args && args[++i])
 		{
 			if (!ft_check_arg(args[i]) && \
 				!ft_check_var(args[i]))

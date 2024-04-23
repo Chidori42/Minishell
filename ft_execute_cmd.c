@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/20 16:30:56 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/23 05:27:22 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 	i = -1;
 	cmd_path = cmd;
 	tmp = ft_getenv(args->envp, "PATH");
+	if (!tmp)
+		tmp = ft_strdup(args->def_path);
 	paths = ft_split(tmp, ':');
 	if (paths)
 	{
@@ -87,21 +89,25 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node, int i)
 	char		*cmd_path;
 	char		*error_msg;
 
-	ft_close_fd(args, i);
-	if (!ft_is_there_slash(node->data[0]))
-		cmd_path = ft_get_path(args, node->data[0]);
-	if ((0 <= dup2(*node->in, 0)) && (0 <= dup2(*node->out, 1)))
+	if (args && node)
 	{
-		if (execve(cmd_path, node->data, args->envp) < 0)
+		cmd_path = node->data[0];
+		ft_close_fd(args, i);
+		if (!ft_is_there_slash(node->data[0]))
+			cmd_path = ft_get_path(args, node->data[0]);
+		if ((0 <= dup2(*node->in, 0)) && (0 <= dup2(*node->out, 1)))
 		{
-			error_msg = ft_strjoin("command not found: ", \
-				node->data[0]);
-			ft_putendl_fd(error_msg, 2);
-			free (error_msg);
-			exit(127);
+			if (execve(cmd_path, node->data, args->envp) < 0)
+			{
+				error_msg = ft_strjoin("command not found: ", \
+					node->data[0]);
+				ft_putendl_fd(error_msg, 2);
+				free (error_msg);
+				exit(127);
+			}
 		}
+		else
+			ft_putendl_fd(strerror(errno), 2);
 	}
-	else
-		ft_putendl_fd(strerror(errno), 2);
 	exit(errno);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/22 14:40:38 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/23 04:05:08 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void ft_child(t_pars *ags, char *lim, int fd, int qt)
 	char	 **buf;
 	
 	ft_heredoc_signals();
-	buf = (char **)malloc(sizeof(char) * 2);
+	buf = (char **)malloc(sizeof(char *) * 2);
 	if (!buf)
 	{
 		ft_putendl_fd("malloc failure", 2);

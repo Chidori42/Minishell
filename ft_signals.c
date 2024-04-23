@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 02:02:46 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 05:28:30 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void	ft_heredoc_signals()
 {
 	signal(SIGINT, ft_heredoc_handler);
 	signal(SIGUSR1, ft_heredoc_handler);
-	signal(SIGQUIT, ft_heredoc_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

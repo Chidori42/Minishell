@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:26:36 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 11:52:52 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/23 04:06:25 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_cmd	*ft_create_list(t_pars *args, char **tab)
 	j = 0;
 	i = -1;
 	head = NULL;
-	while (tab && tab[++i])
+	while (args && tab && tab[++i])
 	{
 		node = ft_create_node();
 		if (node)

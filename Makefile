@@ -33,33 +33,7 @@ SRCS                    =	minishell.c \
 
 OBJS                    = $(SRCS:%c=%o)
 
-#Bonus directory.
-
-BONUS_DIR               = ./bonus
-
-#Bouns source files.
-
-# BONUS_SRCS            =       $(BONUS_DIR)/bs_check_repetition_bonus.c\
-#                               $(BONUS_DIR)/bs_check_sorting_bonus.c\
-#                               $(BONUS_DIR)/bs_check_stack_bonus.c\
-#                               $(BONUS_DIR)/bs_fill_stack_bonus.c\
-#                               $(BONUS_DIR)/bs_join_args_bonus.c\
-#                               $(BONUS_DIR)/bs_perform_actions_bonus.c\
-#                               $(BONUS_DIR)/bs_push_stack_bonus.c\
-#                               $(BONUS_DIR)/bs_rotate_both_bonus.c\
-#                               $(BONUS_DIR)/bs_rotate_rvrs_stack_bonus.c\
-#                               $(BONUS_DIR)/bs_rotate_stack_bonus.c\
-#                               $(BONUS_DIR)/bs_swap_stack_bonus.c\
-#                               $(BONUS_DIR)/checker_bonus.c
-
-#Bouns object files.
-
-# BONUS_OBJS            =       $(BONUS_SRCS:%c=%o)
-
-#The follwing varaibles are common between mandatory and
-#bonus.
-
-FLAGS                   = -Wall -Wextra -Werror
+FLAGS                   = -Wall -Wextra -Werror -g -fsanitize=address
 
 NAME                    = minishell
 
@@ -97,9 +71,6 @@ LIBFT_SRCS              = 	./libft/ft_isalpha.c ./libft/ft_isdigit.c\
 
 all                     : $(NAME)
 
-# $(BONUS_DIR)/%o : $(BONUS_DIR)/%c $(BONUS_DIR)/checker_bonus.h\
-#       $(LIBFT) $(LIBFT_H)
-#       cc -c $(FLAGS) $< -o $@
 
 %o                      : %c minishell.h $(LIBFT) $(LIBFT_H)
 	gcc  -c $(FLAGS) $< -o $@
@@ -110,17 +81,12 @@ $(LIBFT)                : $(LIBFT_SRCS) $(LIBFT_H)
 $(NAME)                 : $(LIBFT) $(OBJS)
 	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
-# bonus                 : $(LIBFT) $(BONUS_OBJS)
-#       cc $(FLAGS) $(BONUS_OBJS) $(LIBFT) -o checker
-
 clean                   :
 	rm -f *.o
-	rm -f $(BONUS_DIR)/*.o
 	make clean -C ./libft
 
 fclean                  : clean
 	rm -f $(NAME)
-	rm -f checker
 	make fclean -C ./libft
 
 re                      : fclean all

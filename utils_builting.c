@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/22 23:23:19 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 03:11:50 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ char	**ft_check_set(char **envp, char *v_name, char *str)
 	t[1] = 0;
 	t[0] = -1;
 	new_var = NULL;
-	while (str[++t[0]])
+	while (str && str[++t[0]])
 		if ((str[t[0]] == '+') && (str[t[0] + 1] == '=') && ++t[1])
 			break ;
-	if (ft_strchr(str, '='))
+	if (str && ft_strchr(str, '='))
 		new_var = ft_strs_join(ft_strdup(v_name), ft_strdup("="));
 	else
 		new_var = ft_strdup(v_name);
-	if (t[1] == 1)
+	if (str && t[1] == 1)
 		value = ft_substr(str, (ft_var_len(str) + 2), \
 			(ft_strlen(str) - ft_strlen(v_name)));
 	else
@@ -58,7 +58,7 @@ void ft_display_env(t_pars *data)
 			printf("declare -x %s\n", v_name);
 		else if (ft_strcmp(data->envp[i], "_=/usr/bin/env"))
 		{
-			if (!v_value[0])
+			if (v_value && !v_value[0])
 				printf("declare -x %s=\'\'\n", v_name);
 			else
 				printf("declare -x %s=\"%s\"\n", v_name, v_value);

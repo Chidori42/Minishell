@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/22 21:10:45 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 04:23:40 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_echo(char **p)
 
 	j = 0;
 	i = 0;
-	while (p[++j])
+	while (p && p[++j])
 	{
 		while (p[j] && !ft_strcmp(p[j], "-n") && ++i)
 			j++;
@@ -39,9 +39,9 @@ int	ft_pwd(char **p)
 {
 	char	tmp[256];
 
-	if (p[1])
+	if (p && p[1])
 		return (ft_putendl_fd("Invalid arg's number", 2), 1);
-	else
+	else if (p && p[0])
 	{
 		if (getcwd(tmp, sizeof(tmp)))
 			printf("%s\n", tmp);
@@ -56,14 +56,16 @@ int	ft_env(t_pars *arg, char **str)
 	int		i;
 
 	i = -1;
-	if (str[1])
+	if (arg && str && str[1])
 		return (ft_putendl_fd("Invalid arg's number", 2), 1);
-	else
+	else if (arg)
+	{
 		while (arg->envp && arg->envp[++i])
 		{
 			if (ft_strchr(arg->envp[i], '='))
 				printf("%s\n", arg->envp[i]);
 		}
+	}
 	return (0);
 }
 
@@ -76,14 +78,14 @@ int	ft_cd(t_pars *data, char **p)
 	tmp = ft_split(cmd, ' ');
 	ft_export(data, tmp);
 	(free(cmd), ft_free_2_dm(tmp));
-	if (p[1])
+	if (p && p[1])
 	{
 		if (ft_strlen(p[1]) > 255)
 			return (ft_putendl_fd("file name to long!", 2), -1);
 		else if (chdir(p[1]) != 0)
 			return (ft_putendl_fd(strerror(errno), 2), -1);
 	}
-	else
+	else if (data && data->envp)
 	{
 		cmd = ft_getenv(data->envp, "HOME");
 		if (chdir(cmd) != 0)
@@ -98,7 +100,7 @@ int	ft_cd(t_pars *data, char **p)
 
 int	ft_builthing(t_cmd *cmd, t_pars *arg)
 {
-	while (cmd)
+	while (cmd && cmd->data && arg)
 	{
 		if (!ft_strcmp(cmd->data[0], "export"))
 			arg->ext_st = ft_export(arg, cmd->data);

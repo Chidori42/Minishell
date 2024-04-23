@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/23 02:20:35 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 05:03:39 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,27 @@ static void ft_update_shell_lvl(t_pars *data)
     char        *tmp;
     char        **tab;
     
-    tmp = ft_strs_join(ft_strdup("export "), \
-        ft_getenv(data->envp, "SHLVL"));
-    tab = ft_split(tmp, ' ');
-    free(tmp);
-    tmp = tab[1];
-    tab[1] = ft_itoa(ft_atoi(tab[1]) + 1);
-    tab[1] = ft_strs_join(ft_strdup("SHLVL="), tab[1]);
-    ft_export(data, tab);
-    ft_free_2_dm(tab);
-    free(tmp);
+    if (data->envp)
+    { 
+        tmp = ft_strs_join(ft_strdup("export "), \
+            ft_getenv(data->envp, "SHLVL"));
+        tab = ft_split(tmp, ' ');
+        if (tab && tab[0] && tab[1])
+        {
+            free(tmp);
+            tmp = tab[1];
+            tab[1] = ft_itoa(ft_atoi(tab[1]) + 1);
+            tab[1] = ft_strs_join(ft_strdup("SHLVL="), tab[1]);
+            ft_export(data, tab);
+        }
+        ft_free_2_dm(tab);
+        free(tmp);
+    }
 }
 
 void    ft_set_env(t_pars *data, char **env)
 {
-    if (!env[0])
+    if (env && !env[0])
     {
         data->def_path = "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.";
         data->envp = (char **)malloc(sizeof(char *) * 5);
@@ -41,7 +47,7 @@ void    ft_set_env(t_pars *data, char **env)
         data->envp[3] = ft_strdup("_=/usr/bin/env");
         data->envp[4] = NULL;
     }
-    else
+    else if (data)
     {
         data->envp = ft_dup_env(env, NULL);
         ft_update_shell_lvl(data);

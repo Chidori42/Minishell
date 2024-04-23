@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 13:13:34 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/23 03:58:04 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ int 	ft_strcmp(char *s_1, char *s_2)
 	int			i;
 
 	i = 0;
-	if (s_1 && !s_2)
-		return (1);
-	else if (!s_1 && s_2)
+	if (!s_1 || !s_2)
 		return (-1);
-	while (s_1[i] && s_2[i] && s_1[i] == s_2[i])
+	while (s_1[i] && s_2[i] && (s_1[i] == s_2[i]))
 		i++;
 	return (s_1[i] - s_2[i]);
 }
