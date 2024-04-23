@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 03:58:04 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:23:40 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,33 @@ void	ft_parse_error(char *str)
 	write(2, str, ft_strlen(str));
 	write(2, "'\n", 2);
 	free (str);
+}
+
+int	ft_dup_fd(int new, int old)
+{
+	if (dup2(new, old) < 0)
+		return (ft_putendl_fd(strerror(errno), 2), -1);
+	return (0);
+}
+
+int	ft_is_builtin(char **tab)
+{
+	char		*ref;
+	char		*ref_1;
+
+	ref = "cd unset exit";
+	ref_1 = "echo pwd env";
+	if (tab)
+	{
+		if (!ft_strcmp(tab[0], "export") && tab[1])
+			return (2);
+		else if (ft_strnstr(ref_1, tab[0], ft_strlen(ref_1)) || \
+			!ft_strcmp(tab[0], "export"))
+			return (1);
+		else if (tab[0] && ft_strnstr(ref, tab[0], ft_strlen(ref)))
+			return (2);
+	}
+	return (0);
 }
 
 int	ft_free_2_dm(char **arr)

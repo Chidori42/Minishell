@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/22 01:15:16 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/23 19:33:40 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_puterror(char *file)
 	msg = ft_strs_join(msg, ft_strdup(file));
 	ft_putendl_fd(msg, 2);
 	free (msg);
-	return (0);
+	return (-1);
 }
 
 static int	ft_open_file(char *pth, char *op)
@@ -31,6 +31,7 @@ static int	ft_open_file(char *pth, char *op)
 	fd = -1;
 	if (pth && op)
 	{
+
 		if (!ft_strcmp(op, "<<"))
 		{
 			fd = open(pth, O_CREAT | O_RDONLY, 0666);
@@ -66,7 +67,7 @@ static int	ft_redir_in(t_pars *args, t_cmd *node, char **redir)
 		(1 < ft_count_words(tmp[0])))
 		return(ft_putendl_fd(tmp[1], 2), \
 			ft_free_2_dm(tmp), -1);
-	*node->in = ft_open_file(tmp[0], redir[2]);
+	*node->in = ft_open_file(tmp[0], redir[0]);
 	if (*node->in < 0)
 	{
 		*node->in = 1;
@@ -92,7 +93,7 @@ static int	ft_redir_out(t_pars *args, t_cmd *node, char **redir)
 	if (ft_expander(args, tmp) && (1 < ft_count_words(tmp[0])))
 		return(ft_putendl_fd(tmp[1], 2), \
 			ft_free_2_dm(tmp), -1);
-	*node->out = ft_open_file(tmp[0], NULL);
+	*node->out = ft_open_file(tmp[0], redir[0]);
 	if (*node->out < 0)
 	{
 		*node->out = 1;
@@ -117,7 +118,6 @@ int	ft_redirection(t_pars *args, t_cmd *node)
 				return (-1);
 			redir[0] = node->redir[i];
 			redir[1] = node->redir[i + 1];
-			redir[2] = node->ref[i];
 			if (!ft_strncmp(node->redir[i], ">", 1) && \
 				(ft_redir_out(args, node, redir) < 0))
 				return (free(redir), -1);

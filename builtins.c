@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builting.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/23 04:23:40 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:23:07 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,28 +98,28 @@ int	ft_cd(t_pars *data, char **p)
 	return (0);
 }
 
-int	ft_builthing(t_cmd *cmd, t_pars *arg)
+int	ft_builtins(t_cmd *cmd, t_pars *arg, int i)
 {
-	while (cmd && cmd->data && arg)
+	printf("########## from builtins ###############\n");
+	if (cmd && !cmd->next && (i == 1) && cmd->data && arg)
 	{
 		if (!ft_strcmp(cmd->data[0], "export"))
-			arg->ext_st = ft_export(arg, cmd->data);
+			return (ft_export(arg, cmd->data));
 		else if (!ft_strcmp(cmd->data[0], "cd"))
-			arg->ext_st = ft_cd(arg, cmd->data);
+			return (ft_cd(arg, cmd->data));
 		else if (!ft_strcmp(cmd->data[0], "pwd"))
-			arg->ext_st = ft_pwd(cmd->data);
+			return (ft_pwd(cmd->data));
 		else if (!ft_strcmp(cmd->data[0], "env"))
-			arg->ext_st = ft_env(arg, cmd->data);
+			return (ft_env(arg, cmd->data));
 		else if (!ft_strcmp(cmd->data[0], "echo"))
-			arg->ext_st = ft_echo(cmd->data);
+			return (ft_echo(cmd->data));
 		else if (!ft_strcmp(cmd->data[0], "unset"))
-			arg->ext_st = ft_unset(arg, cmd->data);
+			return (ft_unset(arg, cmd->data));
 		else if (!ft_strcmp(cmd->data[0], "exit"))
 		{
 			printf("exit\n");
 			exit(EXIT_SUCCESS);
 		}
-		cmd = cmd->next;
 	}
-	return (arg->ext_st);
+	return (10);
 }

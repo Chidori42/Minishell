@@ -23,9 +23,9 @@ SRCS                    =	minishell.c \
 							ft_signals.c \
 							ft_export.c \
 							utils_unset.c \
-							builting.c \
+							builtins.c \
 							pars_export.c \
-							utils_builting.c \
+							utils_builtins.c \
 							set_env.c
 
 

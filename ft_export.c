@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/23 04:47:02 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:09:46 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// !!! NEED TO BE CHECKED !!! ASAP
+
+// bash-3.2$ export $s="asd"
+// bash: export: `=asd': not a valid identifier
 
 char	**ft_dup_env(char **envp, char *var)
 {

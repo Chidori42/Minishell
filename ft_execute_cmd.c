@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 05:27:22 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:45:51 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@ static int	ft_is_there_slash(char *s)
 }
 
 
-static void	ft_close_fd(t_pars *args, int i)
+static int	ft_cls_fd(t_pars *args, int i)
 {
 	if (((i % 2) != 0) && (args->p_1[0] != 0) && \
 		(close(args->p_1[0]) < 0))
-		ft_putendl_fd(strerror(errno), 2);
+		return (ft_putendl_fd(strerror(errno), 2), -1);
 	else if (((i % 2) == 0) && (args->p_2[0] != 0) && \
 		(close(args->p_2[0]) < 0))
-		ft_putendl_fd(strerror(errno), 2);
+		return (ft_putendl_fd(strerror(errno), 2), -1);
+	return (0);
 }
 
 char *ft_getenv(char **envp, char *name)
@@ -84,7 +85,7 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 	return (ft_free_2_dm(paths), free(tmp), cmd);
 }
 
-int	ft_execute_cmd(t_pars *args, t_cmd *node, int i)
+void	ft_execute_cmd(t_pars *args, t_cmd *node, int i)
 {
 	char		*cmd_path;
 	char		*error_msg;
@@ -92,22 +93,23 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node, int i)
 	if (args && node)
 	{
 		cmd_path = node->data[0];
-		ft_close_fd(args, i);
+		if (ft_cls_fd(args, i) || ft_dup_fd(*node->in, 0) || \
+			ft_dup_fd(*node->out, 1))
+			exit(errno);
 		if (!ft_is_there_slash(node->data[0]))
 			cmd_path = ft_get_path(args, node->data[0]);
-		if ((0 <= dup2(*node->in, 0)) && (0 <= dup2(*node->out, 1)))
+		if (ft_is_builtin(node->data))
+			args->ext_st = ft_builtins(node, args, 1);
+		else if (execve(cmd_path, node->data, args->envp) < 0)
 		{
-			if (execve(cmd_path, node->data, args->envp) < 0)
-			{
-				error_msg = ft_strjoin("command not found: ", \
-					node->data[0]);
-				ft_putendl_fd(error_msg, 2);
-				free (error_msg);
-				exit(127);
-			}
-		}
-		else
-			ft_putendl_fd(strerror(errno), 2);
+			free (cmd_path);
+			error_msg = ft_strjoin("command not found: ", \
+				node->data[0]);
+			ft_putendl_fd(error_msg, 2);
+			free (error_msg);
+			exit(127);
+		};
+		free (cmd_path);
+		exit(args->ext_st);
 	}
-	exit(errno);
 }
