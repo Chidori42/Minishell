@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/22 21:02:02 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/23 01:45:07 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ typedef struct  s_pars
 
 //*********************** minishell function prototypes: *********************//
 
-int		ft_heredoc(t_pars *ags, char *lm, char *rf, int *fd);
 char	**ft_get_cmd(t_pars *args, char **tab, int i);
 t_cmd	*ft_create_list(t_pars *args, char **tab);
 int		ft_check_parse(t_pars *args, char *s);
 int		ft_scape_quotes(char *input, int i);
+char	*ft_heredoc(t_pars *ags, char *lm);
 int		ft_check_redir(char *s, int *i);
 int		ft_check_flu_ct(char *s, int i);
 char 	**ft_resplit_input(char **tab);
@@ -70,6 +70,7 @@ int		ft_count_words(char *input);
 int		ft_is_there_quotes(char *s);
 int		ft_free_2_dm(char **arr);
 void	ft_free_list(t_cmd *lst);
+char	*ft_remove_qts(char *s);
 void	ft_heredoc_signals();
 void	ft_parent_signals();
 int		ft_is_redir(char *s);
@@ -100,3 +101,5 @@ void	ft_display_env(t_pars *data);
 void	ft_set_env(t_pars *data, char **env);
 
 #endif
+
+//****************************************************************************//

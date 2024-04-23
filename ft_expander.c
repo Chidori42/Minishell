@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 12:49:55 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/21 20:41:26 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,16 @@ int	ft_expander(t_pars *args, char **tab)
 	
 	j = 0;
 	i = -1;
-	ind = -1;
 	while (tab && tab[++i])
 	{
-		if ((i == 0) || (0 < i && strcmp(tab[i - 1], "<<")))
+		ind = -1;
+		ind = ft_expansion(tab[i], ind);
+		if (0 <= ind && ++j)
 		{
-			ind = ft_expansion(tab[i], ind);
-			if (0 <= ind && ++j)
-			{
-				tmp = tab[i];
-				len = ft_word_len(tmp, (ind + 1));
-				tab[i] = ft_expand(args, tmp, ind, len);
-				i--;
-			}
+			tmp = tab[i];
+			len = ft_word_len(tmp, (ind + 1));
+			tab[i] = ft_expand(args, tmp, ind, len);
+			i--;
 		}
 	}
 	return (j);

@@ -6,20 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 13:51:09 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:40:38 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	ft_close_pipe(int *p)
-{
-	if (p)
-	{
-		if ((close (p[0]) < 0) || (close (p[1]) < 0))
-			ft_putendl_fd(strerror(errno), 2);
-	}
-}
 
 static int	ft_generate_name(char **name)
 {
@@ -27,13 +18,13 @@ static int	ft_generate_name(char **name)
 	char		*tmp;
 
 	i = 1;
-	*name = ft_strdup("pipe");
+	*name = ft_strdup("/tmp/pipe");
 	if (!*name)
 		return (ft_putendl_fd(strerror(errno), 2), -1);
 	while (!access(*name, F_OK))
 	{
 		tmp = *name;
-		*name = ft_strjoin("pipe_", ft_itoa(i));
+		*name = ft_strs_join(ft_strdup("/tmp/pipe_"), ft_itoa(i));
 		if (!*name)
 			return (ft_putendl_fd(strerror(errno), 2), -1);
 		free (tmp);
@@ -42,30 +33,49 @@ static int	ft_generate_name(char **name)
 	return (0);
 }
 
-static int	ft_pipe_file(int *tab)
+static int	ft_pipe_file(char **path, int *tab)
 {
 	char		*pipe;
 
 	pipe = NULL;
+	*path = NULL;
 	if (tab && !ft_generate_name(&pipe))
 	{
-		tab[0] = open(pipe, O_CREAT | O_TRUNC, 0666);
+		tab[0] = open(pipe, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 		if ((tab[0] < 0))
 			return (free(pipe), \
 				ft_putendl_fd(strerror(errno), 2), -1);
-		tab[1] = open(pipe, O_WRONLY, 0222);
-		if ((tab[1] < 0) && !close(tab[0]))
-		{
-			unlink(pipe);
-			return (free(pipe), \
-				ft_putendl_fd(strerror(errno), 2), -1);
-		}
-		unlink(pipe);
+		*path = pipe;
 	}
-	return (free(pipe), 0);
+	return (0);
 }
 
-static int ft_read(t_pars *ags, char **buf, char **lim, int *fds)
+static void ft_child(t_pars *ags, char *lim, int fd, int qt)
+{
+	char	 **buf;
+	
+	ft_heredoc_signals();
+	buf = (char **)malloc(sizeof(char) * 2);
+	if (!buf)
+	{
+		ft_putendl_fd("malloc failure", 2);
+		exit(1);
+	}
+	buf[1] = NULL;
+	while (true)
+	{
+		buf[0]= readline("> ");
+		if (!buf[0]|| !ft_strcmp(buf[0], lim))
+			kill(getpid(), SIGUSR1);
+		if (qt)
+			ft_expander(ags, buf);
+		buf[0]= ft_strs_join(buf[0], ft_strdup("\n"));
+		ft_putstr_fd(buf[0], fd);
+		free (buf[0]);
+	}
+}
+
+static int ft_read(t_pars *ags, char *lim, int fd, int qt)
 {
 	pid_t			pid;
 	int				ext_st;
@@ -73,52 +83,32 @@ static int ft_read(t_pars *ags, char **buf, char **lim, int *fds)
 	if ((pid = fork()) < 0)
 		return(ft_putendl_fd(strerror(errno), 2), -1);
 	else if (pid == 0)
-	{
-		ft_heredoc_signals();
-		buf[0] = ft_strdup("");
-		while (true)
-		{
-			free (buf[0]);
-			buf[0]= readline("> ");
-			if (!buf[0]|| !ft_strcmp(buf[0], lim[0]))
-				kill(getpid(), SIGUSR1);
-			if (!ft_is_there_quotes(lim[1]))
-				ft_expander(ags, &buf[0]);
-			buf[0]= ft_strs_join(buf[0], ft_strdup("\n"));
-			ft_putstr_fd(buf[0], fds[1]);
-		}
-	}
+		ft_child(ags, lim, fd, qt);
 	waitpid(pid, &ext_st, 0);
-	if (ext_st <= 128 || close(fds[1]) < 0)
+	if ((close(fd) < 0) || (ext_st <= 128))
 		return (ft_putendl_fd(strerror(errno), 2), -1);
-	return (free(buf), 0);
+	return (0);
 }
 
-int	ft_heredoc(t_pars *ags, char *lm, char *rf, int *fd)
-	{
-	int		fds[2];
-	char	**buf;
-	char	**lim;
+char	*ft_heredoc(t_pars *ags, char *lm)
+{
+	int		qt;
+	int		fd;
+	char	*path;
 
-	fds[0] = -1;
-	lim = NULL;
-	if (0 <= ft_pipe_file(fds) && lm)
+	qt = 1;
+	fd = -1;
+	if (lm && (0 <= ft_pipe_file(&path, &fd)))
 	{
-		*fd = fds[0];
-		buf = (char **)malloc(sizeof(char*) * 2);
-		lim = (char **)malloc(sizeof(char*) * 2);
-		if (!buf || !lim)
-			return (ft_putendl_fd("malloc failure", 2), -1);
-		if (buf)
+		if (ft_is_there_quotes(lm))
 		{
-			buf[0] = (char *)malloc(sizeof(char) * 10);
-			buf[1] = NULL;
-			lim[0] = lm;
-			lim[1] = rf;
-			if (!ft_read(ags, buf,lim, fds))
-				return (free(lim), fds[0]);
+			lm = ft_remove_qts(lm);
+			qt = 0;
 		}
-		ft_close_pipe(fds);
+		if (!ft_read(ags, lm, fd, qt))
+			return (free(lm), path);
+		else if (close (fd) < 0)
+			ft_putendl_fd(strerror(errno), 2);
 	}
-	return (free(lim), -1);
+	return (free(lm), NULL);
 }

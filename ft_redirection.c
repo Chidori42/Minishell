@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 13:37:18 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/22 01:15:16 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,26 @@ static int	ft_puterror(char *file)
 	return (0);
 }
 
-static int	ft_open_file(t_pars *args, char *path, char *ref, char *opr)
+static int	ft_open_file(char *pth, char *op)
 {
 	int			fd;
 
 	fd = -1;
-	if (path && opr)
+	if (pth && op)
 	{
-		if (!ft_strcmp(opr, "<<") && \
-			(ft_heredoc(args, path, ref, &fd) < 0))
-			return (-1);
-		else if (!ft_strcmp(opr, "<") && \
-			(fd = open(path, O_RDONLY, 0444)) < 0)
-			return (ft_puterror(path), -1);
-		else if (!ft_strcmp(opr, ">") && \
-			(fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666)) < 0)
-			return (ft_puterror(path), -1);
-		else if (!ft_strcmp(opr, ">>") && \
-			(fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666)) < 0)
-			return (ft_puterror(path), -1);
+		if (!ft_strcmp(op, "<<"))
+		{
+			fd = open(pth, O_CREAT | O_RDONLY, 0666);
+			unlink (pth);
+		}
+		else if (!ft_strcmp(op, "<"))
+			fd = open(pth, O_RDONLY, 0444);
+		else if (!ft_strcmp(op, ">"))
+			fd = open(pth, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+		else if (!ft_strcmp(op, ">>"))
+			fd = open(pth, O_CREAT | O_WRONLY | O_APPEND, 0666);
+		if (fd < 0)
+			return (ft_puterror(pth), -1);
 	}
 	return (fd);
 }
@@ -51,19 +52,21 @@ static int	ft_redir_in(t_pars *args, t_cmd *node, char **redir)
 {
 	char		**tmp;
 
-	tmp = (char **)malloc(sizeof(char *) * 2);
+	tmp = (char **)malloc(sizeof(char *) * 3);
 	if (!tmp)
 		return (-1);
 	tmp[0] = ft_strdup(redir[1]);
-	tmp[1] = NULL;
+	tmp[1] = ft_strs_join(ft_strdup(redir[1]), \
+			ft_strdup(": ambiguous redirect"));
+	tmp[2] = NULL;
 	if (*node->out != 1 && (close(*node->in) < 0))
-		return (ft_putendl_fd(strerror(errno), 2), -1);
+		return (ft_free_2_dm(tmp), \
+			ft_putendl_fd(strerror(errno), 2), -1);
 	if (ft_strcmp(redir[0], "<<") && ft_expander(args, tmp) && \
 		(1 < ft_count_words(tmp[0])))
-		return(ft_free_2_dm(tmp), \
-			ft_putendl_fd(ft_strs_join(ft_strdup(redir[1]), \
-			ft_strdup(": ambiguous redirect")), 2), -1);
-	*node->in = ft_open_file(args, redir[1], redir[2], redir[0]);
+		return(ft_putendl_fd(tmp[1], 2), \
+			ft_free_2_dm(tmp), -1);
+	*node->in = ft_open_file(tmp[0], redir[2]);
 	if (*node->in < 0)
 	{
 		*node->in = 1;
@@ -76,18 +79,20 @@ static int	ft_redir_out(t_pars *args, t_cmd *node, char **redir)
 {
 	char		**tmp;
 
-	tmp = (char **)malloc(sizeof(char *) * 2);
+	tmp = (char **)malloc(sizeof(char *) * 3);
 	if (!tmp)
 		return (-1);
 	tmp[0] = ft_strdup(redir[1]);
-	tmp[1] = NULL;
+	tmp[1] = ft_strs_join(ft_strdup(redir[1]), \
+			ft_strdup(": ambiguous redirect"));
+	tmp[2] = NULL;
 	if (*node->out != 1 && (close(*node->out) < 0))
-		return (ft_putendl_fd(strerror(errno), 2), -1);
+		return (ft_free_2_dm(tmp), \
+			ft_putendl_fd(strerror(errno), 2), -1);
 	if (ft_expander(args, tmp) && (1 < ft_count_words(tmp[0])))
-		return(ft_free_2_dm(tmp), \
-			ft_putendl_fd(ft_strs_join(ft_strdup(redir[1]), \
-			ft_strdup(": ambiguous redirect")), 2), -1);
-	*node->out = ft_open_file(args, redir[1], NULL, redir[0]);
+		return(ft_putendl_fd(tmp[1], 2), \
+			ft_free_2_dm(tmp), -1);
+	*node->out = ft_open_file(tmp[0], NULL);
 	if (*node->out < 0)
 	{
 		*node->out = 1;
@@ -105,9 +110,9 @@ int	ft_redirection(t_pars *args, t_cmd *node)
 	redir = NULL;
 	if (node && node->redir)
 	{
+		redir = (char **)malloc(sizeof(char*) * 3);
 		while (node->redir[++i])
 		{
-			redir = (char **)malloc(sizeof(char*) * 3);
 			if (!redir)
 				return (-1);
 			redir[0] = node->redir[i];

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/20 12:27:06 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/22 00:13:56 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int ft_count_qts(char *s)
 	return (nb);
 }
 
-static char	*ft_remove_qts(char *s)
+char	*ft_remove_qts(char *s)
 {
 	int			t[2];
 	int			qts;
