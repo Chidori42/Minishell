@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:26:36 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 04:06:25 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/25 01:00:03 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,42 +28,32 @@ void	ft_free_list(t_cmd *lst)
 		while (lst->redir && lst->redir[++i])
 			free (lst->redir[i]);
 		free (lst->redir);
-		i = -1;
-		while (lst->ref && lst->ref[++i])
-			free (lst->ref[i]);
-		free (lst->ref);
 		lst = lst->next;
 		free (tmp);
 	}
 }
 
-static void	ft_set_fds(t_pars *as, t_cmd *nd, int i)
+static t_cmd	*ft_create_node(t_pars *ags, char **t, int i)
 {
-	if ((i % 2) != 0)
-	{
-		nd->in = &as->p_2[0];
-		nd->out = &as->p_1[1];
-	}
-	else if ((i % 2) == 0)
-	{
-		nd->in = &as->p_1[0];
-		nd->out = &as->p_2[1];
-	}
-}
-
-static t_cmd	*ft_create_node()
-{
+	(void)		ags;
+	(void)		i;
+	(void)		t;
 	t_cmd		*node;
-
+	
 	node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (node)
 	{
-		node->in = NULL;
-		node->out = NULL;
-		node->data = NULL;
-		node->redir = NULL;
-		node->ref = NULL;
+		node->in = 0;
+		node->out = 1;
 		node->next = NULL;
+		node->data = NULL;
+		if (ft_get_cmd(&node->data, t, i))
+			return (free(node), NULL);
+		if (ft_get_redir(&node->redir, t, i))
+			return (ft_free_2_dm(node->data), free(node), NULL);
+		if (ft_expander(ags, node->data) || \
+			ft_resplit_input(&node->data))
+			return (ft_free_2_dm(node->data), free(node), NULL);
 	}	
 	return (node);
 }
@@ -86,31 +76,25 @@ static void ft_lst_add_back(t_cmd **head, t_cmd *new)
 	}
 }
 
-t_cmd	*ft_create_list(t_pars *args, char **tab)
+int	ft_create_list(t_pars *args, char **tab)
 {
 	int			i;
 	int			j;
 	t_cmd		*node;
-	t_cmd		*head;
 
 	j = 0;
 	i = -1;
-	head = NULL;
+	args->lst = NULL;
 	while (args && tab && tab[++i])
 	{
-		node = ft_create_node();
-		if (node)
-		{
-			ft_set_fds(args, node, ++j);
-			node->data = ft_get_cmd(args, tab, i);
-			node->redir = ft_get_redir(args, tab, i);
-			node->ref = ft_get_redir(args, tab, i);
-			ft_lst_add_back(&head, node);
-		}
+		node = ft_create_node(args, tab, i);
+		if (!node)
+			return (ft_free_list(args->lst), 1);
+		ft_lst_add_back(&args->lst, node);
 		while (tab[i + 1] && tab[++i] && \
 			ft_strcmp("|", tab[i]))
 			;
 	}
-	ft_remove_quotes(head);
-	return (head);
+	ft_remove_quotes(args->lst);
+	return (1 - (1 * (args->lst != NULL)));
 }

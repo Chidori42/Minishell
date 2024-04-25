@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 12:31:11 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:09:51 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,28 @@ int	ft_count_words(char *input)
 	return  (nb);
 }
 
-char	**ft_split_input(char *input)
+int	ft_split_input(char ***tab, char *input)
 {
 	int			t[3];
 	int			l_nb;
 	int			wrd_len;
-	char		**words;
 
 	t[1] = 0;
 	t[2] = 0;
 	l_nb = ft_count_words(input);
-	words = (char **)malloc(sizeof(char *) * (l_nb + 1));
-	if (words)
+	(*tab) = (char **)malloc(sizeof(char *) * (l_nb + 1));
+	if (!(*tab))
+		return (free(input), -1);
+	t[0] = -1;
+	while (++t[0] < l_nb)
 	{
-		t[0] = -1;
-		while (++t[0] < l_nb)
-		{
-			t[2] = ft_scape_spaces(input, t[2]);
-			wrd_len = ft_word_len(input, &t[1]);
-			words[t[0]] = ft_substr(input, t[2], wrd_len);
-			t[2] += wrd_len;
-		}
-		words[l_nb] = NULL;
+		t[2] = ft_scape_spaces(input, t[2]);
+		wrd_len = ft_word_len(input, &t[1]);
+		(*tab)[t[0]] = ft_substr(input, t[2], wrd_len);
+		if (!(*tab)[t[0]])
+			return (ft_free_2_dm((*tab)), -1);
+		t[2] += wrd_len;
 	}
-	return (free(input), words);
+	(*tab)[l_nb] = NULL;
+	return (0);
 }

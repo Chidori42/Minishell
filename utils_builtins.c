@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_builting.c                                   :+:      :+:    :+:   */
+/*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/23 03:11:50 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/24 09:56:31 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ void ft_display_env(t_pars *data)
 	i = -1;
 	while (data->envp && data->envp[++i])
 	{
-		v_name = ft_substr(data->envp[i], 0, ft_var_len(data->envp[i]));
+		v_name = ft_substr(data->envp[i], 0, \
+			ft_var_len(data->envp[i]));
 		v_value = ft_substr(data->envp[i], \
-		(ft_var_len(data->envp[i]) + 1), \
-		(ft_strlen(data->envp[i]) - ft_strlen(v_name)));
+			(ft_var_len(data->envp[i]) + 1), \
+			(ft_strlen(data->envp[i]) - ft_strlen(v_name)));
 		if (!ft_strchr(data->envp[i], '='))
 			printf("declare -x %s\n", v_name);
-		else if (ft_strcmp(data->envp[i], "_=/usr/bin/env"))
+		else if (ft_strcmp(v_name, "_"))
 		{
 			if (v_value && !v_value[0])
 				printf("declare -x %s=\'\'\n", v_name);

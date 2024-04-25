@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 20:41:26 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 01:06:07 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ static char	*ft_expand(t_pars *args, char *s, int ind, int len)
 	char		*value;
 
 	ptr = s;
+	if (!args || !s)
+		return (NULL);
 	tmp = ft_substr(s, (ind + 1), len);
+	if (!tmp)
+		return (NULL);
 	value = ft_getenv(args->envp, tmp);
 	ptr = ft_strs_join(ft_substr(s, 0, ind), \
 		ft_strdup(value));
@@ -77,24 +81,24 @@ static int	ft_expansion(char *s, int i)
 int	ft_expander(t_pars *args, char **tab)
 {
 	int			i;
-	int			j;
 	int			ind;
 	int			len;
 	char		*tmp;
 	
-	j = 0;
 	i = -1;
 	while (tab && tab[++i])
 	{
 		ind = -1;
 		ind = ft_expansion(tab[i], ind);
-		if (0 <= ind && ++j)
+		if (0 <= ind)
 		{
 			tmp = tab[i];
 			len = ft_word_len(tmp, (ind + 1));
 			tab[i] = ft_expand(args, tmp, ind, len);
+			if (!tab[i])
+				return (-1);
 			i--;
 		}
 	}
-	return (j);
+	return (0);
 }

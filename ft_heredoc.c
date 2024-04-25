@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 04:05:08 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:01:39 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_sig;
 
 static int	ft_generate_name(char **name)
 {
@@ -57,22 +59,21 @@ static void ft_child(t_pars *ags, char *lim, int fd, int qt)
 	ft_heredoc_signals();
 	buf = (char **)malloc(sizeof(char *) * 2);
 	if (!buf)
-	{
-		ft_putendl_fd("malloc failure", 2);
 		exit(1);
-	}
-	buf[1] = NULL;
 	while (true)
 	{
-		buf[0]= readline("> ");
+		buf[0] = readline("> ");
+		if (!buf[0])
+				kill(getpid(), SIGUSR1);
 		if (!buf[0]|| !ft_strcmp(buf[0], lim))
-			kill(getpid(), SIGUSR1);
+			break;
 		if (qt)
 			ft_expander(ags, buf);
-		buf[0]= ft_strs_join(buf[0], ft_strdup("\n"));
+		buf[0] = ft_strs_join(buf[0], ft_strdup("\n"));
 		ft_putstr_fd(buf[0], fd);
 		free (buf[0]);
 	}
+	exit(0);
 }
 
 static int ft_read(t_pars *ags, char *lim, int fd, int qt)
@@ -85,9 +86,9 @@ static int ft_read(t_pars *ags, char *lim, int fd, int qt)
 	else if (pid == 0)
 		ft_child(ags, lim, fd, qt);
 	waitpid(pid, &ext_st, 0);
-	if ((close(fd) < 0) || (ext_st <= 128))
+	if ((close(fd) < 0))
 		return (ft_putendl_fd(strerror(errno), 2), -1);
-	return (0);
+	return (ext_st);
 }
 
 char	*ft_heredoc(t_pars *ags, char *lm)
@@ -107,8 +108,6 @@ char	*ft_heredoc(t_pars *ags, char *lm)
 		}
 		if (!ft_read(ags, lm, fd, qt))
 			return (free(lm), path);
-		else if (close (fd) < 0)
-			ft_putendl_fd(strerror(errno), 2);
 	}
 	return (free(lm), NULL);
 }

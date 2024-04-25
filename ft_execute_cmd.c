@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 18:45:51 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 00:57:01 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,39 +21,6 @@ static int	ft_is_there_slash(char *s)
 		if (s[i] == '/')
 			return (1);
 	return (0);
-}
-
-
-static int	ft_cls_fd(t_pars *args, int i)
-{
-	if (((i % 2) != 0) && (args->p_1[0] != 0) && \
-		(close(args->p_1[0]) < 0))
-		return (ft_putendl_fd(strerror(errno), 2), -1);
-	else if (((i % 2) == 0) && (args->p_2[0] != 0) && \
-		(close(args->p_2[0]) < 0))
-		return (ft_putendl_fd(strerror(errno), 2), -1);
-	return (0);
-}
-
-char *ft_getenv(char **envp, char *name)
-{
-	int			i;
-	char		*vl;
-	char		**var;
-
-	i = -1;
-	while (envp && name && envp[++i])
-	{
-		var = ft_split(envp[i], '=');
-		if (!ft_strcmp(var[0], name))
-		{
-			vl = ft_strdup(var[1]);
-			ft_free_2_dm(var);
-			return (vl);
-		}
-		ft_free_2_dm(var);
-	}
-	return (NULL);
 }
 
 static char	*ft_get_path(t_pars *args, char *cmd)
@@ -85,17 +52,17 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 	return (ft_free_2_dm(paths), free(tmp), cmd);
 }
 
-void	ft_execute_cmd(t_pars *args, t_cmd *node, int i)
+int	ft_execute_cmd(t_pars *args, t_cmd *node)
 {
 	char		*cmd_path;
 	char		*error_msg;
 
+	args->ext_st = 0;
 	if (args && node)
 	{
 		cmd_path = node->data[0];
-		if (ft_cls_fd(args, i) || ft_dup_fd(*node->in, 0) || \
-			ft_dup_fd(*node->out, 1))
-			exit(errno);
+		if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
+			return (errno);
 		if (!ft_is_there_slash(node->data[0]))
 			cmd_path = ft_get_path(args, node->data[0]);
 		if (ft_is_builtin(node->data))
@@ -106,10 +73,9 @@ void	ft_execute_cmd(t_pars *args, t_cmd *node, int i)
 			error_msg = ft_strjoin("command not found: ", \
 				node->data[0]);
 			ft_putendl_fd(error_msg, 2);
-			free (error_msg);
-			exit(127);
+			return (free (error_msg), 127);
 		};
 		free (cmd_path);
-		exit(args->ext_st);
 	}
+	return (args->ext_st);
 }

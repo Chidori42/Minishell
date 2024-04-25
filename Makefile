@@ -15,7 +15,6 @@ SRCS                    =	minishell.c \
 							ft_create_tab.c \
 							ft_check_red.c \
 							ft_get_redir.c \
-							ft_execution.c \
 							ft_expander.c \
 							ft_utils_1.c \
 							ft_heredoc.c \
@@ -33,7 +32,7 @@ SRCS                    =	minishell.c \
 
 OBJS                    = $(SRCS:%c=%o)
 
-FLAGS                   = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS                   = -Wall -Wextra -Werror #-g -fsanitize=address
 
 NAME                    = minishell
 
@@ -73,13 +72,13 @@ all                     : $(NAME)
 
 
 %o                      : %c minishell.h $(LIBFT) $(LIBFT_H)
-	gcc  -c $(FLAGS) $< -o $@
+	gcc  -c $(FLAGS) $< -o $@ -g -fsanitize=address
 
 $(LIBFT)                : $(LIBFT_SRCS) $(LIBFT_H)
 	make -C ./libft
 
 $(NAME)                 : $(LIBFT) $(OBJS)
-	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline -g -fsanitize=address
 
 clean                   :
 	rm -f *.o

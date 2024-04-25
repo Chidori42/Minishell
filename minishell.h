@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 19:02:49 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 00:34:24 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,10 @@
 
 typedef struct   s_cmd
 {
-	int				*in;
-	int				*out;
+	int				in;
+	int				out;
 	char			**data;
 	char			**redir;
-	char 			**ref;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -44,8 +43,6 @@ typedef struct   s_cmd
 
 typedef struct  s_pars
 {
-	int			p_1[2];
-	int			p_2[2];
 	int			ext_st;
 	char		*def_path;
 	char		*input;
@@ -56,17 +53,16 @@ typedef struct  s_pars
 
 //*********************** minishell function prototypes: *********************//
 
-char	**ft_get_redir(t_pars *args, char **tab, int i);
-char	**ft_get_cmd(t_pars *args, char **tab, int i);
-t_cmd	*ft_create_list(t_pars *args, char **tab);
+int		ft_get_redir(char ***redir, char **tab, int i);
+int		ft_get_cmd(char ***data, char **tab, int i);
+int		ft_split_input(char ***tab, char *input);
+int		ft_create_list(t_pars *args, char **tab);
 int		ft_check_parse(t_pars *args, char *s);
 int		ft_scape_quotes(char *input, int i);
 char	*ft_heredoc(t_pars *ags, char *lm);
 int		ft_check_redir(char *s, int *i);
-int		ft_check_flu_ct(char *s, int i);
-char 	**ft_resplit_input(char **tab);
-char	**ft_split_input(char *input);
 void	ft_remove_quotes(t_cmd *lst);
+int 	ft_resplit_input(char ***tab);
 int		ft_count_words(char *input);
 int		ft_is_there_quotes(char *s);
 int		ft_free_2_dm(char **arr);
@@ -78,7 +74,6 @@ void	ft_parent_signals();
 int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
 void	ft_parse_error(char *str);
-int		ft_execution(t_pars *args);
 int		ft_dup_fd(int new, int old);
 int		ft_execute_lst(t_pars *args);
 char	*ft_inject_space(char *input);
@@ -87,8 +82,8 @@ char	*ft_strs_join(char *s1, char *s2);
 char 	*ft_getenv(char **envp, char *name);
 int		ft_expander(t_pars *args, char **tab);
 int		ft_find_second(char *s, char qt, int i);
+int		ft_execute_cmd(t_pars *args, t_cmd *node);
 int		ft_redirection(t_pars *args, t_cmd *node);
-void	ft_execute_cmd(t_pars *args, t_cmd *node, int i);
 
 /*********************************************************/
 int		ft_var_len(char *arg);

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 19:33:40 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 00:00:40 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,17 @@ static int	ft_redir_in(t_pars *args, t_cmd *node, char **redir)
 	tmp[1] = ft_strs_join(ft_strdup(redir[1]), \
 			ft_strdup(": ambiguous redirect"));
 	tmp[2] = NULL;
-	if (*node->out != 1 && (close(*node->in) < 0))
+	if (node->out != 1 && (close(node->in) < 0))
 		return (ft_free_2_dm(tmp), \
 			ft_putendl_fd(strerror(errno), 2), -1);
 	if (ft_strcmp(redir[0], "<<") && ft_expander(args, tmp) && \
 		(1 < ft_count_words(tmp[0])))
 		return(ft_putendl_fd(tmp[1], 2), \
 			ft_free_2_dm(tmp), -1);
-	*node->in = ft_open_file(tmp[0], redir[0]);
-	if (*node->in < 0)
+	node->in = ft_open_file(tmp[0], redir[0]);
+	if (node->in < 0)
 	{
-		*node->in = 1;
+		node->in = 1;
 		return (ft_free_2_dm(tmp), -1);
 	}
 	return (ft_free_2_dm(tmp), 0);
@@ -87,16 +87,16 @@ static int	ft_redir_out(t_pars *args, t_cmd *node, char **redir)
 	tmp[1] = ft_strs_join(ft_strdup(redir[1]), \
 			ft_strdup(": ambiguous redirect"));
 	tmp[2] = NULL;
-	if (*node->out != 1 && (close(*node->out) < 0))
+	if (node->out != 1 && (close(node->out) < 0))
 		return (ft_free_2_dm(tmp), \
 			ft_putendl_fd(strerror(errno), 2), -1);
 	if (ft_expander(args, tmp) && (1 < ft_count_words(tmp[0])))
 		return(ft_putendl_fd(tmp[1], 2), \
 			ft_free_2_dm(tmp), -1);
-	*node->out = ft_open_file(tmp[0], redir[0]);
-	if (*node->out < 0)
+	node->out = ft_open_file(tmp[0], redir[0]);
+	if (node->out < 0)
 	{
-		*node->out = 1;
+		node->out = 1;
 		return (ft_free_2_dm(tmp), -1);
 	}
 	return (ft_free_2_dm(tmp), 0);

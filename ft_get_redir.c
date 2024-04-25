@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:33:05 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/21 12:12:10 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:27:26 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,31 @@ static int	ft_redir_nbr(char **tab, int i)
 	return (nb);
 }
 
-char	**ft_get_redir(t_pars *args, char **tab, int i)
+int	ft_get_redir(char ***redir, char **tab, int i)
 {
-	(void)		args;
 	int			j;
 	int			rdr_nbr;
-    char		**std;
 
 	j = -1;
-    std = NULL;
+    (*redir) = NULL;
 	rdr_nbr = ft_redir_nbr(tab, i);
-	std = (char **)malloc(sizeof(char *) * (rdr_nbr + 1));
-    while (std && tab && tab[i] && \
+	(*redir) = (char **)malloc(sizeof(char *) * (rdr_nbr + 1));
+	if (!(*redir))
+		return(-1);
+    while ((*redir) && tab && tab[i] && \
 		ft_strcmp(tab[i], "|"))
     {
 		if (ft_is_redir(tab[i]) && tab[i + 1])
 		{
-			std[++j] = ft_strdup(tab[i]);
-			std[++j] = ft_strdup(tab[++i]);
+			(*redir)[++j] = ft_strdup(tab[i]);
+			if (!(*redir)[j])
+				return (ft_free_2_dm(*redir), -1);
+			(*redir)[++j] = ft_strdup(tab[++i]);
+			if (!(*redir)[j])
+				return (ft_free_2_dm(*redir), -1);
 		}
 		i++;
     }
-	std[++j] = NULL;
-	return (std);
+	(*redir)[++j] = NULL;
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:45:56 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/23 03:45:39 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:21:38 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,6 @@ int	ft_is_redir(char *s)
 			return (1);
 	}
 	return (0);
-}
-
-int	ft_check_flu_ct(char *s, int i)
-{
-	int			rmid;
-
-	rmid = i;
-	while (i && s[--i])
-	{
-		if ((s[i] < 9 || 13 < s[i]) && s[i] != 32)
-		{
-			if (s[i] == '|' || s[i] == '<' || s[i] == '>')
-				return (ft_parse_error(ft_strdup(&s[rmid])), -1);
-			else
-				return (0);
-		} 
-	}
-	return (1);
 }
 
 static int	ft_cmd_elmnts(char **tab, int i)
@@ -57,29 +39,30 @@ static int	ft_cmd_elmnts(char **tab, int i)
 	return (nb);
 }
 
-char	**ft_get_cmd(t_pars *args, char **tab, int i)
+int	ft_get_cmd(char ***data, char **tab, int i)
 {
 	int			j;
 	int			nb;
-    char		**cmd;
 
 	j = -1;
-    cmd = NULL;
 	nb = ft_cmd_elmnts(tab, i);
-	if (nb)
+	if (!nb)
+		return (0);
+	(*data) = (char **)malloc(sizeof(char *) * (nb + 1));
+	if (!(*data))
+		return (-1);
+	while (*data && tab && tab[i] && ft_strcmp(tab[i], "|"))
 	{
-		cmd = (char **)malloc(sizeof(char *) * (nb + 1));
-		while (cmd && tab && tab[i] && \
-			ft_strcmp(tab[i], "|"))
+		if ((i == 0 && !ft_is_redir(tab[i])) || \
+			(0 < i && !ft_is_redir(tab[i]) && \
+			!ft_is_redir(tab[i - 1])))
 		{
-			if ((i == 0 && !ft_is_redir(tab[i])) || \
-				(0 < i && !ft_is_redir(tab[i]) && \
-				!ft_is_redir(tab[i - 1])))
-				cmd[++j] = ft_strdup(tab[i]);
-			i++;
+			(*data)[++j] = ft_strdup(tab[i]);
+			if (!((*data)[j]))
+				return (ft_free_2_dm(*data), -1);
 		}
-		cmd[++j] = NULL;
-		ft_expander(args, cmd);
+		i++;
 	}
-    return (ft_resplit_input(cmd));
+	(*data)[++j] = NULL;
+    return (0);
 }
