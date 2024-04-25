@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 02:22:13 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 03:07:24 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct  s_pars
 
 int		ft_get_redir(char ***redir, char **tab, int i);
 int		ft_get_cmd(char ***data, char **tab, int i);
+int		ft_set_last_arg(t_pars *args, char **tab);
 int		ft_create_list(t_pars *args, char **tab);
 int		ft_split_input(char ***tab, char *input);
 int		ft_scape_quotes(char *input, int i);

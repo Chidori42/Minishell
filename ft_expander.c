@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 01:29:22 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 03:23:18 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	ft_expander(t_pars *args, char **tab)
 		{
 			tmp = tab[i];
 			len = var_len(&tmp[ind + 1], ind);
-			printf("from expand: %s| len %d\n", tab[i], len);
 			tab[i] = ft_expand(args, tmp, ind, len);
 			if (!tab[i])
 				return (-1);

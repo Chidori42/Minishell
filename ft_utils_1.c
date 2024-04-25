@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 01:11:45 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 03:08:18 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,32 @@ int	ft_free_2_dm(char **arr)
 		free (arr[i]);
 	free (arr);
 	return (0);
+}
+
+int	ft_set_last_arg(t_pars *args, char **tab)
+{
+	int			i;
+	char		**tmp_1;
+	
+	i = -1;
+	tmp_1 = (char **)malloc(sizeof(char *) * 3);
+	if (!tmp_1)
+		return (-1);
+	tmp_1[0] = ft_strdup("export");
+	if (!tmp_1[0])
+		return (ft_free_2_dm(tmp_1), -1);
+	while (tab && tab[++i])
+	{
+		if (!tab[i + 1])
+		{
+			tmp_1[1] = ft_strjoin("_=", tab[i]);
+			if (!tmp_1[1])
+				return (ft_free_2_dm(tmp_1), -1);
+			tmp_1[2] = NULL;
+			ft_export(args, tmp_1);
+		}
+	}
+	return (ft_free_2_dm(tmp_1), 0);
 }
 
 int	ft_is_builtin(char **tab)

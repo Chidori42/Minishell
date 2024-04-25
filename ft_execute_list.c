@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 01:41:38 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 03:36:06 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	ft_execute_lst(t_pars *args)
 	lst = args->lst;
 	while (lst)
 	{
+		ft_set_last_arg(args, lst->data);
 		if ((ft_pipe(lst) < 0) || \
 			(ft_redirection(args, lst) < 0))
 			return (1);
