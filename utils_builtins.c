@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/24 09:56:31 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 09:36:17 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**ft_check_set(char **envp, char *v_name, char *str)
 	return (ft_free_2_dm(envp), free(tmp2), tmp);
 }
 
-void ft_display_env(t_pars *data)
+int	ft_display_env(t_pars *data)
 {
 	char	*v_name;
 	char	*v_value;
@@ -66,4 +66,5 @@ void ft_display_env(t_pars *data)
 		}
 		(free(v_name), free(v_value));
 	}
+	return (0);
 }

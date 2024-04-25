@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/23 02:44:22 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:58:55 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_var(char *p)
 	while (p && p[i])
 	{
 		if (p[i] != '_' && !ft_isalnum(p[i]))
-			return (printf("unset: invalid option"), 1);
+			return (ft_putendl_fd("unset: invalid option", 2), 1);
 		i++;
 	}
 	return (0);
@@ -58,7 +58,12 @@ int	ft_unset(t_pars *arg, char **p)
 	if (p && p[1])
 	{
 		if (check_var(p[1]) == 1)
-			return (-1);
+		{
+			if (p[1][0] == '-')
+				return (2);
+			else
+				return (1);
+		}
 		check_env(arg, p[1]);
 	}
 	return (0);

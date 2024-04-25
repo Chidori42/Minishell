@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/25 03:33:56 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 09:41:01 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// !!! NEED TO BE CHECKED !!! ASAP
-
-// bash-3.2$ export $s="asd"
-// bash: export: `=asd': not a valid identifier
 
 char	**ft_dup_env(char **envp, char *var)
 {
@@ -26,6 +21,8 @@ char	**ft_dup_env(char **envp, char *var)
 
 	i = 0;
 	tmp = ft_strdup("");
+	if (!tmp)
+		return (NULL);
 	while (envp && envp[i])
 	{
 		tmp = ft_strs_join(tmp, ft_strs_join(ft_strdup(envp[i]), \
@@ -69,17 +66,17 @@ static int	ft_update_env(char **envp, char *arg, int i)
 	opr = ft_get_operator(arg);
 	tmp = ft_substr(envp[i], 0, ft_var_len(envp[i]));
 	v_name = ft_substr(arg, 0, ft_var_len(arg));
-	if (!ft_strcmp(tmp, v_name))
+	if (tmp && v_name && !ft_strcmp(tmp, v_name))
 	{
 		b = 0;
-		if (!ft_strcmp(opr, "+="))
+		if (opr && !ft_strcmp(opr, "+="))
 		{
 			free(envp[i]);
 			envp[i] = ft_strs_join(ft_strdup(envp[i]), \
 			ft_substr(arg, (ft_var_len(arg) + 2), \
 			(ft_strlen(arg) - ft_strlen(v_name))));
 		}
-		else if (!ft_strcmp(opr, "="))
+		else if (opr && !ft_strcmp(opr, "="))
 			(free(envp[i]), envp[i] = ft_strdup(arg));
 	}
 	return (free(opr), free (tmp), free(v_name), b);
@@ -105,6 +102,8 @@ static char	**ft_set_variable(char **envp, char *arg)
 	if (b && arg && envp)
 	{
 		v_name = ft_substr(arg, 0, ft_var_len(arg));
+		if (!v_name)
+			return (NULL);
 		tmp = ft_check_set(envp, v_name, arg);
 		free(v_name);
 	}
@@ -117,16 +116,19 @@ int	ft_export(t_pars *data, char **args)
 
 	i = 0;
 	if (args && data && !args[1])
-		ft_display_env(data);
+		data->ext_st = ft_display_env(data);
 	else if (data)
 	{
 		while (data->envp && args && args[++i])
 		{
-			if (!ft_check_arg(args[i]) && \
-				!ft_check_var(args[i]))
+			if (!ft_check_arg(data, args[i]) && \
+				!ft_check_var(data, args[i]))
+			{
 				data->envp = ft_set_variable(data->envp, \
 					args[i]);
+				data->ext_st = 0;
+			}
 		}
 	}
-	return (0);
+	return (data->ext_st);
 }

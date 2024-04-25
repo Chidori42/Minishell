@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 03:36:06 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:04:32 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,3 @@ int	ft_execute_lst(t_pars *args)
 		;
 	return (WEXITSTATUS(args->ext_st));
 }
-
-// bash-3.2$ sleep 100
-// ^C
-// bash-3.2$ echo $?
-// 130
-// bash-3.2$ sleep 100
-// ^\Quit: 3
-// bash-3.2$ echo $?
-// 131
-// bash-3.2$ 
-// executable file must be handled (./minishell | ok, minishell | no)

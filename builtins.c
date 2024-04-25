@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/23 20:23:07 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 10:02:30 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	ft_pwd(char **p)
 {
 	char	tmp[256];
 
-	if (p && p[1])
+	if (p && p[1][0] == '-')
 		return (ft_putendl_fd("Invalid arg's number", 2), 1);
-	else if (p && p[0])
+	if (p && p[0])
 	{
 		if (getcwd(tmp, sizeof(tmp)))
 			printf("%s\n", tmp);
@@ -57,7 +57,12 @@ int	ft_env(t_pars *arg, char **str)
 
 	i = -1;
 	if (arg && str && str[1])
-		return (ft_putendl_fd("Invalid arg's number", 2), 1);
+	{
+		if (str[1][0] == '-')
+			return (ft_putendl_fd("Invalid option", 2), 1);
+		else
+			return (ft_putendl_fd("Invalid arg's number", 2), 127);
+	}
 	else if (arg)
 	{
 		while (arg->envp && arg->envp[++i])
@@ -81,15 +86,15 @@ int	ft_cd(t_pars *data, char **p)
 	if (p && p[1])
 	{
 		if (ft_strlen(p[1]) > 255)
-			return (ft_putendl_fd("file name to long!", 2), -1);
+			return (ft_putendl_fd("file name to long!", 2), 1);
 		else if (chdir(p[1]) != 0)
-			return (ft_putendl_fd(strerror(errno), 2), -1);
+			return (ft_putendl_fd(strerror(errno), 2), 1);
 	}
 	else if (data && data->envp)
 	{
 		cmd = ft_getenv(data->envp, "HOME");
 		if (chdir(cmd) != 0)
-			return (free(cmd), ft_putendl_fd(strerror(errno), 2), -1);
+			return (free(cmd), ft_putendl_fd(strerror(errno), 2), 1);
 		free(cmd);
 	}
 	cmd = ft_strs_join(ft_strdup("export PWD="), getcwd(NULL, 0));
@@ -100,7 +105,6 @@ int	ft_cd(t_pars *data, char **p)
 
 int	ft_builtins(t_cmd *cmd, t_pars *arg, int i)
 {
-	printf("########## from builtins ###############\n");
 	if (cmd && !cmd->next && (i == 1) && cmd->data && arg)
 	{
 		if (!ft_strcmp(cmd->data[0], "export"))

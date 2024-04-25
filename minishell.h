@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 03:07:24 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 09:36:37 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ int		ft_redirection(t_pars *args, t_cmd *node);
 
 //****************************************************************************//
 int		ft_var_len(char *arg);
-int		ft_check_arg(char *arg);
-int		ft_check_var(char *arg);
-void	ft_display_env(t_pars *data);
+int		ft_check_arg(t_pars *args, char *str);
+int		ft_check_var(t_pars *data, char *arg);
+int		ft_display_env(t_pars *data);
 int		ft_unset(t_pars *arg, char **p);
 char	**ft_dup_env(char **envp, char *var);
 int		ft_export(t_pars *data, char **args);

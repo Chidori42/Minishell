@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/23 05:03:39 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/25 09:00:09 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void    ft_set_env(t_pars *data, char **env)
         data->envp[0]= ft_strdup("OLDPWD");
         data->envp[1] = ft_strs_join(ft_strdup("PWD="), getcwd(NULL, 0));
         data->envp[2]= ft_strdup("SHLVL=1");
-        data->envp[3] = ft_strdup("_=/usr/bin/env");
+        data->envp[3] = ft_strdup("_=mini");
         data->envp[4] = NULL;
     }
     else if (data)
