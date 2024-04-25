@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/24 23:01:39 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 02:26:26 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,23 +91,25 @@ static int ft_read(t_pars *ags, char *lim, int fd, int qt)
 	return (ext_st);
 }
 
-char	*ft_heredoc(t_pars *ags, char *lm)
+int	ft_heredoc(t_pars *args, char **lim)
 {
 	int		qt;
 	int		fd;
-	char	*path;
+	char	*tmp;
 
 	qt = 1;
 	fd = -1;
-	if (lm && (0 <= ft_pipe_file(&path, &fd)))
+	tmp = *lim;
+	if (lim && (0 <= ft_pipe_file(lim, &fd)))
 	{
-		if (ft_is_there_quotes(lm))
+		if (ft_is_there_quotes(tmp))
 		{
-			lm = ft_remove_qts(lm);
+			tmp = ft_remove_qts(tmp);
 			qt = 0;
 		}
-		if (!ft_read(ags, lm, fd, qt))
-			return (free(lm), path);
+		if (!ft_read(args, tmp, fd, qt))
+			return (free(tmp), 0);
+		free(tmp);
 	}
-	return (free(lm), NULL);
+	return (1);
 }

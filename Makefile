@@ -72,13 +72,13 @@ all                     : $(NAME)
 
 
 %o                      : %c minishell.h $(LIBFT) $(LIBFT_H)
-	gcc  -c $(FLAGS) $< -o $@ -g -fsanitize=address
+	gcc  -c $(FLAGS) $< -o $@
 
 $(LIBFT)                : $(LIBFT_SRCS) $(LIBFT_H)
 	make -C ./libft
 
 $(NAME)                 : $(LIBFT) $(OBJS)
-	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline -g -fsanitize=address
+	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 clean                   :
 	rm -f *.o

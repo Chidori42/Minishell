@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 00:57:01 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 01:42:49 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,11 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 			args->ext_st = ft_builtins(node, args, 1);
 		else if (execve(cmd_path, node->data, args->envp) < 0)
 		{
-			free (cmd_path);
 			error_msg = ft_strjoin("command not found: ", \
 				node->data[0]);
 			ft_putendl_fd(error_msg, 2);
-			return (free (error_msg), 127);
-		};
+			return (free (cmd_path), free (error_msg), 127);
+		}
 		free (cmd_path);
 	}
 	return (args->ext_st);

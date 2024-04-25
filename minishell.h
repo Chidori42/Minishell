@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 00:34:24 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 02:22:13 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct   s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-//**************************** minishell struture *****************************//
+//**************************** minishell struture ****************************//
 
 typedef struct  s_pars
 {
@@ -55,19 +55,18 @@ typedef struct  s_pars
 
 int		ft_get_redir(char ***redir, char **tab, int i);
 int		ft_get_cmd(char ***data, char **tab, int i);
-int		ft_split_input(char ***tab, char *input);
 int		ft_create_list(t_pars *args, char **tab);
-int		ft_check_parse(t_pars *args, char *s);
+int		ft_split_input(char ***tab, char *input);
 int		ft_scape_quotes(char *input, int i);
-char	*ft_heredoc(t_pars *ags, char *lm);
+int		ft_heredoc(t_pars *ags, char **lim);
 int		ft_check_redir(char *s, int *i);
-void	ft_remove_quotes(t_cmd *lst);
 int 	ft_resplit_input(char ***tab);
+void	ft_remove_quotes(t_cmd *lst);
 int		ft_count_words(char *input);
 int		ft_is_there_quotes(char *s);
-int		ft_free_2_dm(char **arr);
 int		ft_is_builtin(char **tab);
 void	ft_free_list(t_cmd *lst);
+int		ft_free_2_dm(char **arr);
 char	*ft_remove_qts(char *s);
 void	ft_heredoc_signals();
 void	ft_parent_signals();
@@ -82,10 +81,11 @@ char	*ft_strs_join(char *s1, char *s2);
 char 	*ft_getenv(char **envp, char *name);
 int		ft_expander(t_pars *args, char **tab);
 int		ft_find_second(char *s, char qt, int i);
+int		ft_check_parse(t_pars *args, char **tab);
 int		ft_execute_cmd(t_pars *args, t_cmd *node);
 int		ft_redirection(t_pars *args, t_cmd *node);
 
-/*********************************************************/
+//****************************************************************************//
 int		ft_var_len(char *arg);
 int		ft_check_arg(char *arg);
 int		ft_check_var(char *arg);

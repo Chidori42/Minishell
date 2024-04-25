@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/24 21:48:29 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/25 02:23:02 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_here_it(t_pars *args, int i)
 	
 	err = 0;
 	ref = i + 1;
-	while (args->tab && args->tab[++i])
+	while (args->tab && args->tab[i++])
 	{
 		if (ft_check_quotes(args->tab[i]) && ++err)
 			return (err);
@@ -47,27 +47,24 @@ static int	ft_here_it(t_pars *args, int i)
 			break;
 		}
 	}
-	if (args->tab && !ft_is_operator(args->tab[ref]))
-		args->tab[ref] = ft_heredoc(args, args->tab[ref]);
-	(!args->tab[ref] && (err = 1));
-	printf("err value: %d\n", err);
+	if (ft_heredoc(args, &args->tab[ref]))
+		return (1);
 	return (err);
 }
 
-int	ft_check_parse(t_pars *args, char *input)
+int	ft_check_parse(t_pars *args, char **tab)
 {
 	int			i;
 
 	i = -1;
-	if (args && input)
+	if (args && tab)
 	{
-		if (ft_split_input(&args->tab, input) && args->tab && \
-			!ft_strcmp(args->tab[0], "|"))
-			return (ft_parse_error(ft_strdup(args->tab[0])), 258);
 		while (!g_sig && args->tab && args->tab[++i])
 		{
 			if (ft_check_quotes(args->tab[i]))
 				return (258);
+			else if (!ft_strcmp(args->tab[0], "|") && (i == 0))
+				return (ft_parse_error(ft_strdup(args->tab[0])), 258);
 			else if (!ft_strcmp(args->tab[i], "|") && \
 				ft_is_operator(args->tab[i - 1]))
 				return (ft_parse_error(ft_strdup(args->tab[i])), 258);
