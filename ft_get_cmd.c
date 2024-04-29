@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:45:56 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/24 23:21:38 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/28 01:29:21 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,18 @@ int	ft_is_redir(char *s)
 	return (0);
 }
 
-static int	ft_cmd_elmnts(char **tab, int i)
+static int	ft_cmd_elmnts(char **tab, int *nb, int i)
 {
-	int			nb;
-
-	nb = 0;
+	*nb = 0;
 	while (tab && tab[i] && ft_strcmp(tab[i], "|"))
 	{
 		if ((i == 0 && !ft_is_redir(tab[i])) || \
 			(0 < i && !ft_is_redir(tab[i]) && \
 			!ft_is_redir(tab[i - 1])))
-			nb++;
-			i++;
+			(*nb)++;
+		i++;
 	}
-	return (nb);
+	return (*nb);
 }
 
 int	ft_get_cmd(char ***data, char **tab, int i)
@@ -45,13 +43,13 @@ int	ft_get_cmd(char ***data, char **tab, int i)
 	int			nb;
 
 	j = -1;
-	nb = ft_cmd_elmnts(tab, i);
-	if (!nb)
-		return (0);
-	(*data) = (char **)malloc(sizeof(char *) * (nb + 1));
+	(*data) = NULL;
+	ft_cmd_elmnts(tab, &nb, i);
+	if (ft_cmd_elmnts(tab, &nb, i))
+		(*data) = (char **)malloc(sizeof(char *) * (nb + 1));
 	if (!(*data))
 		return (-1);
-	while (*data && tab && tab[i] && ft_strcmp(tab[i], "|"))
+	while ((*data) && tab && tab[i] && ft_strcmp(tab[i], "|"))
 	{
 		if ((i == 0 && !ft_is_redir(tab[i])) || \
 			(0 < i && !ft_is_redir(tab[i]) && \
@@ -64,5 +62,5 @@ int	ft_get_cmd(char ***data, char **tab, int i)
 		i++;
 	}
 	(*data)[++j] = NULL;
-    return (0);
+	return (0);
 }

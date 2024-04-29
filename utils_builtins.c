@@ -6,39 +6,39 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/25 09:36:17 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/28 03:19:25 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_check_set(char **envp, char *v_name, char *str)
+int	ft_exit(char **p)
 {
-	int		t[2];
-	char	*value;
-	char	**tmp;
-	char	*tmp2;
-	char	*new_var;
+	int	i;
 
-	t[1] = 0;
-	t[0] = -1;
-	new_var = NULL;
-	while (str && str[++t[0]])
-		if ((str[t[0]] == '+') && (str[t[0] + 1] == '=') && ++t[1])
-			break ;
-	if (str && ft_strchr(str, '='))
-		new_var = ft_strs_join(ft_strdup(v_name), ft_strdup("="));
+	i = -1;
+	while (p[++i])
+		;
+	if (i <= 2)
+	{
+		if (p && p[1])
+		{
+			while (p[1][++i])
+			{
+				if (!(p[1][i] >= '0' && p[1][i] <= '9'))
+				{
+					ft_putendl_fd(" numeric argument required", 2);
+					exit(255);
+				}
+			}
+			exit((unsigned char)ft_atoi(p[1]));
+		}
+		else
+			exit(0);
+	}
 	else
-		new_var = ft_strdup(v_name);
-	if (str && t[1] == 1)
-		value = ft_substr(str, (ft_var_len(str) + 2), \
-			(ft_strlen(str) - ft_strlen(v_name)));
-	else
-		value = ft_substr(str, (ft_var_len(str) + 1), \
-			(ft_strlen(str) - ft_strlen(v_name)));
-	tmp2 = ft_strs_join(new_var, value);
-	tmp = ft_dup_env(envp, tmp2);
-	return (ft_free_2_dm(envp), free(tmp2), tmp);
+		return (ft_putendl_fd(" too many arguments", 2), 1);
+	return (0);
 }
 
 int	ft_display_env(t_pars *data)
@@ -52,18 +52,15 @@ int	ft_display_env(t_pars *data)
 	{
 		v_name = ft_substr(data->envp[i], 0, \
 			ft_var_len(data->envp[i]));
+		if (!v_name)
+			return (-1);
 		v_value = ft_substr(data->envp[i], \
 			(ft_var_len(data->envp[i]) + 1), \
 			(ft_strlen(data->envp[i]) - ft_strlen(v_name)));
 		if (!ft_strchr(data->envp[i], '='))
 			printf("declare -x %s\n", v_name);
-		else if (ft_strcmp(v_name, "_"))
-		{
-			if (v_value && !v_value[0])
-				printf("declare -x %s=\'\'\n", v_name);
-			else
-				printf("declare -x %s=\"%s\"\n", v_name, v_value);
-		}
+		else
+			printf("declare -x %s=\"%s\"\n", v_name, v_value);
 		(free(v_name), free(v_value));
 	}
 	return (0);

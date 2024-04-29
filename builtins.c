@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/25 10:02:30 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/27 04:12:17 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	ft_pwd(char **p)
 {
 	char	tmp[256];
 
-	if (p && p[1][0] == '-')
-		return (ft_putendl_fd("Invalid arg's number", 2), 1);
-	if (p && p[0])
+	if (p && p[1] && p[1][0] == '-')
+		return (ft_putendl_fd("Invalid option", 2), 1);
+	else if (p && p[0])
 	{
 		if (getcwd(tmp, sizeof(tmp)))
 			printf("%s\n", tmp);
@@ -59,9 +59,8 @@ int	ft_env(t_pars *arg, char **str)
 	if (arg && str && str[1])
 	{
 		if (str[1][0] == '-')
-			return (ft_putendl_fd("Invalid option", 2), 1);
-		else
-			return (ft_putendl_fd("Invalid arg's number", 2), 127);
+			return (ft_putendl_fd("illegal option", 2), 1);
+		return (ft_putendl_fd("Invalid arg's number", 2), 127);
 	}
 	else if (arg)
 	{
@@ -98,31 +97,31 @@ int	ft_cd(t_pars *data, char **p)
 		free(cmd);
 	}
 	cmd = ft_strs_join(ft_strdup("export PWD="), getcwd(NULL, 0));
-	(tmp = ft_split(cmd, ' '), ft_export(data, tmp));
-	(free(cmd), ft_free_2_dm(tmp));
+	tmp = ft_split(cmd, ' ');
+	(ft_export(data, tmp), free(cmd), ft_free_2_dm(tmp));
 	return (0);
 }
 
-int	ft_builtins(t_cmd *cmd, t_pars *arg, int i)
+int	ft_builtins(t_pars *args, t_cmd *node)
 {
-	if (cmd && !cmd->next && (i == 1) && cmd->data && arg)
+	if (node && node->data && args)
 	{
-		if (!ft_strcmp(cmd->data[0], "export"))
-			return (ft_export(arg, cmd->data));
-		else if (!ft_strcmp(cmd->data[0], "cd"))
-			return (ft_cd(arg, cmd->data));
-		else if (!ft_strcmp(cmd->data[0], "pwd"))
-			return (ft_pwd(cmd->data));
-		else if (!ft_strcmp(cmd->data[0], "env"))
-			return (ft_env(arg, cmd->data));
-		else if (!ft_strcmp(cmd->data[0], "echo"))
-			return (ft_echo(cmd->data));
-		else if (!ft_strcmp(cmd->data[0], "unset"))
-			return (ft_unset(arg, cmd->data));
-		else if (!ft_strcmp(cmd->data[0], "exit"))
+		if (!ft_strcmp(node->data[0], "export"))
+			return (ft_export(args, node->data));
+		else if (!ft_strcmp(node->data[0], "cd"))
+			return (ft_cd(args, node->data));
+		else if (!ft_strcmp(node->data[0], "pwd"))
+			return (ft_pwd(node->data));
+		else if (!ft_strcmp(node->data[0], "env"))
+			return (ft_env(args, node->data));
+		else if (!ft_strcmp(node->data[0], "echo"))
+			return (ft_echo(node->data));
+		else if (!ft_strcmp(node->data[0], "unset"))
+			return (ft_unset(args, node->data));
+		else if (!ft_strcmp(node->data[0], "exit"))
 		{
-			printf("exit\n");
-			exit(EXIT_SUCCESS);
+			ft_putendl_fd("exit", 1);
+			return (ft_exit(node->data));
 		}
 	}
 	return (10);

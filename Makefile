@@ -24,6 +24,7 @@ SRCS                    =	minishell.c \
 							utils_unset.c \
 							builtins.c \
 							pars_export.c \
+							ft_update_env.c \
 							utils_builtins.c \
 							set_env.c
 
@@ -72,13 +73,13 @@ all                     : $(NAME)
 
 
 %o                      : %c minishell.h $(LIBFT) $(LIBFT_H)
-	gcc  -c $(FLAGS) $< -o $@
+	cc  -c $(FLAGS) $< -o $@
 
 $(LIBFT)                : $(LIBFT_SRCS) $(LIBFT_H)
 	make -C ./libft
 
 $(NAME)                 : $(LIBFT) $(OBJS)
-	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+	cc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 clean                   :
 	rm -f *.o

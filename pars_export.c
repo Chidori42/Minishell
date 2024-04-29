@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:00:06 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/04/25 10:50:46 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:08:28 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,11 @@ static int	ft_is_space(char c)
 	return (0);
 }
 
-static void	ft_export_error(t_pars *args, char *str, int i)
+static void	ft_export_error(char *arg)
 {
-	args->ext_st = i;
 	ft_putstr_fd("export: `", 2);
-	ft_putstr_fd(str, 2);
+	ft_putstr_fd(arg, 2);
 	ft_putendl_fd("' not a valid identifier", 2);
-}
-
-int	ft_check_arg(t_pars *args, char *str)
-{
-	int			i;
-
-	i = -1;
-	while (str && str[++i])
-	{
-		if (ft_is_space(str[i]))
-			return (ft_export_error(args, str, 1), 1);
-		if (str[i] == '+' && str[i + 1] != '=')
-			return (ft_export_error(args, str, 1), 1);
-		if (str[i] == '+' || str[i] == '=')
-			break ;
-	}
-	return (0);
 }
 
 int	ft_var_len(char *arg)
@@ -55,7 +37,24 @@ int	ft_var_len(char *arg)
 	return (len);
 }
 
-int	ft_check_var(t_pars *data, char *arg)
+int	ft_check_arg(char *arg, int *st)
+{
+	int			i;
+
+	i = -1;
+	while (arg && arg[++i])
+	{
+		if (ft_is_space(arg[i]))
+			return (*st = 1, ft_export_error(arg), 1);
+		if (arg[i] == '+' && arg[i + 1] != '=')
+			return (*st = 1, ft_export_error(arg), 1);
+		if (arg[i] == '+' || arg[i] == '=')
+			break ;
+	}
+	return (0);
+}
+
+int	ft_check_var(char *arg, int *st)
 {
 	int			i;
 	char		*var_name;
@@ -63,21 +62,21 @@ int	ft_check_var(t_pars *data, char *arg)
 	i = 0;
 	if (arg)
 	{
-		var_name = ft_substr(arg, 0, ft_var_len(arg));
+		var_name = ft_substr(arg, 0, \
+			ft_var_len(arg));
+		if (var_name && var_name[0] == '-')
+			return (*st = 2, free(var_name), ft_export_error(arg), 2);
 		if (var_name)
 		{
-			if (var_name[0] == '-')
-				return (free(var_name), ft_export_error(data, arg, 2), 2);
-			if (ft_isalpha(var_name[i]) || \
-				var_name[i] == '_')
+			if (ft_isalpha(var_name[i]) || var_name[i] == '_')
 			{
 				while (var_name[++i])
 					if (!ft_isalnum(var_name[i]) && \
 						var_name[i] != '_')
-						return (free(var_name), ft_export_error(data, arg, 1), 1);
+						return (*st = 1, free(var_name), ft_export_error(arg), 1);
 			}
 			else
-				return (free(var_name), ft_export_error(data, arg, 1), 1);
+				return (*st = 1, free(var_name), ft_export_error(arg), 1);
 		}
 		free(var_name);
 	}

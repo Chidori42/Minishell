@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/24 13:09:51 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/28 00:43:13 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,26 @@ static int	ft_scape_spaces(char *input, int i)
 {
 	while (input[i] == 32 || (9 <= input[i] && \
 			input[i] <= 13))
-			i++;
+		i++;
 	return (i);
 }
 
 static int	ft_scape_word(char *input, int i)
 {
 	while (input && input[i])
-	{	
+	{
 		if (input[i] == '\'' || input[i] == '\"')
 			i = ft_scape_quotes(input, i);
 		else if (input[i] == 32 || (9 <= input[i] && \
 			input[i] <= 13))
 			return (i);
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (i);
 }
-static int	ft_word_len(char *input, int *i)
+
+static	int	ft_word_len(char *input, int *i)
 {
 	int			l;
 
@@ -46,6 +48,8 @@ static int	ft_word_len(char *input, int *i)
 			*i = ft_scape_quotes(input, *i);
 		else if (input[*i] == 32 || (9 <= input[*i] && \
 			input[*i] <= 13))
+			break ;
+		if (!input[(*i)])
 			break ;
 	}
 	return (*i - l);
@@ -72,7 +76,7 @@ int	ft_count_words(char *input)
 		else if (input[i])
 			i++;
 	}
-	return  (nb);
+	return (nb);
 }
 
 int	ft_split_input(char ***tab, char *input)

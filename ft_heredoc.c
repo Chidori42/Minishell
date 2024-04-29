@@ -6,13 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 02:26:26 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/28 00:53:27 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int g_sig;
 
 static int	ft_generate_name(char **name)
 {
@@ -56,18 +54,20 @@ static void ft_child(t_pars *ags, char *lim, int fd, int qt)
 {
 	char	 **buf;
 	
-	ft_heredoc_signals();
+	ft_signals(1);
+	rl_catch_signals = 1;
 	buf = (char **)malloc(sizeof(char *) * 2);
 	if (!buf)
 		exit(1);
+	buf[1] = NULL;
 	while (true)
 	{
 		buf[0] = readline("> ");
 		if (!buf[0])
 				kill(getpid(), SIGUSR1);
-		if (!buf[0]|| !ft_strcmp(buf[0], lim))
+		if (!ft_strcmp(buf[0], lim))
 			break;
-		if (qt)
+		if (qt && ags && buf)
 			ft_expander(ags, buf);
 		buf[0] = ft_strs_join(buf[0], ft_strdup("\n"));
 		ft_putstr_fd(buf[0], fd);
@@ -81,35 +81,37 @@ static int ft_read(t_pars *ags, char *lim, int fd, int qt)
 	pid_t			pid;
 	int				ext_st;
 
+	ext_st = 1;
 	if ((pid = fork()) < 0)
 		return(ft_putendl_fd(strerror(errno), 2), -1);
 	else if (pid == 0)
 		ft_child(ags, lim, fd, qt);
-	waitpid(pid, &ext_st, 0);
+	wait(&ext_st);
 	if ((close(fd) < 0))
 		return (ft_putendl_fd(strerror(errno), 2), -1);
-	return (ext_st);
+	return (WEXITSTATUS(ext_st));
 }
 
-int	ft_heredoc(t_pars *args, char **lim)
+int	   
+ft_heredoc(t_pars *args, char **lim)
 {
 	int		qt;
 	int		fd;
+	int		st;
 	char	*tmp;
 
 	qt = 1;
+	st = 0;
 	fd = -1;
 	tmp = *lim;
-	if (lim && (0 <= ft_pipe_file(lim, &fd)))
+	if (lim && (ft_pipe_file(lim, &fd) < 0))
+		return (1);
+	if (ft_is_there_quotes(tmp))
 	{
-		if (ft_is_there_quotes(tmp))
-		{
-			tmp = ft_remove_qts(tmp);
-			qt = 0;
-		}
-		if (!ft_read(args, tmp, fd, qt))
-			return (free(tmp), 0);
-		free(tmp);
+		tmp = ft_remove_qts(tmp);
+		qt = 0;
 	}
-	return (1);
+	st = ft_read(args, tmp, fd, qt);
+	free(tmp);
+	return (st);
 }

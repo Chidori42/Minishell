@@ -6,13 +6,11 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 07:42:48 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/28 06:52:15 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int			g_sig;
 
 static void	ft_proced_process(t_pars *args)
 {
@@ -23,37 +21,32 @@ static void	ft_proced_process(t_pars *args)
 	args->input = ft_inject_space(args->input);
 	if (!ft_split_input(&args->tab, args->input))
 	{
-		st = ft_check_parse(args, args->tab);
-		if (!st)
+		if (!ft_check_parse(args, args->tab))
 		{
-			g_sig = 1;
 			if (args->tab)
 			{
-				st = ft_create_list(args, args->tab);
-				if (!st)
-					st = ft_execute_lst(args);
+				if (!ft_create_list(args, args->tab))
+					ft_execute_lst(args);
 				ft_free_list(args->lst);
 			}
 		}
 		ft_free_2_dm(args->tab);
 	}
-	args->ext_st = st;
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-	(void)		av;
 	t_pars		args;
+	(void)		av;
 	
-	ft_parent_signals();
 	if (ac == 1)
 	{
-		args.ext_st = 0;
+		ft_signals(0);
 		ft_set_env(&args, envp);
 		while (true)
-		{	
-			g_sig = 0;
-			args.input = readline("prompt: ");
+		{
+			//system("leaks minishell");
+			args.input = readline("Minishell: ");
 			if (!args.input)
 				kill(getpid(), SIGUSR1);
 			if (args.input && args.input[0])
@@ -61,8 +54,8 @@ int main(int ac, char **av, char **envp)
 				add_history(args.input);
 				ft_proced_process(&args);
 			}
+			args.ext_st = ft_get_exit_status(0, 0);
 			free (args.input);
-			//system("leaks	minishell");
 		}
 	}
 	return (0);

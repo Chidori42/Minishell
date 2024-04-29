@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 10:28:48 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/28 00:54:38 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,21 @@ static int	ft_is_there_slash(char *s)
 		if (s[i] == '/')
 			return (1);
 	return (0);
+}
+
+static int ft_execut_error(char *cmd)
+{
+	char		*cmd_name;
+	
+	if (errno == 13)
+		ft_putstr_fd(strerror(errno), 2);
+	else
+		ft_putstr_fd("command not found", 2);
+	cmd_name = ft_strs_join(ft_strdup(": "), \
+		ft_strdup(cmd));
+	if (cmd_name)
+		ft_putendl_fd(cmd_name, 2);
+	return (free (cmd_name), 0);
 }
 
 static char	*ft_get_path(t_pars *args, char *cmd)
@@ -55,26 +70,26 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 int	ft_execute_cmd(t_pars *args, t_cmd *node)
 {
 	char		*cmd_path;
-	char		*error_msg;
 
 	args->ext_st = 0;
 	if (args && node)
 	{
-		cmd_path = node->data[0];
-		if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
-			return (errno);
-		if (!ft_is_there_slash(node->data[0]))
-			cmd_path = ft_get_path(args, node->data[0]);
-		if (ft_is_builtin(node->data))
-			args->ext_st = ft_builtins(node, args, 1);
-		else if (execve(cmd_path, node->data, args->envp) < 0)
+		if (!ft_redirection(args, node))
 		{
-			error_msg = ft_strjoin("command not found: ", \
-				node->data[0]);
-			ft_putendl_fd(error_msg, 2);
-			return (free (cmd_path), free (error_msg), 127);
+			cmd_path = node->data[0];
+			if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
+				return (errno);
+			if (!ft_is_there_slash(node->data[0]))
+				cmd_path = ft_get_path(args, node->data[0]);
+			if (ft_is_builtin(node->data))
+				args->ext_st = ft_builtins(args, node);
+			else if ((execve(cmd_path, node->data, args->envp) < 0))
+			{
+				ft_execut_error(node->data[0]);
+				return (free (cmd_path), 127 - 1 * (errno == 13));
+			}
+			free (cmd_path);
 		}
-		free (cmd_path);
 	}
 	return (args->ext_st);
 }

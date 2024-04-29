@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:26:36 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/25 01:00:03 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/28 00:43:32 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,31 @@ void	ft_free_list(t_cmd *lst)
 
 static t_cmd	*ft_create_node(t_pars *ags, char **t, int i)
 {
-	(void)		ags;
-	(void)		i;
-	(void)		t;
-	t_cmd		*node;
-	
+	t_cmd	*node;
+
+	(void)ags;
+	(void)i;
+	(void)t;
 	node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (node)
 	{
 		node->in = 0;
 		node->out = 1;
 		node->next = NULL;
-		node->data = NULL;
-		if (ft_get_cmd(&node->data, t, i))
+		ft_get_cmd(&node->data, t, i);
+		ft_get_redir(&node->redir, t, i);
+		if (!node->data && !node->redir)
 			return (free(node), NULL);
-		if (ft_get_redir(&node->redir, t, i))
-			return (ft_free_2_dm(node->data), free(node), NULL);
 		if (ft_expander(ags, node->data) || \
 			ft_resplit_input(&node->data))
-			return (ft_free_2_dm(node->data), free(node), NULL);
-	}	
+			return (ft_free_list(node), NULL);
+		if (ft_redir_expand(ags, &node->redir))
+			return (ft_free_list(node), NULL);
+	}
 	return (node);
 }
 
-static void ft_lst_add_back(t_cmd **head, t_cmd *new)
+static void	ft_lst_add_back(t_cmd **head, t_cmd *new)
 {
 	t_cmd		*tmp;
 
@@ -96,5 +97,6 @@ int	ft_create_list(t_pars *args, char **tab)
 			;
 	}
 	ft_remove_quotes(args->lst);
+	ft_get_exit_status((1 - (1 * (args->lst != NULL))), 1);
 	return (1 - (1 * (args->lst != NULL)));
 }
