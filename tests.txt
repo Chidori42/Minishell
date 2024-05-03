@@ -1,0 +1,5 @@
+$"PWD"
+$PWD$PWD$ | dsf""|''ls
+cat <include/minishell.h <<HERE <missing | ls
+cat < include/minishell.h << HERE | cat
+cat < include/minishell.h << HERE < missing << DOC | echo oi

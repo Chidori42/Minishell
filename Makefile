@@ -5,7 +5,6 @@
 
 SRCS                    =	minishell.c \
 							ft_execute_cmd.c \
-							ft_check_parse.c \
 							ft_check_quotes.c \
 							ft_inject_spaces.c \
 							ft_remove_quotes.c \
@@ -21,13 +20,15 @@ SRCS                    =	minishell.c \
 							ft_get_cmd.c \
 							ft_signals.c \
 							ft_export.c \
-							utils_unset.c \
+							ft_unset.c \
+							ft_parse.c \
 							builtins.c \
-							pars_export.c \
+							utils_export.c \
 							ft_update_env.c \
 							utils_builtins.c \
-							set_env.c
-
+							set_env.c \
+							ft_exit.c \
+							ft_cd.c
 
 #Mandatory object files name.
 
@@ -73,13 +74,13 @@ all                     : $(NAME)
 
 
 %o                      : %c minishell.h $(LIBFT) $(LIBFT_H)
-	cc  -c $(FLAGS) $< -o $@
+	gcc  -c $(FLAGS) $< -o $@
 
 $(LIBFT)                : $(LIBFT_SRCS) $(LIBFT_H)
 	make -C ./libft
 
 $(NAME)                 : $(LIBFT) $(OBJS)
-	cc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+	gcc  $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 clean                   :
 	rm -f *.o

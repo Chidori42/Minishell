@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_unset.c                                      :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/29 15:07:01 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/02 02:17:01 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,29 @@ static int ft_new_env(t_pars *args, char *tmp)
 {
 	char		**new;
 	
-	new = ft_split(tmp, '\n');
+	new = ft_split_fr(tmp, '\n');
 	if (!new)
-		return (free (tmp), -1);
+		return (-1);
 	ft_free_2_dm(args->envp);
 	args->envp = new;
-	return (free(tmp), 0);
+	return (0);
 }
 
 static int	check_var(char *p, int *b)
 {
-	int	i;
+	int			i;
+	char		*err_des;
 
 	i = 0;
-	if (p && p[i] == '-')
-		return (*b = 2, ft_putendl_fd("unset: invalid option", 2), 2);
+	err_des = "not a valid identifier";
+	if (p && (!p[i] || ft_isdigit(p[i])))
+		return (*b = 1,
+			ft_builts_error("unset", p, err_des), 1);
 	while (p && p[i])
 	{
 		if (p[i] != '_' && !ft_isalnum(p[i]))
-			return (*b = 1, ft_putendl_fd("not a valid identifier", 2), 1);
+			return (*b = 1,
+				ft_builts_error("unset", p, err_des), 1);
 		i++;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 01:46:56 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:42:51 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,40 @@
 static void	ft_heredoc_handler(int sig)
 {
 	if (sig == SIGINT)
-		ft_get_exit_status(1, 1);
+		ft_get_status(getpid(), 1, 1);
 	else if (sig == SIGUSR1)
-		ft_get_exit_status(0, 1);
+		ft_get_status(getpid(), 0, 1);
 	exit(1);
 }
 
-static void	ft_parent_handler(int sig)
+static void	ft_handler(int sig)
 {
 	int			st;
+	pid_t		pid;
 	
 	st = -1;
-	if (sig == SIGUSR1)
+	pid = 1;
+	if (sig == SIGINT)
 	{
-		ft_get_exit_status(0, 1);
-		exit(1);
-	}
-	else if (sig == SIGINT)
-	{
-		g_sig = 1;
-		ft_get_exit_status(1, 1);
-		while (wait(&st) != -1)
-			;
+		while (0 < pid)
+		{
+			pid = wait(&st);
+			if ((0 < pid) && (st == 2))
+				ft_get_status(pid, 130, 1);
+		}
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		if (st == -1)
 			rl_redisplay();
+		ft_get_status(getpid(), 1, 1);
 	}
 }
 
 void	ft_signals(int sig)
 {
-	if (!sig)
-	{	
-		signal(SIGINT, ft_parent_handler);
-		signal(SIGUSR1, ft_parent_handler);
-	}
+	if (!sig)	
+		signal(SIGINT, ft_handler);
 	else if (sig)
 	{
 		signal(SIGINT, ft_heredoc_handler);

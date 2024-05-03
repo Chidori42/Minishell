@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:26:36 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 00:43:32 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/03 20:06:43 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ int	ft_create_list(t_pars *args, char **tab)
 			;
 	}
 	ft_remove_quotes(args->lst);
-	ft_get_exit_status((1 - (1 * (args->lst != NULL))), 1);
+	ft_get_status(getpid(), (1 - (1 * (args->lst != NULL))), 1);
 	return (1 - (1 * (args->lst != NULL)));
 }

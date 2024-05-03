@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 00:45:07 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/04/29 17:15:40 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ static int	ft_puterror(char *file)
 {
 	char		*msg;
 
-	msg = ft_strs_join(ft_strdup(strerror(errno)), \
-		ft_strdup(": "));
-	msg = ft_strs_join(msg, ft_strdup(file));
+	msg = ft_strs_join(ft_strdup(file), ft_strdup(": "));
+	msg = ft_strs_join(msg, ft_strdup(strerror(errno)));
 	ft_putendl_fd(msg, 2);
 	free (msg);
 	return (-1);

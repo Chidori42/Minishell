@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 06:52:15 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/03 22:51:32 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_proced_process(t_pars *args)
 	args->input = ft_inject_space(args->input);
 	if (!ft_split_input(&args->tab, args->input))
 	{
-		if (!ft_check_parse(args, args->tab))
+		if (!ft_parse(args, args->tab))
 		{
 			if (args->tab)
 			{
@@ -39,24 +39,26 @@ int	main(int ac, char **av, char **envp)
 	t_pars		args;
 	(void)		av;
 	
+	ft_signals(0);
 	if (ac == 1)
 	{
-		ft_signals(0);
+		args.ext_st = 0;
 		ft_set_env(&args, envp);
 		while (true)
 		{
-			//system("leaks minishell");
+			ft_get_status(0, 0, 100);
 			args.input = readline("Minishell: ");
 			if (!args.input)
-				kill(getpid(), SIGUSR1);
+				break ;
 			if (args.input && args.input[0])
 			{
 				add_history(args.input);
 				ft_proced_process(&args);
 			}
-			args.ext_st = ft_get_exit_status(0, 0);
 			free (args.input);
+			//system("leaks minishell");
 		}
+		ft_close(&args);
 	}
 	return (0);
 }

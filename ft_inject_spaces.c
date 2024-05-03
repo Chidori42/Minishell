@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_inject_spaces.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:06:54 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 01:29:50 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/04/29 22:48:55 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ static int	ft_word_len(char *s, int *i)
 {
 	int			l;
 
-	l = ft_is_operator(s, *i);
-	if (!l)
+	if ((l = ft_is_operator(s, *i)) == 0)
 	{
 		l = *i;
 		while (s && s[*i])
@@ -40,7 +39,7 @@ static int	ft_word_len(char *s, int *i)
 				*i = ft_scape_quotes(s, *i);
 			else if (ft_is_operator(s, *i))
 				break ;
-			if (s[*i])
+			else
 				(*i)++;
 		}
 		return (*i - l);

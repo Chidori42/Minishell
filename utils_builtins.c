@@ -3,45 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/04/28 03:19:25 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/02 02:53:50 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(char **p)
+void	ft_builts_error(char *cmd, char *err, char *des)
 {
-	int	i;
-
-	i = -1;
-	while (p[++i])
-		;
-	if (i <= 2)
-	{
-		if (p && p[1])
-		{
-			while (p[1][++i])
-			{
-				if (!(p[1][i] >= '0' && p[1][i] <= '9'))
-				{
-					ft_putendl_fd(" numeric argument required", 2);
-					exit(255);
-				}
-			}
-			exit((unsigned char)ft_atoi(p[1]));
-		}
-		else
-			exit(0);
-	}
-	else
-		return (ft_putendl_fd(" too many arguments", 2), 1);
-	return (0);
+	ft_putstr_fd("mini: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": `", 2);
+	ft_putstr_fd(err, 2);
+	ft_putstr_fd("': ", 2);
+	ft_putendl_fd(des, 2);
 }
 
-int	ft_display_env(t_pars *data)
+char *ft_getcwd(t_pars *args)
+{
+	char			*tmp;
+	
+	tmp = getcwd(NULL, 0);
+	if (tmp)
+	{
+		free (args->cwd);
+		args->cwd = tmp;
+	}
+	return (tmp);
+}
+
+void	ft_display_env(t_pars *data, t_cmd *node)
 {
 	char	*v_name;
 	char	*v_value;
@@ -53,15 +47,19 @@ int	ft_display_env(t_pars *data)
 		v_name = ft_substr(data->envp[i], 0, \
 			ft_var_len(data->envp[i]));
 		if (!v_name)
-			return (-1);
+			break;
 		v_value = ft_substr(data->envp[i], \
 			(ft_var_len(data->envp[i]) + 1), \
 			(ft_strlen(data->envp[i]) - ft_strlen(v_name)));
-		if (!ft_strchr(data->envp[i], '='))
-			printf("declare -x %s\n", v_name);
-		else
-			printf("declare -x %s=\"%s\"\n", v_name, v_value);
+		ft_putstr_fd("declare -x ", node->out);
+		ft_putstr_fd(v_name, node->out);
+		if (v_value && ft_strchr(data->envp[i], '='))
+		{
+			ft_putstr_fd("=\"", node->out);
+			ft_putstr_fd(v_value, node->out);
+			ft_putstr_fd("\"", node->out);
+		}
+		write(node->out, "\n", 1);
 		(free(v_name), free(v_value));
 	}
-	return (0);
 }

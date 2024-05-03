@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 00:54:38 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/02 02:19:34 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,30 @@ static int	ft_is_there_slash(char *s)
 
 static int ft_execut_error(char *cmd)
 {
-	char		*cmd_name;
+	int			ref;
+	DIR			*ptr;
 	
-	if (errno == 13)
-		ft_putstr_fd(strerror(errno), 2);
-	else
-		ft_putstr_fd("command not found", 2);
-	cmd_name = ft_strs_join(ft_strdup(": "), \
-		ft_strdup(cmd));
-	if (cmd_name)
-		ft_putendl_fd(cmd_name, 2);
-	return (free (cmd_name), 0);
+	ref = errno;
+	ft_putstr_fd("mini: ", 2);
+	ft_putstr_fd(cmd, 2);
+	if (ref == 2)
+	{
+		ft_putendl_fd(": command not found", 2);
+		return (127);
+	}
+	else if (ref == 13)
+	{
+		ptr = opendir(cmd);
+		if (ptr && !closedir(ptr))
+			ft_putendl_fd(": is directory", 2);
+		else
+		{
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(ref), 2);
+		}
+		return (126);
+	}
+	return (0);
 }
 
 static char	*ft_get_path(t_pars *args, char *cmd)
@@ -49,8 +62,8 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 	cmd_path = cmd;
 	tmp = ft_getenv(args->envp, "PATH");
 	if (!tmp)
-		tmp = ft_strdup(args->def_path);
-	paths = ft_split(tmp, ':');
+		tmp = ft_strdup(args->path);
+	paths = ft_split_fr(tmp, ':');
 	if (paths)
 	{
 		while (paths[++i])
@@ -59,12 +72,12 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 			cmd_path = ft_strs_join(ft_strdup(paths[i]), \
 				ft_strdup(cmd));
 			if (0 <= access(cmd_path, 01111))
-				return (ft_free_2_dm(paths), free(tmp), cmd_path);
+				return (ft_free_2_dm(paths), cmd_path);
 			free (cmd_path);
 			cmd_path = NULL;
 		}
 	}
-	return (ft_free_2_dm(paths), free(tmp), cmd);
+	return (ft_free_2_dm(paths), cmd);
 }
 
 int	ft_execute_cmd(t_pars *args, t_cmd *node)
@@ -74,8 +87,6 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 	args->ext_st = 0;
 	if (args && node)
 	{
-		if (!ft_redirection(args, node))
-		{
 			cmd_path = node->data[0];
 			if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
 				return (errno);
@@ -84,12 +95,8 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 			if (ft_is_builtin(node->data))
 				args->ext_st = ft_builtins(args, node);
 			else if ((execve(cmd_path, node->data, args->envp) < 0))
-			{
-				ft_execut_error(node->data[0]);
-				return (free (cmd_path), 127 - 1 * (errno == 13));
-			}
+				return (ft_execut_error(cmd_path));
 			free (cmd_path);
-		}
 	}
 	return (args->ext_st);
 }

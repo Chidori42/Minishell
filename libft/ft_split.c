@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:28:37 by bramzil           #+#    #+#             */
-/*   Updated: 2024/02/21 15:37:35 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/02 02:08:32 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,15 @@ static size_t	ft_count_words(char const *s, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	char			**strs;
 	char			**ref;
+	char			**strs;
 
 	if (!s)
-		return (0);
-	strs = (char **)malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
+		return (NULL);
+	strs = (char **)malloc(sizeof(char *) * \
+		(ft_count_words(s, c) + 1));
 	if (!strs)
-		return (0);
+		return (NULL);
 	ref = strs;
 	while (*s)
 	{
@@ -73,12 +74,9 @@ char	**ft_split(char const *s, char c)
 			break ;
 		*strs = ft_substr(s, 0, ft_wrdlen(s, c));
 		if (!(*strs++))
-		{
-			ft_free_mem(ref);
-			return (0);
-		}
+			return (ft_free_mem(ref), NULL);
 		s += ft_wrdlen(s, c);
 	}
-	*strs = 0;
+	*strs = NULL;
 	return (ref);
 }

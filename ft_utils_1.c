@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 00:43:37 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/03 20:25:31 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,48 @@ int	ft_dup_fd(int new, int old)
 	return (0);
 }
 
-int	ft_get_exit_status(int new, int set)
+int ft_close(t_pars *args)
+{
+	ft_free_2_dm(args->envp);
+	printf("\033[AMinishell: exit\n");
+	exit(0);
+}
+
+char	**ft_split_fr(char *str, char c)
+{
+	char		**arr;
+
+	arr = NULL;
+	if (str)
+		arr = ft_split(str, c);
+	return (free(str), arr);
+}
+
+int	ft_get_status(pid_t new_pid, int new, int set)
 {
 	int				tmp;
 	static int		old;
+	static pid_t	old_pid;
 
 	tmp = old;
-	if (set)
+	if (set == 100)
+		old_pid = 0;
+	else if (set && ((old_pid <= new_pid) || \
+		(new_pid == 0)))
+	{
+		old_pid = new_pid;
 		old = new;
+	}
 	return (tmp);
 }
 
 void	ft_parse_error(char *str)
 {
-	write(2, "parse error near `", 18);
+	write(2, "bash: syntax error near unexpected token `", 43);
 	write(2, str, ft_strlen(str));
 	write(2, "'\n", 2);
 	free (str);
-	ft_get_exit_status(258, 1);
+	ft_get_status(0, 258, 1);
 }
 
 int	ft_free_2_dm(char **arr)
@@ -50,29 +74,21 @@ int	ft_free_2_dm(char **arr)
 	return (0);
 }
 
-int	ft_set_last_arg(t_pars *args, char **tab)
+int	last_arg(t_pars *args, t_cmd *node, char **tab, int f)
 {
 	int			i;
 	char		**tmp_1;
 
 	i = -1;
-	if (!args || !tab || !tab[0])
-		return (0);
-	tmp_1 = (char **)malloc(sizeof(char *) * 3);
-	if (!tmp_1)
-		return (-1);
-	tmp_1[0] = ft_strdup("export");
-	if (!tmp_1[0])
-		return (ft_free_2_dm(tmp_1), -1);
-	tmp_1[2] = NULL;
-	while (tab && tab[++i])
+	tmp_1 = ft_split("export _=", ' ');
+	while (tmp_1 && tab && tab[++i])
 	{
 		if (!tab[i + 1])
 		{
-			tmp_1[1] = ft_strjoin("_=", tab[i]);
-			if (!tmp_1[1])
-				return (ft_free_2_dm(tmp_1), -1);
-			ft_export(args, tmp_1);
+			if (f == 1)
+				tmp_1[1] = ft_strs_join(tmp_1[1], \
+					ft_strdup(tab[i]));
+			ft_export(args, node, tmp_1);
 		}
 	}
 	return (ft_free_2_dm(tmp_1), 0);
@@ -81,19 +97,13 @@ int	ft_set_last_arg(t_pars *args, char **tab)
 int	ft_is_builtin(char **tab)
 {
 	char		*ref;
-	char		*ref_1;
 
-	ref = "cd unset exit";
-	ref_1 = "env pwd echo";
+	ref = "cd unset exit env pwd echo export";
 	if (tab && tab[0])
 	{
-		if (!ft_strcmp(tab[0], "export") && tab[1])
-			return (2);
-		else if (ft_strstr(ref_1, tab[0]) || \
+		if (ft_strstr(ref, tab[0]) || \
 			!ft_strcmp(tab[0], "export"))
 			return (1);
-		else if (tab[0] && ft_strstr(ref, tab[0]))
-			return (2);
 	}
 	return (0);
 }
@@ -114,19 +124,21 @@ char	*ft_getenv(char **envp, char *name)
 {
 	int			i;
 	char		*vl;
-	char		**var;
+	char		*var;
 
 	i = -1;
 	while (envp && name && envp[++i])
 	{
-		var = ft_split(envp[i], '=');
-		if (!ft_strcmp(var[0], name))
+		var = ft_substr(envp[i], 0, \
+			ft_var_len(envp[i]));
+		if (!ft_strcmp(var, name))
 		{
-			vl = ft_strdup(var[1]);
-			ft_free_2_dm(var);
+			vl = ft_substr(envp[i], (ft_strlen(var) + 1), \
+				ft_strlen(envp[i]));
+			free(var);
 			return (vl);
 		}
-		ft_free_2_dm(var);
+		free(var);
 	}
 	return (NULL);
 }
