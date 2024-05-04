@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 15:42:51 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/03 23:34:00 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 static void	ft_heredoc_handler(int sig)
 {
 	if (sig == SIGINT)
-		ft_get_status(getpid(), 1, 1);
-	else if (sig == SIGUSR1)
-		ft_get_status(getpid(), 0, 1);
-	exit(1);
+		exit(1);
 }
 
 static void	ft_handler(int sig)

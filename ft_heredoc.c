@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/28 00:53:27 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/03 23:31:49 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ static void ft_child(t_pars *ags, char *lim, int fd, int qt)
 	while (true)
 	{
 		buf[0] = readline("> ");
-		if (!buf[0])
-				kill(getpid(), SIGUSR1);
-		if (!ft_strcmp(buf[0], lim))
+		if (!buf[0] || !ft_strcmp(buf[0], lim))
 			break;
 		if (qt && ags && buf)
 			ft_expander(ags, buf);
@@ -89,7 +87,7 @@ static int ft_read(t_pars *ags, char *lim, int fd, int qt)
 	wait(&ext_st);
 	if ((close(fd) < 0))
 		return (ft_putendl_fd(strerror(errno), 2), -1);
-	return (WEXITSTATUS(ext_st));
+	return (ext_st);
 }
 
 int	   
@@ -112,6 +110,7 @@ ft_heredoc(t_pars *args, char **lim)
 		qt = 0;
 	}
 	st = ft_read(args, tmp, fd, qt);
+	ft_get_status(3, st, 1);
 	free(tmp);
 	return (st);
 }

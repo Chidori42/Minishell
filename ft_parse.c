@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 01:11:05 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 20:05:04 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/03 23:30:50 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int ft_parse(t_pars *args, char **tab)
 	i = -1;
 	st = 0;
 	end = -1;
-	while (tab && tab[++i] && (i != end))
+	while (!st && tab && tab[++i] && (i != end))
 	{
 		j = i;
 		if (ft_check_token(tab, &st, i))
@@ -54,10 +54,10 @@ int ft_parse(t_pars *args, char **tab)
 		else if (!ft_strcmp(tab[i], "<<") && \
 			!ft_is_operator(tab[i + 1]))
 		{
-			while ((end == -1)&& tab[++j] && tab[j + 1])
+			while ((end == -1) && tab[++j] && tab[j + 1])
 				if (ft_check_token(tab, &st, j))
 					end = j;
-			ft_heredoc(args, &tab[i + 1]);
+			st = ft_heredoc(args, &tab[i + 1]);
 		}
 	}
 	return (st);
