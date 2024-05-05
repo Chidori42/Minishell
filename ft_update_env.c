@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:01:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 16:18:55 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:33:11 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_update_env(char **envp, char *par, int *b, int i)
 {
 	char		*tmp;
 	char		*opr;
-	char 		*value;
+	char		*value;
 	char		*name;
 
 	value = NULL;

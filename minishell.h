@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 16:01:23 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 23:27:18 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <dirent.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
-# include <readline/history.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 // # define malloc(void) NULL
 //******************************* command node *******************************//
 
@@ -68,13 +68,13 @@ int		ft_strstr(char *ref, char *s);
 void	ft_remove_quotes(t_cmd *lst);
 int		ft_count_words(char *input);
 int		ft_is_there_quotes(char *s);
-int 	ft_is_onlyspace(char *str);
+int		ft_is_onlyspace(char *str);
 int		ft_is_builtin(char **tab);
 void	ft_free_list(t_cmd *lst);
 int		ft_free_2_dm(char **arr);
 char	*ft_remove_qts(char *s);
-int 	ft_close(t_pars *args);
-void	ft_signals();
+int		ft_close(t_pars *args);
+void	ft_signals(int sig);
 int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
 void	ft_parse_error(char *str);
@@ -84,8 +84,8 @@ char	*ft_inject_space(char *input);
 int		ft_strcmp(char *s_1, char *s_2);
 char	**ft_split_fr(char *str, char c);
 char	*ft_strs_join(char *s1, char *s2);
-int 	ft_parse(t_pars *args, char **tab);
-char 	*ft_getenv(char **envp, char *name);
+int		ft_parse(t_pars *args, char **tab);
+char	*ft_getenv(char **envp, char *name);
 int		ft_expander(t_pars *args, char **tab);
 int		ft_find_second(char *s, char qt, int i);
 int		ft_redirection(t_pars *args, t_cmd *node);

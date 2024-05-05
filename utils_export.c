@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:00:06 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/05/03 19:22:11 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:35:15 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	ft_check_arg(char *arg, int *st)
 	while (arg && arg[++i])
 	{
 		if (ft_is_space(arg[i]))
-			return (*st = 1, 
+			return (*st = 1, \
 				ft_builts_error("export", arg, err_des), 1);
 		if (arg[i] == '+' && arg[i + 1] != '=')
-			return (*st = 1, 
+			return (*st = 1, \
 				ft_builts_error("export", arg, err_des), 1);
 		if (arg[i] == '+' || arg[i] == '=')
 			break ;
@@ -64,12 +64,12 @@ int	ft_check_var(char *arg, int *st)
 		var_name = ft_substr(arg, 0, \
 			ft_var_len(arg));
 		if (var_name && !(ft_isalpha(var_name[i]) || var_name[i] == '_'))
-			return (*st = 1, free(var_name), 
+			return (*st = 1, free(var_name), \
 					ft_builts_error("export", arg, err_des), 1);
 		while (var_name && var_name[++i])
 			if (!ft_isalnum(var_name[i]) && \
 				var_name[i] != '_')
-				return (*st = 1, free(var_name), 
+				return (*st = 1, free(var_name), \
 					ft_builts_error("export", arg, err_des), 1);
 		free(var_name);
 	}

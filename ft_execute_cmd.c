@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/02 02:19:34 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/04 18:21:26 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static int	ft_is_there_slash(char *s)
 	return (0);
 }
 
-static int ft_execut_error(char *cmd)
+static int	ft_execut_error(char *cmd)
 {
 	int			ref;
 	DIR			*ptr;
-	
+
 	ref = errno;
 	ft_putstr_fd("mini: ", 2);
 	ft_putstr_fd(cmd, 2);
@@ -87,16 +87,16 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 	args->ext_st = 0;
 	if (args && node)
 	{
-			cmd_path = node->data[0];
-			if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
-				return (errno);
-			if (!ft_is_there_slash(node->data[0]))
-				cmd_path = ft_get_path(args, node->data[0]);
-			if (ft_is_builtin(node->data))
-				args->ext_st = ft_builtins(args, node);
-			else if ((execve(cmd_path, node->data, args->envp) < 0))
-				return (ft_execut_error(cmd_path));
-			free (cmd_path);
+		cmd_path = node->data[0];
+		if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
+			return (errno);
+		if (!ft_is_there_slash(node->data[0]))
+			cmd_path = ft_get_path(args, node->data[0]);
+		if (ft_is_builtin(node->data))
+			args->ext_st = ft_builtins(args, node);
+		else if ((execve(cmd_path, node->data, args->envp) < 0))
+			return (ft_execut_error(cmd_path));
+		free (cmd_path);
 	}
 	return (args->ext_st);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 22:51:32 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 21:51:38 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_proced_process(t_pars *args)
 {
 	int			st;
-	
+
 	st = 1;
 	args->tab = NULL;
 	args->input = ft_inject_space(args->input);
@@ -23,7 +23,7 @@ static void	ft_proced_process(t_pars *args)
 	{
 		if (!ft_parse(args, args->tab))
 		{
-			if (args->tab)
+			if (args->tab && args->tab[0])
 			{
 				if (!ft_create_list(args, args->tab))
 					ft_execute_lst(args);
@@ -37,8 +37,8 @@ static void	ft_proced_process(t_pars *args)
 int	main(int ac, char **av, char **envp)
 {
 	t_pars		args;
-	(void)		av;
-	
+
+	(void)av;
 	ft_signals(0);
 	if (ac == 1)
 	{
@@ -56,7 +56,6 @@ int	main(int ac, char **av, char **envp)
 				ft_proced_process(&args);
 			}
 			free (args.input);
-			//system("leaks minishell");
 		}
 		ft_close(&args);
 	}

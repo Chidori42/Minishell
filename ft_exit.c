@@ -6,13 +6,13 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:59:54 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/04 00:23:05 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:21:57 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_strcmp_nb(char *str)
+static int	ft_strcmp_nb(char *str)
 {
 	char		*ref;
 	char		*tmp;

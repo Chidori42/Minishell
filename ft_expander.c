@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:19:26 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 23:32:55 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ static char	*ft_expand(t_pars *args, char *s, int ind, int len)
 	tmp = ft_substr(s, (ind + 1), len);
 	if (!tmp)
 		return (NULL);
-	(value = tmp, tmp = ft_strtrim(tmp, "\""), \
-		free(value));
+	value = tmp;
+	tmp = ft_strtrim(tmp, "\"");
+	free(value);
 	if (!ft_strcmp(tmp, "?"))
 		value = ft_itoa(ft_get_status(0, 0, 0));
 	else

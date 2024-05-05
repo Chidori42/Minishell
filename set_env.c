@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/03 00:04:18 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/04 18:34:43 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_isdigit_only(char *str)
+static int	ft_isdigit_only(char *str)
 {
 	int			i;
-	
+
 	i = -1;
 	while (str && str[++i])
 		if (!ft_isdigit(str[i]))
@@ -51,7 +51,7 @@ static void	ft_update_shell_lvl(t_pars *data, t_cmd *node)
 void	ft_set_env(t_pars *args, char **env)
 {
 	char		**tmp;
-	
+
 	tmp = NULL;
 	args->cwd = NULL;
 	args->path = "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.";

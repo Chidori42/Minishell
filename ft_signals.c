@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:34:00 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 23:25:42 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_handler(int sig)
 {
 	int			st;
 	pid_t		pid;
-	
+
 	st = -1;
 	pid = 1;
 	if (sig == SIGINT)
@@ -44,13 +44,11 @@ static void	ft_handler(int sig)
 
 void	ft_signals(int sig)
 {
-	if (!sig)	
+	if (!sig)
 		signal(SIGINT, ft_handler);
 	else if (sig)
 	{
 		signal(SIGINT, ft_heredoc_handler);
 		signal(SIGUSR1, ft_heredoc_handler);
 	}
-	signal(SIGQUIT, SIG_IGN);
-	rl_catch_signals = 0;
 }

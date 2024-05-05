@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 01:11:05 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:30:50 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:28:12 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	ft_check_token(char **tab, int *st, int i)
 	return (0);
 }
 
-int ft_parse(t_pars *args, char **tab)
+int	ft_parse(t_pars *args, char **tab)
 {
 	int			i;
 	int			j;

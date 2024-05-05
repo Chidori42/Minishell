@@ -16,6 +16,8 @@ SRCS                    =	minishell.c \
 							ft_get_redir.c \
 							ft_expander.c \
 							ft_utils_1.c \
+							ft_utils_2.c \
+							ft_utils_3.c \
 							ft_heredoc.c \
 							ft_get_cmd.c \
 							ft_signals.c \

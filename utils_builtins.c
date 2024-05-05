@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/02 02:53:50 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/04 18:34:53 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	ft_builts_error(char *cmd, char *err, char *des)
 	ft_putendl_fd(des, 2);
 }
 
-char *ft_getcwd(t_pars *args)
+char	*ft_getcwd(t_pars *args)
 {
 	char			*tmp;
-	
+
 	tmp = getcwd(NULL, 0);
 	if (tmp)
 	{
@@ -47,7 +47,7 @@ void	ft_display_env(t_pars *data, t_cmd *node)
 		v_name = ft_substr(data->envp[i], 0, \
 			ft_var_len(data->envp[i]));
 		if (!v_name)
-			break;
+			break ;
 		v_value = ft_substr(data->envp[i], \
 			(ft_var_len(data->envp[i]) + 1), \
 			(ft_strlen(data->envp[i]) - ft_strlen(v_name)));
