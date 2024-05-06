@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_remove_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 11:18:54 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:56:14 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static void	ft_quotes_cpy(char *d, char *s, char qt, int *t)
 		else
 		{
 			d[t[1]] = s[t[0]];
-			if (s[t[0]] != qt)
-				t[1]++;	
+			t[1]++;
 		}
 	}
 }
@@ -42,6 +41,8 @@ static int	ft_count_qts(char *s)
 {
 	int			i;
 	int			nb;
+	int			rf;
+	char		qt;
 
 	i = 0;
 	nb = 0;
@@ -49,8 +50,12 @@ static int	ft_count_qts(char *s)
 	{
 		if (s[i] == '\'' || s[i] == '\"')
 		{
+			rf = i;
+			nb += 1;
+			qt = s[i];
 			i = ft_scape_quotes(s, i);
-			nb += 2;
+			if (rf != i && s[i] == qt)
+				nb += 1;
 		}
 		if (s[i])
 			i++;
@@ -68,7 +73,7 @@ char	*ft_remove_qts(char *s)
 	t[1] = 0;
 	qts = ft_count_qts(s);
 	str = (char *)malloc(sizeof(char) * \
-		(ft_strlen(s) - qts + 1));	
+		(ft_strlen(s) - qts + 1));
 	if (str)
 	{
 		while (s && s[t[0]])

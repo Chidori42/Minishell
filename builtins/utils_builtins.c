@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 00:35:54 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 04:17:06 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,23 @@ void	ft_builts_error(char *cmd, char *err, char *des)
 	ft_putendl_fd(des, 2);
 }
 
-char *ft_getcwd(t_pars *args)
+void	ft_cd_error(void)
+{
+	char	*err_msg;
+
+	err_msg = NULL;
+	err_msg = ft_strs_join(err_msg, ft_strdup("cd: error retrieving current "));
+	err_msg = ft_strs_join(err_msg, ft_strdup("directory: getcwd: cannot "));
+	err_msg = ft_strs_join(err_msg, ft_strdup("access parent directories: "));
+	err_msg = ft_strs_join(err_msg, ft_strdup("No such file or director"));
+	ft_putendl_fd(err_msg, 2);
+	free (err_msg);
+}
+
+char	*ft_getcwd(t_pars *args)
 {
 	char			*tmp;
-	
+
 	tmp = getcwd(NULL, 0);
 	if (tmp)
 	{
@@ -47,7 +60,7 @@ void	ft_display_env(t_pars *data, t_cmd *node)
 		v_name = ft_substr(data->envp[i], 0, \
 			ft_var_len(data->envp[i]));
 		if (!v_name)
-			break;
+			break ;
 		v_value = ft_substr(data->envp[i], \
 			(ft_var_len(data->envp[i]) + 1), \
 			(ft_strlen(data->envp[i]) - ft_strlen(v_name)));

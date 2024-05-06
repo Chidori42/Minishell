@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 11:18:48 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:23:21 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	ft_redir_in(t_cmd *node, char **redir)
 		return (1);
 	if ((2 < node->in) && (close(node->in) < 0))
 		return (ft_putendl_fd(strerror(errno), 2), \
-			close(fd) -1);
+			close(fd) - 1);
 	node->in = fd;
 	return (0);
 }

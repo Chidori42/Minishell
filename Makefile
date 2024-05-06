@@ -29,6 +29,8 @@ SRCS                    =	minishell.c \
 							./shared/ft_update_env.c \
 							./shared/set_env.c \
 							./shared/ft_utils_1.c \
+							./shared/ft_utils_2.c \
+							./shared/ft_utils_3.c \
 
 #Mandatory object files name.
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 23:55:58 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:23:00 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static int	ft_close_fd(t_cmd *node)
 	return (0);
 }
 
-static int ft_get_exit(pid_t pid_1)
+static int	ft_get_exit(pid_t pid_1)
 {
-	int 		i;
+	int			i;
 	int			st;
 	pid_t		pid;
-	
+
 	i = 0;
 	st = -1;
 	if (200 < pid_1)
@@ -52,7 +52,7 @@ static int ft_get_exit(pid_t pid_1)
 static int	ft_pipe(t_cmd *node)
 {
 	int			p[2];
-	
+
 	if (node->next)
 	{
 		if (pipe(p) < 0)
@@ -64,7 +64,7 @@ static int	ft_pipe(t_cmd *node)
 		node->out = p[1];
 		node->next->in = p[0];
 	}
-	return (0); 
+	return (0);
 }
 
 static pid_t	ft_child(t_pars *args, t_cmd *node)

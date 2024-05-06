@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/05 11:19:24 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:22:02 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int ft_new_env(t_pars *args, char *tmp)
+static int	ft_new_env(t_pars *args, char *tmp)
 {
 	char		**new;
-	
+
 	new = ft_split_fr(tmp, '\n');
 	if (!new)
 		return (-1);
@@ -73,8 +73,8 @@ static int	remove_var(t_pars *arg, char *str)
 
 int	ft_unset(t_pars *arg, char **p)
 {
-	int b;
-	int i;
+	int	b;
+	int	i;
 
 	b = 0;
 	i = 0;

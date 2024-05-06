@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:59:54 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/05 11:19:11 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:21:46 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int ft_strcmp_nb(char *str)
+static	int	ft_strcmp_nb(char *str)
 {
 	char		*ref;
 	char		*tmp;

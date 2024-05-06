@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 23:33:48 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:29:48 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_proced_process(t_pars *args)
 {
 	int			st;
-	
+
 	st = 1;
 	args->tab = NULL;
 	args->input = ft_inject_space(args->input);
@@ -34,17 +34,16 @@ static void	ft_proced_process(t_pars *args)
 	}
 }
 
-void fuc(void)
+void	fuc(void)
 {
 	system("leaks	minishell");
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	// atexit(fuc);
 	t_pars		args;
-	(void)		av;
-	
+
+	(void)av;
 	ft_signals(0);
 	if (ac == 1)
 	{
@@ -62,7 +61,6 @@ int	main(int ac, char **av, char **envp)
 				ft_proced_process(&args);
 			}
 			free (args.input);
-			//system("leaks minishell");
 		}
 		ft_close(&args);
 	}

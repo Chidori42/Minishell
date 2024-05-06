@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 12:03:03 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:22:44 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static int	ft_is_there_slash(char *s)
 	return (0);
 }
 
-static int ft_execut_error(char *cmd)
+static int	ft_execut_error(char *cmd)
 {
 	int			ref;
 	DIR			*ptr;
-	
+
 	ref = errno;
 	ft_putstr_fd("mini: ", 2);
 	ft_putstr_fd(cmd, 2);

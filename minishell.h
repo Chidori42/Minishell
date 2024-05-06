@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 23:43:23 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 04:14:36 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <readline/readline.h>
 // # define malloc(void) NULL
 # define RL_SIG rl_catch_signals
+
 //******************************* command node *******************************//
 
 typedef struct s_cmd
@@ -69,16 +70,16 @@ int		ft_strstr(char *ref, char *s);
 void	ft_remove_quotes(t_cmd *lst);
 int		ft_count_words(char *input);
 int		ft_is_there_quotes(char *s);
-int 	ft_is_onlyspace(char *str);
+int		ft_is_onlyspace(char *str);
 int		ft_is_builtin(char **tab);
 void	ft_free_list(t_cmd *lst);
 int		ft_free_2_dm(char **arr);
 char	*ft_remove_qts(char *s);
-int 	ft_close(t_pars *args);
-void	ft_signals();
+int		ft_close(t_pars *args);
+void	ft_signals(int sig);
 int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
-void 	ft_child_handler(int sig);
+void	ft_child_handler(int sig);
 void	ft_parse_error(char *str);
 int		ft_dup_fd(int new, int old);
 int		ft_execute_lst(t_pars *args);
@@ -86,8 +87,8 @@ char	*ft_inject_space(char *input);
 int		ft_strcmp(char *s_1, char *s_2);
 char	**ft_split_fr(char *str, char c);
 char	*ft_strs_join(char *s1, char *s2);
-int 	ft_parse(t_pars *args, char **tab);
-char 	*ft_getenv(char **envp, char *name);
+int		ft_parse(t_pars *args, char **tab);
+char	*ft_getenv(char **envp, char *name);
 int		ft_expander(t_pars *args, char **tab);
 int		ft_find_second(char *s, char qt, int i);
 int		ft_redirection(t_pars *args, t_cmd *node);
@@ -95,6 +96,7 @@ int		ft_execute_cmd(t_pars *args, t_cmd *node);
 int		ft_get_status(pid_t new_pid, int new, int set);
 
 //****************************************************************************//
+void	ft_cd_error(void);
 int		ft_exit(t_cmd *node);
 int		ft_var_len(char *arg);
 char	*ft_getcwd(t_pars *args);

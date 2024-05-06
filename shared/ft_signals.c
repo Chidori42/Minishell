@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 23:57:21 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 03:29:19 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_child_handler(int sig)
+void	ft_child_handler(int sig)
 {
-	(void)		sig;
+	(void)sig;
 }
 
 static void	ft_heredoc_handler(int sig)
@@ -27,7 +27,7 @@ static void	ft_handler(int sig)
 {
 	int			st;
 	pid_t		pid;
-	
+
 	st = -1;
 	pid = 1;
 	if (sig == SIGINT)
