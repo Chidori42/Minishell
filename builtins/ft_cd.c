@@ -6,11 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:16:01 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 01:56:30 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 00:36:16 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 #define ERR_MSG "cd: error retrieving current " \
 				"directory: getcwd: cannot access " \
@@ -65,7 +65,7 @@ int ft_setcwd(t_pars *args, t_cmd *node, int *ref, char *cwd)
 		if (!tmp[1])
 			return (ft_free_2_dm(tmp), -1);
 		if (!ft_export(args, node, tmp))
-			args->cwd = ft_getenv(args->envp, "PWD");
+			args->cwd = ft_strdup(ft_getenv(args->envp, "PWD"));
 	}
 	return (ft_free_2_dm(tmp), 0);
 }

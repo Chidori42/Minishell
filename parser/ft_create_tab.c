@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:41:37 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 11:19:58 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_scape_spaces(char *input, int i)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:01:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 16:18:55 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 11:20:34 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*ft_get_operator(char *arg)
 {
@@ -62,12 +62,15 @@ int	ft_update_env(char **envp, char *par, int *b, int i)
 	{
 		*b = 0;
 		opr = ft_get_operator(par);
-		if (opr && !ft_strcmp(opr, "+="))
-			value = ft_substr(envp[i], (ft_strlen(name) + 1), \
-				ft_strlen(envp[i]));
-		free (envp[i]);
-		envp[i] = ft_new_var(ft_strdup(par), value);
-		free(opr);
+		if (opr)
+		{
+			if (!ft_strcmp(opr, "+="))
+				value = ft_substr(envp[i], (ft_strlen(name) + 1), \
+					ft_strlen(envp[i]));
+			free (envp[i]);
+			envp[i] = ft_new_var(ft_strdup(par), value);
+			free(opr);
+		}
 	}
 	return (free (tmp), free(name), *b);
 }

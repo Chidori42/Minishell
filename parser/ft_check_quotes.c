@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:21:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:50:27 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 11:19:49 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_find_second(char *s, char qt, int i)
 {

@@ -6,11 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/03 00:04:18 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 00:07:28 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int ft_isdigit_only(char *str)
 {

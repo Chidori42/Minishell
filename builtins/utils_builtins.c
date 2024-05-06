@@ -6,11 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/02 02:53:50 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 00:35:54 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_builts_error(char *cmd, char *err, char *des)
 {
@@ -30,7 +30,7 @@ char *ft_getcwd(t_pars *args)
 	if (tmp)
 	{
 		free (args->cwd);
-		args->cwd = tmp;
+		args->cwd = ft_strdup(tmp);
 	}
 	return (tmp);
 }

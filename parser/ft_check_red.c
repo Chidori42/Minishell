@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_red.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:18:39 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/27 01:07:46 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 11:19:54 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_check_red_left(char *s, int i)
 {

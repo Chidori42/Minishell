@@ -6,11 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/02 18:19:46 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/05 23:55:58 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_close_fd(t_cmd *node)
 {
@@ -29,12 +29,16 @@ static int ft_get_exit(pid_t pid_1)
 	
 	i = 0;
 	st = -1;
+	if (200 < pid_1)
+		pid_1 = 0;
 	while (true)
 	{
 		pid = wait(&st);
 		if (0 < pid)
 		{
-			if ((pid_1 == pid) && ++i)
+			if (WIFSIGNALED(st))
+				ft_get_status(pid_1, 128 + st, 1);
+			else if ((pid_1 == pid) && ++i)
 				ft_get_status(pid_1, WEXITSTATUS(st), 1);
 		}
 		else

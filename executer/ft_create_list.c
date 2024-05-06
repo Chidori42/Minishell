@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:26:36 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 20:06:43 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 23:10:22 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_free_list(t_cmd *lst)
 {
@@ -97,6 +97,6 @@ int	ft_create_list(t_pars *args, char **tab)
 			;
 	}
 	ft_remove_quotes(args->lst);
-	ft_get_status(getpid(), (1 - (1 * (args->lst != NULL))), 1);
+	ft_get_status(0, (1 - (1 * (args->lst != NULL))), 1);
 	return (1 - (1 * (args->lst != NULL)));
 }

@@ -6,11 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/02 02:19:34 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:03:03 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_is_there_slash(char *s)
 {
@@ -85,18 +85,21 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 	char		*cmd_path;
 
 	args->ext_st = 0;
+	signal(SIGQUIT, ft_child_handler);
 	if (args && node)
 	{
-			cmd_path = node->data[0];
-			if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
-				return (errno);
-			if (!ft_is_there_slash(node->data[0]))
-				cmd_path = ft_get_path(args, node->data[0]);
-			if (ft_is_builtin(node->data))
-				args->ext_st = ft_builtins(args, node);
-			else if ((execve(cmd_path, node->data, args->envp) < 0))
-				return (ft_execut_error(cmd_path));
-			free (cmd_path);
+		cmd_path = node->data[0];
+		if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
+			return (errno);
+		if (!ft_is_there_slash(node->data[0]) && \
+			ft_strcmp(node->data[0], ".") && \
+			ft_strcmp(node->data[0], ".."))
+			cmd_path = ft_get_path(args, node->data[0]);
+		if (ft_is_builtin(node->data))
+			args->ext_st = ft_builtins(args, node);
+		else if ((execve(cmd_path, node->data, args->envp) < 0))
+			return (ft_execut_error(cmd_path));
+		free (cmd_path);
 	}
 	return (args->ext_st);
 }

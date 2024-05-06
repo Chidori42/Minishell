@@ -6,11 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 01:01:12 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/02 02:17:01 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/05 11:19:24 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int ft_new_env(t_pars *args, char *tmp)
 {

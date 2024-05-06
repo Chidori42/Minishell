@@ -58,6 +58,7 @@
         "typeinfo": "c",
         "unordered_map": "c",
         "utility": "c",
-        "vector": "c"
+        "vector": "c",
+        "minishell.h": "c"
     }
 }

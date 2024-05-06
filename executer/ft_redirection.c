@@ -6,11 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/04/29 17:15:40 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/05 11:18:48 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_puterror(char *file)
 {

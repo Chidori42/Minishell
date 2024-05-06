@@ -4,37 +4,37 @@
 #Mandatory source files names.
 
 SRCS                    =	minishell.c \
-							ft_execute_cmd.c \
-							ft_check_quotes.c \
-							ft_inject_spaces.c \
-							ft_remove_quotes.c \
-							ft_execute_list.c \
-							ft_create_list.c \
-							ft_redirection.c \
-							ft_create_tab.c \
-							ft_check_red.c \
-							ft_get_redir.c \
-							ft_expander.c \
-							ft_utils_1.c \
-							ft_heredoc.c \
-							ft_get_cmd.c \
-							ft_signals.c \
-							ft_export.c \
-							ft_unset.c \
-							ft_parse.c \
-							builtins.c \
-							utils_export.c \
-							ft_update_env.c \
-							utils_builtins.c \
-							set_env.c \
-							ft_exit.c \
-							ft_cd.c
+							./parser/ft_parse.c \
+							./parser/ft_check_quotes.c \
+							./parser/ft_inject_spaces.c \
+							./parser/ft_create_tab.c \
+							./parser/ft_check_red.c \
+							./parser/ft_heredoc.c \
+							./executer/ft_execute_cmd.c \
+							./executer/ft_remove_quotes.c \
+							./executer/ft_execute_list.c \
+							./executer/ft_create_list.c \
+							./executer/ft_redirection.c \
+							./executer/ft_get_redir.c \
+							./executer/ft_expander.c \
+							./executer/ft_get_cmd.c \
+							./builtins/ft_export.c \
+							./builtins/ft_unset.c \
+							./builtins/builtins.c \
+							./builtins/utils_export.c \
+							./builtins/ft_exit.c \
+							./builtins/ft_cd.c \
+							./builtins/utils_builtins.c \
+							./shared/ft_signals.c \
+							./shared/ft_update_env.c \
+							./shared/set_env.c \
+							./shared/ft_utils_1.c \
 
 #Mandatory object files name.
 
 OBJS                    = $(SRCS:%c=%o)
 
-FLAGS                   = -Wall -Wextra -Werror #-g -fsanitize=address
+FLAGS                   = -Wall -Wextra -Werror -g -fsanitize=address
 
 NAME                    = minishell
 
@@ -84,6 +84,7 @@ $(NAME)                 : $(LIBFT) $(OBJS)
 
 clean                   :
 	rm -f *.o
+	rm -f */*.o
 	make clean -C ./libft
 
 fclean                  : clean

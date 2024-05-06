@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:34:00 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 23:57:21 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
+
+void ft_child_handler(int sig)
+{
+	(void)		sig;
+}
 
 static void	ft_heredoc_handler(int sig)
 {
@@ -27,30 +32,33 @@ static void	ft_handler(int sig)
 	pid = 1;
 	if (sig == SIGINT)
 	{
-		while (0 < pid)
-		{
-			pid = wait(&st);
-			if ((0 < pid) && (st == 2))
-				ft_get_status(pid, 130, 1);
-		}
+		pid = wait(&st);
+		if (pid != 1)
+			ft_get_status(pid, 128 + st, 1);
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		if (st == -1)
-			rl_redisplay();
-		ft_get_status(getpid(), 1, 1);
+			(rl_redisplay(), \
+				ft_get_status(0, 1, 1));
 	}
+	else if (sig == SIGQUIT)
+		if (0 < wait(NULL))
+			printf("Quit: 3\n");
 }
 
 void	ft_signals(int sig)
 {
-	if (!sig)	
+	if (!sig)
+	{
 		signal(SIGINT, ft_handler);
+		signal(SIGQUIT, ft_handler);
+	}
 	else if (sig)
 	{
 		signal(SIGINT, ft_heredoc_handler);
 		signal(SIGUSR1, ft_heredoc_handler);
+		signal(SIGQUIT, SIG_IGN);
 	}
-	signal(SIGQUIT, SIG_IGN);
-	rl_catch_signals = 0;
+	RL_SIG = 0;
 }

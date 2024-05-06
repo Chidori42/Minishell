@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expander.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:19:26 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 01:39:40 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	var_len(char *s, int i)
 {
@@ -22,13 +22,13 @@ int	var_len(char *s, int i)
 		if (ft_isdigit(s[i]) || s[0] == '?')
 			return (1);
 		while (s && s[i] && (ft_isalnum(s[i]) || \
-			(s[i] == '_') || (s[i] == '\"')) && ++len)
+			(s[i] == '_')) && ++len)
 			i++;
 	}
 	return (len);
 }
 
-static int	ft_expansion(char *s, int i)
+static int	ft_expand_it(char *s, int i)
 {
 	while (s && s[++i])
 	{
@@ -37,10 +37,10 @@ static int	ft_expansion(char *s, int i)
 		else if (s[i] && (s[i] == '\"'))
 		{
 			while (s[i] && s[++i] && (s[i] != '\"'))
-				if ((s[i] == '$') && var_len(&s[i + 1], 0))
+				if (s[i] == '$')
 					return (i);
 		}
-		else if (s[i] && (s[i] == '$') && var_len(&s[i + 1], 0))
+		else if (s[i] && (s[i] == '$'))
 			return (i);
 		if (!s[i])
 			break ;
@@ -58,10 +58,6 @@ static char	*ft_expand(t_pars *args, char *s, int ind, int len)
 	if (!args || !s)
 		return (NULL);
 	tmp = ft_substr(s, (ind + 1), len);
-	if (!tmp)
-		return (NULL);
-	(value = tmp, tmp = ft_strtrim(tmp, "\""), \
-		free(value));
 	if (!ft_strcmp(tmp, "?"))
 		value = ft_itoa(ft_get_status(0, 0, 0));
 	else
@@ -84,10 +80,11 @@ int	ft_expander(t_pars *args, char **tab)
 	char		*tmp;
 
 	i = -1;
+	len = 1;
 	while (tab && tab[++i])
 	{
 		ind = -1;
-		ind = ft_expansion(tab[i], ind);
+		ind = ft_expand_it(tab[i], ind);
 		if (0 <= ind)
 		{
 			tmp = tab[i];

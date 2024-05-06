@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 20:25:31 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 12:12:57 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_dup_fd(int new, int old)
 {
@@ -204,6 +204,7 @@ static int	ft_redir_error(char *s)
 {
 	char		*tmp;
 
+	ft_get_status(0, 1, 1);
 	tmp = ft_strs_join(ft_strdup(s), \
 		ft_strdup(": ambiguous redirect"));
 	if (!tmp)

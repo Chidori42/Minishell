@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_inject_spaces.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:06:54 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 23:50:43 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 11:20:11 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_is_operator(char *s, int i)
 {

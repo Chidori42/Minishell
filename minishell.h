@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/03 16:01:23 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/05 23:43:23 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 // # define malloc(void) NULL
+# define RL_SIG rl_catch_signals
 //******************************* command node *******************************//
 
 typedef struct s_cmd
@@ -77,6 +78,7 @@ int 	ft_close(t_pars *args);
 void	ft_signals();
 int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
+void 	ft_child_handler(int sig);
 void	ft_parse_error(char *str);
 int		ft_dup_fd(int new, int old);
 int		ft_execute_lst(t_pars *args);
