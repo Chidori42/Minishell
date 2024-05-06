@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 01:11:05 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 03:28:54 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:40:51 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_is_operator(char *s)
 static int	ft_check_token(char **tab, int *st, int i)
 {
 	if (ft_check_quotes(tab[i]))
-		return ((*st = 1), ft_get_status(0, 258, 1), -1);
+		return ((*st = 1), ft_get_status(0, NULL, 258, 1), -1);
 	else if ((i == 0) && !ft_strcmp(tab[0], "|"))
 		return (ft_parse_error(ft_strdup(tab[0])), -1);
 	else if (!ft_strcmp(tab[i], "|") && ft_is_operator(tab[i - 1]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 03:28:39 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 23:09:56 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ static int	ft_read(t_pars *ags, char *lim, int fd, int qt)
 		return (ft_putendl_fd(strerror(errno), 2), -1);
 	else if (pid == 0)
 		ft_child(ags, lim, fd, qt);
-	wait(&ext_st);
+	waitpid(pid, &ext_st, 0);
 	if ((close(fd) < 0))
 		return (ft_putendl_fd(strerror(errno), 2), -1);
+	if (WIFSIGNALED(ext_st))
+		return (WTERMSIG(ext_st));
 	return (ext_st);
 }
 
@@ -110,7 +112,7 @@ int	ft_heredoc(t_pars *args, char **lim)
 		qt = 0;
 	}
 	st = ft_read(args, tmp, fd, qt);
-	ft_get_status(3, st, 1);
+	ft_get_status(0, NULL, st, 1);
 	free(tmp);
 	return (st);
 }

@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 03:35:44 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 22:27:40 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_dup_fd(int new, int old)
+int	ft_dup_fd(int new, int old, int *st)
 {
 	if ((2 < new) && dup2(new, old) < 0)
-		return (ft_putendl_fd(strerror(errno), 2), -1);
+		return (ft_putendl_fd(strerror(errno), 2), \
+			(*st = 1), -1);
 	return (0);
 }
 
@@ -36,22 +37,22 @@ char	**ft_split_fr(char *str, char c)
 	return (free(str), arr);
 }
 
-int	ft_get_status(pid_t new_pid, int new, int set)
+int	ft_get_status(pid_t new_pid, int *cont, int vl, int lvl)
 {
-	int				tmp;
-	static int		old;
+	static int		*old;
+	static int		old_lvl;
 	static pid_t	old_pid;
 
-	tmp = old;
-	if (set == 100)
-		old_pid = 0;
-	else if (set && ((old_pid <= new_pid) || \
-		(new_pid == 0)))
+	if (lvl == 100)
+		old = cont;
+	else if ((old_lvl != lvl) || \
+		((old_lvl == lvl) && (old_pid <= new_pid)))
 	{
 		old_pid = new_pid;
-		old = new;
+		old_lvl = lvl;
+		*old = vl;
 	}
-	return (tmp);
+	return (*old);
 }
 
 void	ft_parse_error(char *str)
@@ -60,5 +61,5 @@ void	ft_parse_error(char *str)
 	write(2, str, ft_strlen(str));
 	write(2, "'\n", 2);
 	free (str);
-	ft_get_status(0, 258, 1);
+	ft_get_status(0, NULL, 258, 1);
 }

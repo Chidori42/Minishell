@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 01:39:40 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 15:45:07 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*ft_expand(t_pars *args, char *s, int ind, int len)
 		return (NULL);
 	tmp = ft_substr(s, (ind + 1), len);
 	if (!ft_strcmp(tmp, "?"))
-		value = ft_itoa(ft_get_status(0, 0, 0));
+		value = ft_itoa(args->ext_st);
 	else
 		value = ft_getenv(args->envp, tmp);
 	if (!ft_strcmp(tmp, "PATH") && !value)

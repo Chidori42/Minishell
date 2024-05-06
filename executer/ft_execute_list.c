@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 03:23:00 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 22:55:14 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,28 @@ static int	ft_close_fd(t_cmd *node)
 	return (0);
 }
 
-static int	ft_get_exit(pid_t pid_1)
+static int	ft_get_exit(pid_t rt)
 {
-	int			i;
+	int			b;
 	int			st;
 	pid_t		pid;
 
-	i = 0;
+	b = 0;
 	st = -1;
-	if (200 < pid_1)
-		pid_1 = 0;
 	while (true)
 	{
 		pid = wait(&st);
-		if (0 < pid)
-		{
-			if (WIFSIGNALED(st))
-				ft_get_status(pid_1, 128 + st, 1);
-			else if ((pid_1 == pid) && ++i)
-				ft_get_status(pid_1, WEXITSTATUS(st), 1);
-		}
-		else
+		if (0 < pid && (rt == pid) && ++b)
+			ft_get_status(rt, NULL, WEXITSTATUS(st), 3);
+		else if (pid < 0)
 			break ;
 	}
-	if ((st == -1) && !i)
-		ft_get_status(getpid(), pid_1, 1);
+	if (!b && !G_sig)
+		ft_get_status(0, NULL, rt, 3);
 	return (0);
 }
 
-static int	ft_pipe(t_cmd *node)
+static int	ft_pipe(t_cmd *node, int *st)
 {
 	int			p[2];
 
@@ -57,9 +50,8 @@ static int	ft_pipe(t_cmd *node)
 	{
 		if (pipe(p) < 0)
 		{
-			ft_get_status(getpid(), 1, 1);
 			ft_putendl_fd(strerror(errno), 2);
-			return (-1);
+			return (((*st) = 1), -1);
 		}
 		node->out = p[1];
 		node->next->in = p[0];
@@ -76,7 +68,7 @@ static pid_t	ft_child(t_pars *args, t_cmd *node)
 	{
 		pid = fork();
 		if (pid < 0)
-			return (ft_putendl_fd(strerror(errno), 2), -1);
+			return (ft_putendl_fd(strerror(errno), 2), 1);
 		if (pid == 0)
 		{
 			if (node->next && node->next->in && \
@@ -102,7 +94,7 @@ int	ft_execute_lst(t_pars *args)
 	while (lst && ++i)
 	{
 		last_arg(args, lst, lst->data, i);
-		if (!ft_pipe(lst) && !ft_redirection(args, lst))
+		if (!ft_pipe(lst, &st) && !ft_redirection(lst, &st))
 		{
 			if ((i == 1) && !lst->next && \
 				ft_is_builtin(lst->data))

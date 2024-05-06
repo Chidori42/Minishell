@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 03:23:21 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:51:53 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,31 +75,31 @@ static int	ft_redir_out(t_cmd *node, char **redir)
 	return (0);
 }
 
-int	ft_redirection(t_pars *args, t_cmd *node)
+int	ft_redirection(t_cmd *node, int *st)
 {
 	int			i;
 	char		**redir;
 
 	i = -1;
+	(*st) = 0;
 	redir = NULL;
-	args->ext_st = 0;
 	if (node && node->redir)
 	{
 		redir = (char **)malloc(sizeof(char *) * 3);
 		if (!redir)
 			return (-1);
 		redir[2] = NULL;
-		while (!args->ext_st && node->redir[++i])
+		while (!(*st) && node->redir[++i])
 		{
 			redir[0] = node->redir[i];
 			redir[1] = node->redir[i + 1];
 			if (!ft_strncmp(node->redir[i], ">", 1))
-				args->ext_st = ft_redir_out(node, redir);
+				(*st) = ft_redir_out(node, redir);
 			else if (!ft_strncmp(node->redir[i], "<", 1))
-				args->ext_st = ft_redir_in(node, redir);
+				(*st) = ft_redir_in(node, redir);
 			i++;
 		}
 		free(redir);
 	}
-	return (args->ext_st);
+	return (*st);
 }

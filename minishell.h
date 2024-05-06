@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 04:14:36 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:52:13 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 // # define malloc(void) NULL
+int			G_sig;
 # define RL_SIG rl_catch_signals
 
 //******************************* command node *******************************//
@@ -81,7 +82,6 @@ int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
 void	ft_child_handler(int sig);
 void	ft_parse_error(char *str);
-int		ft_dup_fd(int new, int old);
 int		ft_execute_lst(t_pars *args);
 char	*ft_inject_space(char *input);
 int		ft_strcmp(char *s_1, char *s_2);
@@ -89,11 +89,12 @@ char	**ft_split_fr(char *str, char c);
 char	*ft_strs_join(char *s1, char *s2);
 int		ft_parse(t_pars *args, char **tab);
 char	*ft_getenv(char **envp, char *name);
+int		ft_redirection(t_cmd *node, int *st);
+int		ft_dup_fd(int new, int old, int *st);
 int		ft_expander(t_pars *args, char **tab);
 int		ft_find_second(char *s, char qt, int i);
-int		ft_redirection(t_pars *args, t_cmd *node);
 int		ft_execute_cmd(t_pars *args, t_cmd *node);
-int		ft_get_status(pid_t new_pid, int new, int set);
+int		ft_get_status(pid_t new_pid, int *cont, int vl, int lvl);
 
 //****************************************************************************//
 void	ft_cd_error(void);

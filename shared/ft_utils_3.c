@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 03:35:50 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 03:36:53 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:44:59 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	ft_redir_error(char *s)
 {
 	char		*tmp;
 
-	ft_get_status(0, 1, 1);
+	ft_get_status(0, NULL, 1, 2);
 	tmp = ft_strs_join(ft_strdup(s), \
 		ft_strdup(": ambiguous redirect"));
 	if (!tmp)

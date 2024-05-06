@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 03:22:44 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:49:23 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,27 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 
 int	ft_execute_cmd(t_pars *args, t_cmd *node)
 {
+	int			st;
 	char		*cmd_path;
 
+	st = 0;
 	args->ext_st = 0;
 	signal(SIGQUIT, ft_child_handler);
 	if (args && node)
 	{
 		cmd_path = node->data[0];
-		if (ft_dup_fd(node->in, 0) || ft_dup_fd(node->out, 1))
+		if (ft_dup_fd(node->in, 0, &st) || ft_dup_fd(node->out, 1, &st))
 			return (errno);
-		if (!ft_is_there_slash(node->data[0]) && \
+		if (node->data[0][0] && \
+			!ft_is_there_slash(node->data[0]) && \
 			ft_strcmp(node->data[0], ".") && \
 			ft_strcmp(node->data[0], ".."))
 			cmd_path = ft_get_path(args, node->data[0]);
 		if (ft_is_builtin(node->data))
-			args->ext_st = ft_builtins(args, node);
+			st = ft_builtins(args, node);
 		else if ((execve(cmd_path, node->data, args->envp) < 0))
 			return (ft_execut_error(cmd_path));
 		free (cmd_path);
 	}
-	return (args->ext_st);
+	return (st);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 03:37:56 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/06 23:11:12 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_set_env(t_pars *args, char **env)
 	args->path = "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.";
 	if (args && env && !env[0])
 	{
-		args->envp = ft_split_fr(ft_strdup("OLDPWD PWD SLVL=1 _"), ' ');
+		args->envp = ft_split_fr(ft_strdup("OLDPWD PWD SHLVL=1 _"), ' ');
 		if (args->envp)
 			tmp = ft_split_fr((ft_strs_join(ft_strdup("export "), \
 				ft_strs_join(ft_strdup("PWD="), \
