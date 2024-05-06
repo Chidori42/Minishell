@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 22:55:14 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/06 23:53:15 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_get_exit(pid_t rt)
 		else if (pid < 0)
 			break ;
 	}
-	if (!b && !G_sig)
+	if (!b && !g_sig)
 		ft_get_status(0, NULL, rt, 3);
 	return (0);
 }

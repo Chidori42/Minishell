@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 19:52:13 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/07 00:03:36 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 // # define malloc(void) NULL
-int			G_sig;
+
+int		g_sig;
 # define RL_SIG rl_catch_signals
 
 //******************************* command node *******************************//
