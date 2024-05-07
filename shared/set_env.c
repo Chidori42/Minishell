@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 23:35:55 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/07 01:20:14 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_set_env(t_pars *args, char **env)
 		if (args->envp)
 			tmp = ft_split_fr((ft_strs_join(ft_strdup("export "), \
 				ft_strs_join(ft_strdup("PWD="), \
-					ft_getcwd(args)))), ' ');
+					ft_strdup(ft_getcwd(args))))), ' ');
 		if (tmp)
 			ft_export(args, NULL, tmp);
 	}

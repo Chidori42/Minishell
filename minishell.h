@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 00:03:36 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/07 04:25:10 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 // # define malloc(void) NULL
+
+//tests
+/*
+"echo $"  shouldn't expand
+"unset PATH" no command should execute
+exit state of ctr-c int prompt should be 1
+*/
 
 int		g_sig;
 # define RL_SIG rl_catch_signals

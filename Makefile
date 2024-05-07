@@ -36,7 +36,7 @@ SRCS                    =	minishell.c \
 
 OBJS                    = $(SRCS:%c=%o)
 
-FLAGS                   = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS                   = -Wall -Wextra -Werror #-g -fsanitize=address
 
 NAME                    = minishell
 

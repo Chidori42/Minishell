@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:16:01 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 04:07:10 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/07 01:32:55 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,24 @@ int	ft_setcwd(t_pars *args, t_cmd *node, int *ref, char *cwd)
 
 	ptr = ft_getcwd(args);
 	if (!ptr)
-		ptr = ft_strdup(args->cwd);
+		ptr = args->cwd;
 	tmp = ft_split("export tmp", ' ');
 	if (!tmp)
 		return (-1);
-	free(tmp[1]);
 	if (!ft_setoldpwd(args, node))
 	{
 		if (cwd)
 			(*ref)++;
+		free(tmp[1]);
 		tmp[1] = ft_strs_join(ft_strdup("PWD="), \
-			ft_strs_join(ptr, cwd));
+			ft_strs_join(ft_strdup(ptr), cwd));
 		if (!tmp[1])
 			return (ft_free_2_dm(tmp), -1);
 		if (!ft_export(args, node, tmp))
-			args->cwd = ft_strdup(ft_getenv(args->envp, "PWD"));
+		{
+			free(args->cwd);
+			args->cwd = ft_getenv(args->envp, "PWD");
+		}
 	}
 	return (ft_free_2_dm(tmp), 0);
 }

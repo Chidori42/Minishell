@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 23:50:04 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/07 01:15:35 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_getcwd(t_pars *args)
 	if (tmp)
 	{
 		free (args->cwd);
-		args->cwd = ft_strdup(tmp);
+		args->cwd = tmp;
 	}
 	return (tmp);
 }
