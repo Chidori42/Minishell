@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 23:52:59 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:43:55 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	ft_int_handler(int sig)
 			ft_get_status(pid, NULL, 128 + st, 3);
 		else
 			(rl_redisplay(), \
-				ft_get_status(0, NULL, 1, 3));
+				ft_get_status(0, NULL, 1, 0));
 	}
 }
 

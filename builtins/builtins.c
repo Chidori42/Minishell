@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 23:18:03 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:29:03 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,10 @@ int	ft_env(t_pars *arg, t_cmd *node)
 {
 	int		i;
 
-	i = 0;
-	while (node->data[i] && !ft_strcmp(node->data[i], "env"))
-		i++;
-	if (arg && node && node->data && node->data[i])
-		return (ft_builts_error("env", node->data[i], \
-			"No such file or directory"), 127);
 	i = -1;
+	if (arg && node && node->data && node->data[1])
+		return (ft_builts_error("env", node->data[1], \
+			"No such file or directory"), 127);
 	if (arg && arg->envp)
 	{
 		while (arg->envp[++i])

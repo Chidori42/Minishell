@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 15:45:07 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/07 16:37:48 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int	var_len(char *s, int i)
 	int			len;
 
 	len = 0;
-	if (s)
+	if (!s || (!ft_isalnum(s[i]) && (s[i] != '\'') && \
+		(s[i] != '\"') && (s[i] != '?') && (s[i] != '_')))
+		return (-1);
+	else if (s)
 	{
 		if (ft_isdigit(s[i]) || s[0] == '?')
 			return (1);
@@ -30,6 +33,7 @@ int	var_len(char *s, int i)
 
 static int	ft_expand_it(char *s, int i)
 {
+
 	while (s && s[++i])
 	{
 		if (s[i] == '\'')
@@ -37,10 +41,11 @@ static int	ft_expand_it(char *s, int i)
 		else if (s[i] && (s[i] == '\"'))
 		{
 			while (s[i] && s[++i] && (s[i] != '\"'))
-				if (s[i] == '$')
+				if (s[i] == '$' && (0 <= var_len(s, (i + 1))))
 					return (i);
 		}
-		else if (s[i] && (s[i] == '$'))
+		else if (s[i] && (s[i] == '$') && \
+			(0 <= var_len(s, (i + 1))))
 			return (i);
 		if (!s[i])
 			break ;
@@ -62,8 +67,6 @@ static char	*ft_expand(t_pars *args, char *s, int ind, int len)
 		value = ft_itoa(args->ext_st);
 	else
 		value = ft_getenv(args->envp, tmp);
-	if (!ft_strcmp(tmp, "PATH") && !value)
-		value = ft_strdup(args->path);
 	ptr = ft_strs_join(ft_substr(s, 0, ind), \
 		ft_strdup(value));
 	ptr = ft_strs_join(ptr, ft_substr(s, \

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 18:49:23 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/07 16:18:13 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static char	*ft_get_path(t_pars *args, char *cmd)
 	i = -1;
 	cmd_path = cmd;
 	tmp = ft_getenv(args->envp, "PATH");
-	if (!tmp)
-		tmp = ft_strdup(args->path);
 	paths = ft_split_fr(tmp, ':');
 	if (paths)
 	{
