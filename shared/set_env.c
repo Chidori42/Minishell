@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/07 16:35:01 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:12:16 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_set_env(t_pars *args, char **env)
 
 	tmp = NULL;
 	args->cwd = NULL;
+	tcgetattr(fileno(stdout), &args->term_st);
 	if (args && env && !env[0])
 	{
 		args->envp = ft_split_fr(ft_strdup("OLDPWD PWD SHLVL=1 _"), ' ');

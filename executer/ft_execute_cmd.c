@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 16:18:13 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/07 19:21:38 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 
 	st = 0;
 	args->ext_st = 0;
-	signal(SIGQUIT, ft_child_handler);
 	if (args && node)
 	{
 		cmd_path = node->data[0];

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 16:31:49 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:10:41 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <dirent.h>
+# include <termios.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
 # include <readline/history.h>
@@ -54,12 +55,13 @@ typedef struct s_cmd
 
 typedef struct s_pars
 {
-	t_cmd		*lst;
-	char		**tab;
-	int			ext_st;
-	char		**envp;
-	char		*input;
-	char		*cwd;
+	t_cmd			*lst;
+	char			**tab;
+	int				ext_st;
+	char			**envp;
+	char			*input;
+	char			*cwd;
+	struct termios	term_st;
 }				t_pars;
 
 //*********************** minishell function prototypes: *********************//
@@ -70,6 +72,7 @@ int		ft_redir_expand(t_pars *args, char ***redir);
 int		ft_get_cmd(char ***data, char **tab, int i);
 int		ft_create_list(t_pars *args, char **tab);
 int		ft_split_input(char ***tab, char *input);
+void	ft_terminal_mode(t_pars *args, int *cmd);
 int		ft_scape_quotes(char *input, int i);
 int		ft_heredoc(t_pars *ags, char **lim);
 int		ft_check_redir(char *s, int *i);
@@ -78,7 +81,6 @@ int		ft_strstr(char *ref, char *s);
 void	ft_remove_quotes(t_cmd *lst);
 int		ft_count_words(char *input);
 int		ft_is_there_quotes(char *s);
-int		ft_is_onlyspace(char *str);
 int		ft_is_builtin(char **tab);
 void	ft_free_list(t_cmd *lst);
 int		ft_free_2_dm(char **arr);

@@ -6,16 +6,11 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 16:43:55 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/07 23:08:44 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_child_handler(int sig)
-{
-	(void)sig;
-}
 
 static void	ft_heredoc_handler(int sig)
 {
@@ -28,14 +23,15 @@ static void	ft_heredoc_handler(int sig)
 
 static void	ft_quit_handler(int sig)
 {
-	int			st;
-	pid_t		pid;
+	int						st;
+	pid_t					pid;
 
 	if (sig == SIGQUIT)
 	{
 		pid = wait(&st);
-		if (0 < pid && ++g_sig)
+		if (0 < pid)
 		{
+			g_sig = 3;
 			ft_get_status(pid, NULL, 128 + st, 3);
 			printf("Quit: 3\n");
 		}

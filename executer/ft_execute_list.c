@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 01:43:51 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/07 23:09:39 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_close_fd(t_cmd *node)
 	return (0);
 }
 
-static int	ft_get_exit(pid_t rt)
+static int	ft_get_exit(t_pars *args, pid_t rt)
 {
 	int			b;
 	int			st;
@@ -35,7 +35,14 @@ static int	ft_get_exit(pid_t rt)
 		if (0 < pid && (rt == pid) && ++b)
 			ft_get_status(rt, NULL, WEXITSTATUS(st), 3);
 		else if (pid < 0)
-			break ;
+		{
+			if (g_sig == 3)
+			{
+				tcsetattr(fileno(stdout), TCSANOW, &args->term_st);
+				write(1, "\n", 1);
+			}
+			break ;	
+		}
 	}
 	if (!b && !g_sig)
 		ft_get_status(0, NULL, rt, 3);
@@ -105,5 +112,5 @@ int	ft_execute_lst(t_pars *args)
 		ft_close_fd(lst);
 		lst = lst->next;
 	}
-	return (ft_get_exit(st));
+	return (ft_get_exit(args, st));
 }
