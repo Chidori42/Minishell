@@ -6,11 +6,39 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 16:37:48 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 03:14:10 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	ft_add_back_slash(char **str)
+{
+	int			i;
+	int			b;
+	char		*tmp;
+
+	b = 0;
+	i = 0;
+	while ((*str) && (*str)[i])
+	{
+		if ((*str)[i] == '=')
+			b = 1;
+		else if ((*str)[i] == '\'')
+			i = ft_scape_quotes((*str), i);
+		else if (((*str)[i] == '$') && b)
+		{
+			tmp = ft_strdup((*str));
+			(*str) = ft_substr((*str), 0, i);
+			(*str) = ft_strs_join((*str), ft_strdup("\\"));
+			(*str) = ft_strs_join((*str), ft_substr(tmp, i, \
+				(ft_strlen(tmp) - i)));
+			(free(tmp), i++);
+		}
+		if ((*str)[i])
+			i++;
+	}
+}
 
 int	var_len(char *s, int i)
 {
@@ -34,17 +62,18 @@ int	var_len(char *s, int i)
 static int	ft_expand_it(char *s, int i)
 {
 
-	while (s && s[++i])
+	while (s && s[++i] && (s[i] != '='))
 	{
 		if (s[i] == '\'')
 			i = ft_scape_quotes(s, i);
 		else if (s[i] && (s[i] == '\"'))
 		{
 			while (s[i] && s[++i] && (s[i] != '\"'))
-				if (s[i] == '$' && (0 <= var_len(s, (i + 1))))
+				if ((s[i] == '$') && (!i || s[i - 1] != '\\') && \
+					 (0 <= var_len(s, (i + 1))))
 					return (i);
 		}
-		else if (s[i] && (s[i] == '$') && \
+		else if (s[i] && (s[i] == '$') && (!i || s[i - 1] != '\\') && \
 			(0 <= var_len(s, (i + 1))))
 			return (i);
 		if (!s[i])
@@ -86,6 +115,8 @@ int	ft_expander(t_pars *args, char **tab)
 	len = 1;
 	while (tab && tab[++i])
 	{
+		if (i && !ft_strcmp(tab[0], "export"))
+			ft_add_back_slash(&tab[i]);
 		ind = -1;
 		ind = ft_expand_it(tab[i], ind);
 		if (0 <= ind)

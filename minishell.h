@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 20:10:41 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 01:16:27 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int		ft_close(t_pars *args);
 void	ft_signals(int sig);
 int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
-void	ft_child_handler(int sig);
 void	ft_parse_error(char *str);
 int		ft_execute_lst(t_pars *args);
 char	*ft_inject_space(char *input);
@@ -115,7 +114,6 @@ int		ft_unset(t_pars *arg, char **p);
 int		ft_cd(t_pars *args, t_cmd *node);
 int		ft_check_arg(char *arg, int *st);
 int		ft_check_var(char *arg, int *st);
-char	**ft_split_fre(char *str, char c);
 char	*ft_new_var(char *var, char *old_vl);
 void	ft_set_env(t_pars *data, char **env);
 int		ft_builtins(t_pars *arg, t_cmd *node);

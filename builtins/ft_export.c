@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/05 11:19:20 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 01:15:42 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,6 @@ int	ft_dup_env(char **envp, char ***new, char *var)
 	if (!new)
 		return (free(str), free(var), -1);
 	return (free(str), free(var), 0);
-}
-
-char	**ft_split_fre(char *str, char c)
-{
-	char	**arr;
-
-	arr = NULL;
-	if (str)
-		arr = ft_split(str, c);
-	return (free(str), arr);
 }
 
 static int	ft_set_variable(t_pars *args, char *par)
