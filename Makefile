@@ -11,6 +11,7 @@ SRCS                    =	minishell.c \
 							./parser/ft_check_red.c \
 							./parser/ft_heredoc.c \
 							./executer/ft_execute_cmd.c \
+							./executer/ft_add_backslash.c \
 							./executer/ft_remove_quotes.c \
 							./executer/ft_execute_list.c \
 							./executer/ft_create_list.c \
@@ -18,19 +19,19 @@ SRCS                    =	minishell.c \
 							./executer/ft_get_redir.c \
 							./executer/ft_expander.c \
 							./executer/ft_get_cmd.c \
+							./builtins/utils_builtins.c \
+							./builtins/utils_export.c \
 							./builtins/ft_export.c \
 							./builtins/ft_unset.c \
 							./builtins/builtins.c \
-							./builtins/utils_export.c \
 							./builtins/ft_exit.c \
 							./builtins/ft_cd.c \
-							./builtins/utils_builtins.c \
-							./shared/ft_signals.c \
 							./shared/ft_update_env.c \
-							./shared/set_env.c \
+							./shared/ft_signals.c \
 							./shared/ft_utils_1.c \
 							./shared/ft_utils_2.c \
 							./shared/ft_utils_3.c \
+							./shared/set_env.c \
 
 #Mandatory object files name.
 

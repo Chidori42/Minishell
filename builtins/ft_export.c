@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/08 01:15:42 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 03:14:31 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static int	ft_set_variable(t_pars *args, char *par)
 	b = 1;
 	i = -1;
 	while (par && args->envp && args->envp[++i])
-		if (!ft_update_env(args->envp, par, &b, i))
+		if (!ft_update_env(args, par, &b, i))
 			break ;
 	if (b && par && args->envp)
 		if (!ft_dup_env(args->envp, &new, \
-			ft_new_var(ft_strdup(par), NULL)))
+			ft_new_var(args, ft_strdup(par), NULL)))
 			(ft_free_2_dm(args->envp), args->envp = new);
 	return (0);
 }

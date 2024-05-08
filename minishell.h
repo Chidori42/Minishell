@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 01:16:27 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 04:44:13 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_terminal_mode(t_pars *args, int *cmd);
 int		ft_scape_quotes(char *input, int i);
 int		ft_heredoc(t_pars *ags, char **lim);
 int		ft_check_redir(char *s, int *i);
+char	*ft_add_back_slash(char *str);
 int		ft_resplit_input(char ***tab);
 int		ft_strstr(char *ref, char *s);
 void	ft_remove_quotes(t_cmd *lst);
@@ -114,14 +115,14 @@ int		ft_unset(t_pars *arg, char **p);
 int		ft_cd(t_pars *args, t_cmd *node);
 int		ft_check_arg(char *arg, int *st);
 int		ft_check_var(char *arg, int *st);
-char	*ft_new_var(char *var, char *old_vl);
 void	ft_set_env(t_pars *data, char **env);
 int		ft_builtins(t_pars *arg, t_cmd *node);
 void	ft_display_env(t_pars *data, t_cmd *node);
 int		ft_dup_env(char **envp, char ***new, char *var);
 void	ft_builts_error(char *name, char *str, char *des);
 int		ft_export(t_pars *args, t_cmd *node, char **pars);
-int		ft_update_env(char **envp, char *arg, int *b, int i);
+char	*ft_new_var(t_pars *args, char *var, char *old_vl);
+int		ft_update_env(t_pars *args, char *par, int *b, int i);
 #endif
 
 //****************************************************************************//
