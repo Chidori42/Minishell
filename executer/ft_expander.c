@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:06:10 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/09 04:23:20 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/09 19:55:11 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static char	*ft_expand(t_pars *args, char *tmp, char *ref)
 int	ft_expander(t_pars *args, char **tab)
 {
 	int			i;
-	char		*tmp;
 	char		*ref;
 	char		*new;
 
@@ -93,9 +92,7 @@ int	ft_expander(t_pars *args, char **tab)
 	while (tab && tab[++i])
 	{
 		ref = ft_expand_it(tab[i]);
-		tmp = ft_remove_qts(ft_strdup(tab[i]));
-		ref = ft_remove_qts(ref);
-		new = ft_expand(args, tmp, ref);
+		new = ft_expand(args, ft_strdup(tab[i]), ref);
 		if (new)
 			(free(tab[i]), (tab[i] = new));
 	}

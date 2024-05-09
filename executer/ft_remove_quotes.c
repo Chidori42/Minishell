@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/09 03:05:57 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/09 19:51:07 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*ft_remove_qts(char *s)
 	return (free(s), str);
 }
 
-void	ft_remove_quotes(t_cmd *lst)
+int	ft_remove_quotes(t_cmd *lst)
 {
 	int			i;
 	t_cmd		*tmp;
@@ -108,4 +108,5 @@ void	ft_remove_quotes(t_cmd *lst)
 				tmp->redir[i] = ft_remove_qts(tmp->redir[i]);
 		tmp = tmp->next;
 	}
+	return (0);
 }

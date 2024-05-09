@@ -6,11 +6,18 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:42:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/09 04:58:31 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/09 19:54:19 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_scape_spaces(char *str, int i)
+{
+	while (str[i] && (str[i] == 32))
+		i++;
+	return (i);
+}
 
 static char	*ft_join_tab(char **tab)
 {
@@ -25,7 +32,7 @@ static char	*ft_join_tab(char **tab)
 		str = ft_strs_join(str, ft_strdup(tab[i]));
 	}
 	return (str);
-}  
+}
 
 static int	ft_scape_word(char *input, int i)
 {
