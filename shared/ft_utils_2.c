@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 03:34:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 03:36:44 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/09 03:20:13 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	last_arg(t_pars *args, t_cmd *node, char **tab, int f)
+int	last_arg(t_pars *args, t_cmd *node, char **tab, int ind)
 {
 	int			i;
 	char		**tmp_1;
@@ -23,7 +23,7 @@ int	last_arg(t_pars *args, t_cmd *node, char **tab, int f)
 	{
 		if (!tab[i + 1])
 		{
-			if (f == 1)
+			if (ind == 1)
 				tmp_1[1] = ft_strs_join(tmp_1[1], \
 					ft_strdup(tab[i]));
 			ft_export(args, node, tmp_1);
@@ -74,33 +74,9 @@ char	*ft_getenv(char **envp, char *name)
 			vl = ft_substr(envp[i], (ft_strlen(var) + 1), \
 				ft_strlen(envp[i]));
 			free(var);
-			return (vl);
+			return (free(name), vl);
 		}
 		free(var);
 	}
-	return (NULL);
-}
-
-int	ft_resplit_input(char ***tab)
-{
-	int				i;
-	char			*tmp;
-	char			**tmp_1;
-
-	i = -1;
-	tmp = NULL;
-	if (!tab || !(*tab))
-		return (0);
-	tmp_1 = (*tab);
-	while ((*tab) && (*tab)[++i])
-	{
-		tmp = ft_strs_join(tmp, ft_strdup(" "));
-		if (!tmp)
-			return (-1);
-		tmp = ft_strs_join(tmp, (*tab)[i]);
-		if (!tmp)
-			return (-1);
-	}
-	ft_split_input(tab, tmp);
-	return (free(tmp_1), free(tmp), 0);
+	return (free(name), NULL);
 }

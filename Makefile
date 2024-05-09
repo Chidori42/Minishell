@@ -11,11 +11,11 @@ SRCS                    =	minishell.c \
 							./parser/ft_check_red.c \
 							./parser/ft_heredoc.c \
 							./executer/ft_execute_cmd.c \
-							./executer/ft_add_backslash.c \
 							./executer/ft_remove_quotes.c \
 							./executer/ft_execute_list.c \
 							./executer/ft_create_list.c \
 							./executer/ft_redirection.c \
+							./executer/ft_resplit_tok.c \
 							./executer/ft_get_redir.c \
 							./executer/ft_expander.c \
 							./executer/ft_get_cmd.c \

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expander.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 17:40:45 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 04:43:33 by ael-fagr         ###   ########.fr       */
+/*   Created: 2024/05/08 18:06:10 by bramzil           #+#    #+#             */
+/*   Updated: 2024/05/09 04:23:20 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-int	var_len(char *s, int i)
+static int	varlen(char *s, int i)
 {
 	int			len;
 
@@ -31,75 +31,73 @@ int	var_len(char *s, int i)
 	return (len);
 }
 
-static int	ft_expand_it(char *s, int i)
+static char	*ft_expand_it(char *s)
 {
-
-	while (s && s[++i] && (s[i] != '='))
+	int			i;
+	int			dbq;
+	char		*ref;
+	
+	i = -1;
+	dbq = 3;
+	ref = ft_strdup(s);
+	while (s && ref && s[++i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\"')
+			dbq += 1;
+		else if ((s[i] == '\'') && (dbq % 2))
 			i = ft_scape_quotes(s, i);
-		else if (s[i] && (s[i] == '\"'))
-		{
-			while (s[i] && s[++i] && (s[i] != '\"'))
-				if ((s[i] == '$') && (!i || s[i - 1] != '\\') && \
-					 (0 <= var_len(s, (i + 1))))
-					return (i);
-		}
-		else if (s[i] && (s[i] == '$') && (!i || s[i - 1] != '\\') && \
-			(0 <= var_len(s, (i + 1))))
-			return (i);
-		if (!s[i])
-			break ;
+		else if ((s[i] == '$') && (!i || s[i - 1] != '\\') && \
+			(0 <= varlen(s, (i + 1))))
+			ref[i] = 'Y';
 	}
-	return (-1);
+	return (ref);
 }
 
-static char	*ft_expand(t_pars *args, char *s, int ind, int len)
+static char	*ft_expand(t_pars *args, char *tmp, char *ref)
 {
-	char		*tmp;
-	char		*ptr;
-	char		*value;
+	int				i;
+	int				len;
+	char			*ptr;
+	char			*value;
 
-	ptr = s;
-	if (!args || !s)
-		return (NULL);
-	tmp = ft_substr(s, (ind + 1), len);
-	if (!ft_strcmp(tmp, "?"))
-		value = ft_itoa(args->ext_st);
-	else
-		value = ft_getenv(args->envp, tmp);
-	ptr = ft_strs_join(ft_substr(s, 0, ind), \
-		ft_strdup(value));
-	ptr = ft_strs_join(ptr, ft_substr(s, \
-		(ind + len + 1), (ft_strlen(s) - (ind + len))));
-	free (s);
-	return (free(value), free(tmp), ptr);
+	i = -1;
+	while (tmp && ref && tmp[++i])
+	{
+		if ((tmp[i] == '$') && (ref[i] == 'Y'))
+		{
+			len = varlen(tmp, (i + 1));
+			if (tmp[i + 1] == '?')
+				(value = ft_itoa(args->ext_st), (len = 1));
+			else
+				value = ft_getenv(args->envp, ft_substr(tmp, (i + 1), len));
+			ptr = ft_substr(tmp, (i + len + 1), (ft_strlen(tmp) - (i + 1)));
+			free(tmp);
+			tmp = ft_strs_join(ft_substr(tmp, 0, i), ft_strdup(value));
+			tmp = ft_strs_join(tmp, ptr);
+			ptr = ft_substr(ref, (i + len + 1), (ft_strlen(ref) - (i + 1)));
+			(free(ref), ref = ft_strs_join(ft_substr(ref, 0, i), value));
+			(ref = ft_strs_join(ref, ptr), i++);
+		}
+	}
+	return (free(ref), tmp);
 }
 
 int	ft_expander(t_pars *args, char **tab)
 {
 	int			i;
-	int			ind;
-	int			len;
 	char		*tmp;
+	char		*ref;
+	char		*new;
 
 	i = -1;
-	len = 1;
 	while (tab && tab[++i])
 	{
-		if (i && !ft_strcmp(tab[0], "export"))
-			tab[i] = ft_add_back_slash(tab[i]);
-		ind = -1;
-		ind = ft_expand_it(tab[i], ind);
-		if (0 <= ind)
-		{
-			tmp = tab[i];
-			len = var_len(&tmp[ind + 1], 0);
-			tab[i] = ft_expand(args, tmp, ind, len);
-			if (!tab[i])
-				return (-1);
-			i--;
-		}
+		ref = ft_expand_it(tab[i]);
+		tmp = ft_remove_qts(ft_strdup(tab[i]));
+		ref = ft_remove_qts(ref);
+		new = ft_expand(args, tmp, ref);
+		if (new)
+			(free(tab[i]), (tab[i] = new));
 	}
 	return (0);
 }

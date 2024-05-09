@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_remove_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 03:56:14 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/09 03:05:57 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ char	*ft_remove_qts(char *s)
 		}
 		str[t[1]] = '\0';
 	}
-	free (s);
-	return (str);
+	return (free(s), str);
 }
 
 void	ft_remove_quotes(t_cmd *lst)

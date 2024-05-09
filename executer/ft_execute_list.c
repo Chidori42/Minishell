@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 23:09:39 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 15:01:44 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ static int	ft_get_exit(t_pars *args, pid_t rt)
 		else if (pid < 0)
 		{
 			if (g_sig == 3)
-			{
 				tcsetattr(fileno(stdout), TCSANOW, &args->term_st);
-				write(1, "\n", 1);
-			}
 			break ;	
 		}
 	}

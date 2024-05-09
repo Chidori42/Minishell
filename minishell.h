@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 04:44:13 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/09 02:47:48 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,9 @@ int		ft_redir_expand(t_pars *args, char ***redir);
 int		ft_get_cmd(char ***data, char **tab, int i);
 int		ft_create_list(t_pars *args, char **tab);
 int		ft_split_input(char ***tab, char *input);
-void	ft_terminal_mode(t_pars *args, int *cmd);
 int		ft_scape_quotes(char *input, int i);
 int		ft_heredoc(t_pars *ags, char **lim);
 int		ft_check_redir(char *s, int *i);
-char	*ft_add_back_slash(char *str);
-int		ft_resplit_input(char ***tab);
 int		ft_strstr(char *ref, char *s);
 void	ft_remove_quotes(t_cmd *lst);
 int		ft_count_words(char *input);
@@ -91,6 +88,7 @@ void	ft_signals(int sig);
 int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
 void	ft_parse_error(char *str);
+int		ft_resplit_tok(char ***tab);
 int		ft_execute_lst(t_pars *args);
 char	*ft_inject_space(char *input);
 int		ft_strcmp(char *s_1, char *s_2);
@@ -106,6 +104,7 @@ int		ft_execute_cmd(t_pars *args, t_cmd *node);
 int		ft_get_status(pid_t new_pid, int *cont, int vl, int lvl);
 
 //****************************************************************************//
+
 void	ft_cd_error(void);
 int		ft_exit(t_cmd *node);
 int		ft_var_len(char *arg);
@@ -116,12 +115,12 @@ int		ft_cd(t_pars *args, t_cmd *node);
 int		ft_check_arg(char *arg, int *st);
 int		ft_check_var(char *arg, int *st);
 void	ft_set_env(t_pars *data, char **env);
+char	*ft_new_var(char *var, char *old_vl);
 int		ft_builtins(t_pars *arg, t_cmd *node);
 void	ft_display_env(t_pars *data, t_cmd *node);
 int		ft_dup_env(char **envp, char ***new, char *var);
 void	ft_builts_error(char *name, char *str, char *des);
 int		ft_export(t_pars *args, t_cmd *node, char **pars);
-char	*ft_new_var(t_pars *args, char *var, char *old_vl);
 int		ft_update_env(t_pars *args, char *par, int *b, int i);
 #endif
 

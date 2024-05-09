@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_create_tab.c                                    :+:      :+:    :+:   */
+/*   ft_resplit_tok.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 15:37:31 by bramzil          ###   ########.fr       */
+/*   Created: 2024/05/08 19:42:24 by bramzil           #+#    #+#             */
+/*   Updated: 2024/05/09 04:58:31 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-static int	ft_scape_spaces(char *input, int i)
+static char	*ft_join_tab(char **tab)
 {
-	while (input[i] == 32 || (9 <= input[i] && \
-			input[i] <= 13))
-		i++;
-	return (i);
-}
+	int			i;
+	char		*str;
+
+	i = -1;
+	str = NULL;
+	while (tab && tab[++i])
+	{
+		str = ft_strs_join(str, ft_strdup(" "));
+		str = ft_strs_join(str, ft_strdup(tab[i]));
+	}
+	return (str);
+}  
 
 static int	ft_scape_word(char *input, int i)
 {
@@ -26,8 +33,7 @@ static int	ft_scape_word(char *input, int i)
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			i = ft_scape_quotes(input, i);
-		else if (input[i] == 32 || (9 <= input[i] && \
-			input[i] <= 13))
+		else if (input[i] == 32)
 			return (i);
 		if (input[i])
 			i++;
@@ -44,8 +50,7 @@ static	int	ft_word_len(char *input, int i)
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			i = ft_scape_quotes(input, i);
-		else if (input[i] == 32 || (9 <= input[i] && \
-			input[i] <= 13))
+		else if (input[i] == 32)
 			break ;
 		if (!input[i])
 			break ;
@@ -54,20 +59,20 @@ static	int	ft_word_len(char *input, int i)
 	return (i - l);
 }
 
-int	ft_count_words(char *input)
+static int	ft_count_word(char *input)
 {
 	int			i;
 	int			nb;
 
 	i = 0;
 	nb = 0;
+	if (!input)
+		return (-1);
 	while (input && input[i])
 	{
-		if (input [i] == 32 || (9 <= input[i] && \
-			input[i] <= 13))
-			i = ft_scape_spaces(input, i);
-		else if (input[i] != 32 && (input[i] < 9 || \
-			13 < input[i]))
+		while (input[i] && (input[i] == 32))
+			i++;
+		if (input[i] && input[i] != 32)
 		{
 			i = ft_scape_word(input, i);
 			nb++;
@@ -78,27 +83,29 @@ int	ft_count_words(char *input)
 	return (nb);
 }
 
-int	ft_split_input(char ***tab, char *input)
+int	ft_resplit_tok(char ***tab)
 {
 	int			t[2];
-	int			l_nb;
+	int			w_nb;
+	char		*str;
 	int			wrd_len;
 
 	t[1] = 0;
-	l_nb = ft_count_words(input);
-	(*tab) = (char **)malloc(sizeof(char *) * (l_nb + 1));
+	str = ft_join_tab(*tab);
+	w_nb = ft_count_word(str);
+	(ft_free_2_dm((*tab)), t[0] = -1);
+	(*tab) = (char **)malloc(sizeof(char *) * (w_nb + 1));
 	if (!(*tab))
-		return (-1);
-	t[0] = -1;
-	while (++t[0] < l_nb)
+		return (free(str), -1);
+	while (++t[0] < w_nb)
 	{
-		t[1] = ft_scape_spaces(input, t[1]);
-		wrd_len = ft_word_len(input, t[1]);
-		(*tab)[t[0]] = ft_substr(input, t[1], wrd_len);
+		t[1] = ft_scape_spaces(str, t[1]);
+		wrd_len = ft_word_len(str, t[1]);
+		(*tab)[t[0]] = ft_substr(str, t[1], wrd_len);
 		if (!(*tab)[t[0]])
-			return (ft_free_2_dm((*tab)), -1);
+			return (ft_free_2_dm((*tab)), free(str), -1);
 		t[1] += wrd_len;
 	}
-	(*tab)[l_nb] = NULL;
-	return (0);
+	(*tab)[w_nb] = NULL;
+	return (free(str), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:26:36 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 01:04:39 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 19:54:49 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_cmd	*ft_create_node(t_pars *ags, char **t, int i)
 		if (!node->data && !node->redir)
 			return (free(node), NULL);
 		if (ft_expander(ags, node->data) || \
-			ft_resplit_input(&node->data))
+			ft_resplit_tok(&node->data))
 			return (ft_free_list(node), NULL);
 		if (ft_redir_expand(ags, &node->redir))
 			return (ft_free_list(node), NULL);
@@ -93,7 +93,6 @@ int	ft_create_list(t_pars *args, char **tab)
 			ft_strcmp("|", tab[i]))
 			;
 	}
-	ft_remove_quotes(args->lst);
 	ft_get_status(0, NULL, (1 - (1 * (args->lst != NULL))), 2);
 	return (1 - (1 * (args->lst != NULL)));
 }

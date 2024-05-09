@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:56:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/07 23:08:44 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/08 23:23:34 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	ft_quit_handler(int sig)
 		{
 			g_sig = 3;
 			ft_get_status(pid, NULL, 128 + st, 3);
-			printf("Quit: 3\n");
+			write(1, "Quit: 3\n", 9);
 		}
 	}
 }
@@ -47,7 +47,7 @@ static void	ft_int_handler(int sig)
 	if (sig == SIGINT && ++g_sig)
 	{
 		pid = wait(&st);
-		printf("\n");
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		if (pid != -1)

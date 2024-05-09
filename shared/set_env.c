@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/07 20:12:16 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/09 03:25:15 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	ft_update_shell_lvl(t_pars *data, t_cmd *node)
 	if (data->envp)
 	{
 		tmp = ft_strs_join(ft_strdup("export "), \
-			ft_getenv(data->envp, "SHLVL"));
+			ft_getenv(data->envp, ft_strdup("SHLVL")));
 		tab = ft_split_fr(tmp, ' ');
 		if (tab && tab[0] && tab[1])
 		{
