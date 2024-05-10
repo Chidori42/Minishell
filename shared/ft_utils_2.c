@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 03:34:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/09 03:20:13 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/10 04:40:28 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	last_arg(t_pars *args, t_cmd *node, char **tab, int ind)
 int	ft_is_builtin(char **tab)
 {
 	char		*ref;
-
+	
 	ref = "cd unset exit env pwd echo export";
 	if (tab && tab[0])
 	{
@@ -79,4 +79,32 @@ char	*ft_getenv(char **envp, char *name)
 		free(var);
 	}
 	return (free(name), NULL);
+}
+
+char	*ft_desencapsule(char *str)
+{
+	int			t[2];
+	char		*frt;
+	char		*bet;
+	char		*end;
+	char		*tmp;
+
+	(t[0] = -1, tmp = ft_strdup(str));
+	while (tmp && tmp[++t[0]])
+	{
+		if (!ft_strncmp(&tmp[t[0]], "<STX>", 5) && \
+			(ft_scape_encapsule(tmp, t[0]) != t[0]))
+		{
+			t[1] = ft_scape_encapsule(tmp, t[0]);
+			frt = ft_substr(tmp, 0, t[0]);
+			bet = ft_substr(tmp, (t[0] + 5), \
+				((t[1] - 5) - (t[0] + 4)));
+			end = ft_substr(tmp, (t[1] + 5), \
+				(ft_strlen(tmp) - (t[1] + 4)));
+			(free(tmp), tmp = ft_strs_join(frt, bet));
+			tmp = ft_strs_join(tmp, end);
+			t[0]++;
+		}
+	}
+	return (tmp);
 }

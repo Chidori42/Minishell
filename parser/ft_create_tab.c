@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 15:37:31 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/10 03:35:57 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	ft_scape_word(char *input, int i)
 {
 	while (input && input[i])
 	{
+		if (!ft_strncmp(&input[i], "<STX>", 5))
+			i = ft_scape_encapsule(input, i);
 		if (input[i] == '\'' || input[i] == '\"')
 			i = ft_scape_quotes(input, i);
 		else if (input[i] == 32 || (9 <= input[i] && \
@@ -42,6 +44,8 @@ static	int	ft_word_len(char *input, int i)
 	l = i;
 	while (input && input[i])
 	{
+		if (!ft_strncmp(&input[i], "<STX>", 5))
+			i = ft_scape_encapsule(input, i);
 		if (input[i] == '\'' || input[i] == '\"')
 			i = ft_scape_quotes(input, i);
 		else if (input[i] == 32 || (9 <= input[i] && \
@@ -63,7 +67,9 @@ int	ft_count_words(char *input)
 	nb = 0;
 	while (input && input[i])
 	{
-		if (input [i] == 32 || (9 <= input[i] && \
+		if (!ft_strncmp(&input[i], "<STX>", 5))
+			i = ft_scape_encapsule(input, i);
+		else if (input [i] == 32 || (9 <= input[i] && \
 			input[i] <= 13))
 			i = ft_scape_spaces(input, i);
 		else if (input[i] != 32 && (input[i] < 9 || \

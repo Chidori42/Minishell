@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:42:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/09 20:12:59 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/09 22:55:49 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,13 @@ static char	*ft_join_tab(char **tab)
 int	ft_resplit_tok(char ***tab)
 {
 	char		*str;
+	char		**tmp;
 
 	str = ft_join_tab(*tab);
-	ft_split_input(tab, str);
+	ft_split_input(&tmp, str);
+	if (tmp)
+		(ft_free_2_dm((*tab)), (*tab) = tmp);
+	else
+		return (-1);
 	return (free(str), 0);
 }

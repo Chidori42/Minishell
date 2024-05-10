@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/09 19:51:26 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/10 04:08:45 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int		ft_is_there_quotes(char *s);
 int		ft_is_builtin(char **tab);
 void	ft_free_list(t_cmd *lst);
 int		ft_free_2_dm(char **arr);
+char 	*ft_encapsule(char *str);
 char	*ft_remove_qts(char *s);
 int		ft_close(t_pars *args);
 void	ft_signals(int sig);
@@ -89,6 +90,7 @@ int		ft_is_redir(char *s);
 int		ft_check_quotes(char *s);
 void	ft_parse_error(char *str);
 int		ft_resplit_tok(char ***tab);
+char	*ft_desencapsule(char *str);
 int		ft_execute_lst(t_pars *args);
 char	*ft_inject_space(char *input);
 int		ft_strcmp(char *s_1, char *s_2);
@@ -97,10 +99,13 @@ char	*ft_strs_join(char *s1, char *s2);
 int		ft_parse(t_pars *args, char **tab);
 char	*ft_getenv(char **envp, char *name);
 int		ft_redirection(t_cmd *node, int *st);
+int 	ft_scape_encapsule(char *str, int i);
 int		ft_dup_fd(int new, int old, int *st);
 int		ft_expander(t_pars *args, char **tab);
 int		ft_find_second(char *s, char qt, int i);
 int		ft_execute_cmd(t_pars *args, t_cmd *node);
+int 	ft_copy_encapsule(char *d, char *s, int i);
+int 	ft_encapsule_or(char *cmd, char *str, char *ref);
 int		ft_get_status(pid_t new_pid, int *cont, int vl, int lvl);
 
 //****************************************************************************//
