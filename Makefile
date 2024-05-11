@@ -26,14 +26,14 @@ SRCS                    =	minishell.c \
 							./builtins/builtins.c \
 							./builtins/ft_exit.c \
 							./builtins/ft_cd.c \
-							./shared/ft_get_cmd.c \
-							./shared/ft_get_redir.c \
-							./shared/ft_create_list.c \
-							./shared/ft_signals.c \
-							./shared/ft_utils_1.c \
-							./shared/ft_utils_2.c \
-							./shared/ft_utils_3.c \
-							./shared/set_env.c \
+							./utils/ft_get_cmd.c \
+							./utils/ft_get_redir.c \
+							./utils/ft_create_list.c \
+							./utils/ft_signals.c \
+							./utils/ft_utils_1.c \
+							./utils/ft_utils_2.c \
+							./utils/ft_utils_3.c \
+							./utils/set_env.c \
 
 #Mandatory object files name.
 
