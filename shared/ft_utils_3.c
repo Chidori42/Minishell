@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 03:35:50 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/06 16:44:59 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 06:47:39 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_strstr(char *ref, char *s)
 	return (ft_free_2_dm(tab), 0);
 }
 
-static int	ft_redir_error(char *s)
+int	ft_redir_error(char *s)
 {
 	char		*tmp;
 
@@ -68,30 +68,34 @@ static int	ft_redir_error(char *s)
 	ft_putendl_fd(tmp, 2);
 	return (free(tmp), -1);
 }
-
-int	ft_redir_expand(t_pars *args, char ***redir)
+char	*ft_encapsule(char *str)
 {
-	int			i;
-	char		**tmp;
+	char		*tmp;
+
+	tmp = ft_strdup(str);
+	if (str)
+	{
+		tmp = ft_strs_join(ft_strdup("\'"), tmp);
+		tmp = ft_strs_join(tmp, ft_strdup("\'"));
+	}
+	return (tmp);
+}
+int	ft_encapsule_or(char *cmd, char *str, char *ref)
+{
+	int		i;
+	int		rt;
 
 	i = -1;
-	tmp = (char **)malloc(sizeof(char *) * 2);
-	if (!tmp)
-		return (-1);
-	tmp[1] = NULL;
-	while ((*redir) && (*redir)[++i])
+	rt = 1;
+	if (!ft_strcmp(cmd, "export"))
 	{
-		tmp[0] = ft_strdup((*redir)[i]);
-		if (!tmp[0])
-			return (free(tmp), -1);
-		if (!ft_expander(args, tmp))
+		while (str && ref && str[++i])
 		{
-			if ((1 != ft_count_words(tmp[0])))
-				return (ft_free_2_dm(tmp), \
-					ft_redir_error((*redir)[i]));
-			free((*redir)[i]);
-			(*redir)[i] = tmp[0];
+			if ((str[i] == '$') && (ref[i] == 'Y'))
+				rt = 0;
+			else if (str[i] == '=')
+				return (rt);
 		}
 	}
-	return (free(tmp), 0);
+	return (0);
 }

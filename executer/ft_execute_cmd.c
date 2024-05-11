@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 00:16:24 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 03:30:57 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 			cmd_path = ft_get_path(args, node->data[0]);
 		if (ft_is_builtin(node->data))
 			st = ft_builtins(args, node);
-		else if ((execve(cmd_path, node->data, args->envp) < 0))
+		else if ((execve(cmd_path, node->data, \
+			args->envp) < 0))
 			return (ft_execut_error(cmd_path));
 		free (cmd_path);
 	}

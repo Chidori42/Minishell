@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 00:50:21 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 06:07:24 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ int	ft_is_there_quotes(char *s)
 	i = -1;
 	while (s && s[++i])
 	{
-		if (!ft_strncmp(&s[i], "<STX>", 5))
-			i = ft_scape_encapsule(s, i);
-		else if (s[i] == '\'' || s[i] == '\"')
+		if ((s[i] == '\'' || s[i] == '\"') && \
+			(!i || s[i - 1] != '\\'))
 			return (1);
 	}
 	return (0);
@@ -31,10 +30,9 @@ static void	ft_quotes_cpy(char *d, char *s, char qt, int *t)
 {
 	while (d && s && s[++t[0]])
 	{
-		if (s[t[0]] == qt)
+		if (s[t[0]] == qt && \
+			(!t[0] || s[t[0] != '\\']))
 			break ;
-		else if (!ft_strncmp(&s[t[0]], "<STX>", 5))
-			ft_copy_encapsule(d, s, t);
 		else
 			(d[t[1]] = s[t[0]], t[1]++);
 	}
@@ -50,9 +48,8 @@ static int	ft_count_qts(char *s)
 	(i = 0, nb = 0);
 	while (s && s[i])
 	{
-		if (!ft_strncmp(&s[i], "<STX>", 5))
-			i = ft_scape_encapsule(s, i);
-		else if (s[i] == '\'' || s[i] == '\"')
+		if ((s[i] == '\'' || s[i] == '\"') && \
+			(!i || s[i - 1] != '\\'))
 		{
 			(rf = i, nb += 1, qt = s[i]);
 			i = ft_scape_quotes(s, i);
@@ -71,18 +68,16 @@ char	*ft_remove_qts(char *s)
 	int			qts;
 	char		*str;
 
-	(t[0] = 0, t[1] = 0);
-	qts = ft_count_qts(s);
+	(t[0] = 0, t[1] = 0, qts = ft_count_qts(s));
 	str = (char *)malloc(sizeof(char) * \
 		(ft_strlen(s) - qts + 1));
 	if (str)
 	{
 		while (s && s[t[0]])
 		{
-			if (s[t[0]] == '\'' || s[t[0]] == '\"')
+			if ((s[t[0]] == '\'' || s[t[0]] == '\"') && \
+				(!t[0] || s[t[0] - 1] != '\\'))
 				ft_quotes_cpy(str, s, s[t[0]], t);
-			else if (!ft_strncmp(&s[t[0]], "<STX>", 5))
-				ft_copy_encapsule(str, s, t);
 			else
 				(str[t[1]] = s[t[0]], t[1]++);
 			if (s[t[0]])
@@ -115,7 +110,6 @@ int	ft_remove_quotes(t_cmd *lst)
 				if (ptr)
 					(free(tab[t[0]]), tab[t[0]] = ptr);
 			}
-			tab[t[0]] = ft_desencapsule(tab[t[0]]);
 		}
 		if (t[1])
 			(tmp = tmp->next, t[1]--);

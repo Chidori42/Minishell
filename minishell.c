@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 03:29:04 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/11 06:13:04 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	ft_proced_process(t_pars *args)
 		{
 			if (args->tab && args->tab[0])
 			{
-				if (!ft_create_list(args, args->tab))
+				if (!ft_create_list(args, args->tab) && \
+					!ft_expander(args, args->lst))
 					ft_execute_lst(args);
 				ft_free_list(args->lst);
 			}

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:21:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/10 03:07:20 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 06:09:39 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ int	ft_scape_quotes(char *input, int i)
 	{
 		qt = input[i];
 		while (input[++i] && input[i] != qt)
-		{
-			if (!ft_strncmp(&input[i], "<STX>", 6))
-				i = ft_scape_encapsule(input, i);
-		}
+			;
 	}
 	return (i);
 }

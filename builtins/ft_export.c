@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 01:06:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/10 16:14:55 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 06:11:13 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	ft_export(t_pars *args, t_cmd *node, char **pars)
 {
 	int		i;
 	int		st;
-	char	*tmp;
 
 	i = 0;
 	st = 0;
@@ -72,9 +71,6 @@ int	ft_export(t_pars *args, t_cmd *node, char **pars)
 	{
 		while (args->envp && pars && pars[++i])
 		{
-			tmp = ft_desencapsule(pars[i]);
-			if (tmp)
-				(free(pars[i]), pars[i] = tmp);
 			if (!ft_check_var(pars[i], &st) && \
 				!ft_check_arg(pars[i], &st))
 				ft_set_variable(args, pars[i]);

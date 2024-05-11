@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 15:01:44 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 03:30:33 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int	ft_execute_lst(t_pars *args)
 	while (0 <= st && lst && ++i)
 	{
 		last_arg(args, lst, lst->data, i);
-		if (!ft_pipe(lst, &st) && !ft_redirection(lst, &st))
+		if (!ft_pipe(lst, &st) && \
+			!ft_redirection(lst, &st))
 		{
 			if ((i == 1) && !lst->next && \
 				ft_is_builtin(lst->data))

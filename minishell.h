@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/10 19:31:09 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 06:00:15 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,27 @@ typedef struct s_pars
 //*********************** minishell function prototypes: *********************//
 
 int		last_arg(t_pars *args, t_cmd *node, char **tab, int f);
+char	*ft_expand(t_pars *args, char *tp, char *rf, int en);
+int		ft_expand_cmd(t_pars *args, char ***tab, int fl);
 int		ft_get_redir(char ***redir, char **tab, int i);
-int		ft_redir_expand(t_pars *args, char ***redir);
 int		ft_get_cmd(char ***data, char **tab, int i);
 int		ft_create_list(t_pars *args, char **tab);
 int		ft_split_input(char ***tab, char *input);
 int		ft_scape_quotes(char *input, int i);
 int		ft_heredoc(t_pars *ags, char **lim);
 int		ft_check_redir(char *s, int *i);
+char	*ft_expand_it(char *s, int fl);
 int		ft_strstr(char *ref, char *s);
+int		ft_remove_scaper(char ***tab);
 int		ft_remove_quotes(t_cmd *lst);
 int		ft_count_words(char *input);
 int		ft_is_there_quotes(char *s);
 int		ft_is_builtin(char **tab);
+char	*ft_add_scaper(char *str);
 void	ft_free_list(t_cmd *lst);
 int		ft_free_2_dm(char **arr);
 char 	*ft_encapsule(char *str);
+int		ft_redir_error(char *s);
 char	*ft_remove_qts(char *s);
 int		ft_close(t_pars *args);
 void	ft_signals(int sig);
@@ -101,7 +106,7 @@ char	*ft_getenv(char **envp, char *name);
 int		ft_redirection(t_cmd *node, int *st);
 int 	ft_scape_encapsule(char *str, int i);
 int		ft_dup_fd(int new, int old, int *st);
-int		ft_expander(t_pars *args, char **tab);
+int		ft_expander(t_pars *args, t_cmd *lst);
 int		ft_find_second(char *s, char qt, int i);
 int		ft_execute_cmd(t_pars *args, t_cmd *node);
 void 	ft_copy_encapsule(char *d, char *s, int *i);

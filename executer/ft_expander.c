@@ -6,118 +6,77 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:06:10 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 00:14:26 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 06:22:59 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-static int	varlen(char *s, int i)
-{
-	int			len;
-
-	len = 0;
-	if (!s || (!ft_isalnum(s[i]) && (s[i] != '\'') && \
-		(s[i] != '\"') && (s[i] != '?') && (s[i] != '_')))
-		return (-1);
-	else if (s)
-	{
-		if (ft_isdigit(s[i]) || s[i] == '?')
-			return (1);
-		while (s && s[i] && (ft_isalnum(s[i]) || \
-			(s[i] == '_')) && ++len)
-			i++;
-	}
-	return (len);
-}
-
-static char	*ft_get_value(t_pars *args, char *tp, int en, int i)
-{
-	int			len;
-	char		*value;
-	
-	value = NULL;
-	len = varlen(tp, (i + 1));
-	if (tp[i + 1] == '?')
-		(value = ft_itoa(args->ext_st));
-	else
-		value = ft_getenv(args->envp, ft_substr(tp, \
-			(i + 1), len));
-	if (!en)
-		(free(value), value = ft_encapsule(value));
-	return (value);
-}
-
-static char	*ft_expand_it(char *s)
+static int	ft_expand_redir(t_pars *args, char ***redir)
 {
 	int			i;
-	int			dbq;
 	char		*ref;
-	
-	i = -1;
-	dbq = 3;
-	ref = ft_strdup(s);
-	while (s && ref && s[++i])
-	{
-		if (s[i] == '\"')
-			dbq += 1;
-		else if ((s[i] == '\'') && (dbq % 2))
-			i = ft_scape_quotes(s, i);
-		else if ((s[i] == '$') && (!i || \
-			s[i - 1] != '\\') && \
-			(0 <= varlen(s, (i + 1))))
-			ref[i] = 'Y';
-	}
-	return (ref);
-}
-
-static char	*ft_expand(t_pars *args, char *tp, char *rf, int en)
-{
-	int				i;
-	int				len;
-	char			*ptr;
-	char			*value;
+	char		*tmp;
 
 	i = -1;
-	while (tp && rf && tp[++i])
+	(ref = NULL, tmp = NULL);
+	while ((*redir) && (*redir)[++i])
 	{
-		if ((tp[i] == '$') && (rf[i] == 'Y'))
+		tmp = ft_strdup((*redir)[i]);
+		ref = ft_expand_it(tmp, 1);
+		if (!tmp || !ref)
+			return (free(tmp), free(ref), -1);
+		if (!ft_expand(args, tmp, ref, 0))
 		{
-			len = varlen(tp, (i + 1));
-			value = ft_get_value(args, tp, en, i);
-			(ptr = ft_substr(tp, (i + len + 1), \
-				(ft_strlen(tp) - (i + 1))), free(tp));
-			tp = ft_strs_join(ft_substr(tp, 0, i), \
-				ft_strdup(value));
-			tp = ft_strs_join(tp, ptr);
-			ptr = ft_substr(rf, (i + len + 1), \
-				(ft_strlen(rf) - (i + 1)));
-			(free(rf), rf = ft_strs_join(ft_substr(rf, \
-				0, i), value));
-			(rf = ft_strs_join(rf, ptr), i++);
+			if ((1 != ft_count_words(tmp)))
+				return (free(tmp), free(ref),\
+					ft_redir_error((*redir)[i]));
+			free((*redir)[i]);
+			(*redir)[i] = tmp;
 		}
 	}
-	return (free(rf), tp);
+	return (free(tmp), free(ref), 0);
 }
 
-int	ft_expander(t_pars *args, char **tab)
+int	ft_expand_cmd(t_pars *args, char ***tab, int fl)
 {
 	int			i;
 	int			en;
 	char		*ref;
 	char		*new;
-
+	
 	i = -1;
-	while (tab && tab[++i])
+	while ((*tab) && (*tab)[++i])
 	{
-		ref = ft_expand_it(tab[i]);
-		en = ft_encapsule_or(tab[0], tab[i], ref);
-		new = ft_expand(args, ft_strdup(tab[i]), ref, en);
+		new = ft_add_scaper((*tab)[i]);
 		if (new)
-			(free(tab[i]), (tab[i] = new));
+			(free((*tab)[i]), (*tab)[i] = new);
+		ref = ft_expand_it((*tab)[i], fl);
+		en = ft_encapsule_or((*tab)[0], (*tab)[i], ref);
+		new = ft_expand(args, ft_strdup((*tab)[i]), ref, en);
+		if (new)
+			(free((*tab)[i]), ((*tab)[i] = new));
 		else
 			return (-1);
+	}
+	return (0);
+}
+
+int	ft_expander(t_pars *args, t_cmd *lst)
+{
+	t_cmd		*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		if (ft_expand_cmd(args, &tmp->data, 1) ||
+			ft_expand_redir(args, &tmp->redir) ||
+			ft_resplit_tok(&tmp->data) ||
+			ft_remove_quotes(tmp) ||
+			ft_remove_scaper(&tmp->data) ||
+			ft_remove_scaper(&tmp->redir))
+			return(-1);
+		tmp = tmp->next;
 	}
 	return (0);
 }

@@ -16,9 +16,10 @@ SRCS                    =	minishell.c \
 							./executer/ft_create_list.c \
 							./executer/ft_redirection.c \
 							./executer/ft_resplit_tok.c \
+							./executer/ft_add_scaper.c\
 							./executer/ft_get_redir.c \
 							./executer/ft_expander.c \
-							./executer/ft_encapsule.c \
+							./executer/ft_expand.c \
 							./executer/ft_get_cmd.c \
 							./builtins/utils_builtins.c \
 							./builtins/utils_export.c \

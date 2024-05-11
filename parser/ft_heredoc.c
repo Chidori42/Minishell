@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 23:09:56 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 05:52:29 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	ft_child(t_pars *ags, char *lim, int fd, int qt)
 		if (!buf[0] || !ft_strcmp(buf[0], lim))
 			break ;
 		if (qt && ags && buf)
-			ft_expander(ags, buf);
+			ft_expand_cmd(ags, &buf, 0);
 		buf[0] = ft_strs_join(buf[0], ft_strdup("\n"));
 		ft_putstr_fd(buf[0], fd);
 		free (buf[0]);
@@ -100,10 +100,7 @@ int	ft_heredoc(t_pars *args, char **lim)
 	int		st;
 	char	*tmp;
 
-	qt = 1;
-	st = 0;
-	fd = -1;
-	tmp = *lim;
+	(qt = 1, st = 0, fd = -1, tmp = *lim);
 	if (lim && (ft_pipe_file(lim, &fd) < 0))
 		return (1);
 	if (ft_is_there_quotes(tmp))
