@@ -10,17 +10,15 @@ SRCS                    =	minishell.c \
 							./parser/ft_create_tab.c \
 							./parser/ft_check_red.c \
 							./parser/ft_heredoc.c \
+							./expander/ft_remove_quotes.c \
+							./expander/ft_resplit_tok.c \
+							./expander/ft_add_scaper.c\
+							./expander/ft_expander.c \
+							./expander/ft_expand.c \
 							./executer/ft_execute_cmd.c \
-							./executer/ft_remove_quotes.c \
 							./executer/ft_execute_list.c \
-							./executer/ft_create_list.c \
 							./executer/ft_redirection.c \
-							./executer/ft_resplit_tok.c \
-							./executer/ft_add_scaper.c\
-							./executer/ft_get_redir.c \
-							./executer/ft_expander.c \
-							./executer/ft_expand.c \
-							./executer/ft_get_cmd.c \
+							./builtins/ft_update_env.c \
 							./builtins/utils_builtins.c \
 							./builtins/utils_export.c \
 							./builtins/ft_export.c \
@@ -28,7 +26,9 @@ SRCS                    =	minishell.c \
 							./builtins/builtins.c \
 							./builtins/ft_exit.c \
 							./builtins/ft_cd.c \
-							./shared/ft_update_env.c \
+							./shared/ft_get_cmd.c \
+							./shared/ft_get_redir.c \
+							./shared/ft_create_list.c \
 							./shared/ft_signals.c \
 							./shared/ft_utils_1.c \
 							./shared/ft_utils_2.c \

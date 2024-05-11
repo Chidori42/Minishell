@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:06:10 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 06:22:59 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 07:15:36 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,17 @@ static int	ft_expand_redir(t_pars *args, char ***redir)
 		ref = ft_expand_it(tmp, 1);
 		if (!tmp || !ref)
 			return (free(tmp), free(ref), -1);
-		if (!ft_expand(args, tmp, ref, 0))
+		tmp = ft_expand(args, tmp, ref, 0);
+		if (tmp)
 		{
 			if ((1 != ft_count_words(tmp)))
-				return (free(tmp), free(ref),\
+				return (free(tmp), \
 					ft_redir_error((*redir)[i]));
 			free((*redir)[i]);
 			(*redir)[i] = tmp;
 		}
 	}
-	return (free(tmp), free(ref), 0);
+	return (0);
 }
 
 int	ft_expand_cmd(t_pars *args, char ***tab, int fl)

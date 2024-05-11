@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 03:30:33 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 07:33:48 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static pid_t	ft_child(t_pars *args, t_cmd *node)
 	return (0);
 }
 
-int	ft_execute_lst(t_pars *args)
+int	ft_executer(t_pars *args)
 {
 	int			i;
 	int			st;

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 06:13:04 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 07:34:34 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_proced_process(t_pars *args)
 			{
 				if (!ft_create_list(args, args->tab) && \
 					!ft_expander(args, args->lst))
-					ft_execute_lst(args);
+					ft_executer(args);
 				ft_free_list(args->lst);
 			}
 		}
