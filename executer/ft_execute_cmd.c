@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:49:21 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/09 03:23:40 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 00:16:24 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	ft_execute_cmd(t_pars *args, t_cmd *node)
 	if (args && node)
 	{
 		cmd_path = node->data[0];
-		if (ft_dup_fd(node->in, 0, &st) || ft_dup_fd(node->out, 1, &st))
+		if (ft_dup_fd(node->in, 0, &st) || \
+			ft_dup_fd(node->out, 1, &st))
 			return (errno);
 		if (node->data[0][0] && \
 			!ft_is_there_slash(node->data[0]) && \

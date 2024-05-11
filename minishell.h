@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/10 04:08:45 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/10 19:31:09 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		ft_dup_fd(int new, int old, int *st);
 int		ft_expander(t_pars *args, char **tab);
 int		ft_find_second(char *s, char qt, int i);
 int		ft_execute_cmd(t_pars *args, t_cmd *node);
-int 	ft_copy_encapsule(char *d, char *s, int i);
+void 	ft_copy_encapsule(char *d, char *s, int *i);
 int 	ft_encapsule_or(char *cmd, char *str, char *ref);
 int		ft_get_status(pid_t new_pid, int *cont, int vl, int lvl);
 

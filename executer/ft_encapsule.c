@@ -6,24 +6,22 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:32:57 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/10 16:03:09 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 00:50:08 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_copy_encapsule(char *d, char *s, int i)
+void	ft_copy_encapsule(char *d, char *s, int *t)
 {
-	int		j;
-
-	j = i;
-		i = ft_scape_encapsule(s, i);
-		while (j <= i)
-		{
-			d[j] = s[j];
-			j++;
-		}
-	return (j);
+	int			end;
+	
+	end = ft_scape_encapsule(s, t[0]);
+	while (s[t[0]] && t[0] <= end)
+	{	
+		d[t[1]] = s[t[0]];
+		(t[1]++, t[0]++);
+	}
 }
 
 int	ft_scape_encapsule(char *str, int i)
@@ -52,7 +50,6 @@ int	ft_encapsule_or(char *cmd, char *str, char *ref)
 			return (rt);
 		else if ((str[i] == '$') && (ref[i] == 'Y'))
 			rt++;
-		
 	}
 	return (0);
 }
@@ -64,8 +61,8 @@ char    *ft_encapsule(char *str)
 	tmp = ft_strdup(str);
 	if (tmp)
 	{
-		tmp = ft_strs_join(ft_strdup("\'<STX>"), tmp);
-		tmp = ft_strs_join(tmp, ft_strdup("<ETX>\'"));
+		tmp = ft_strs_join(ft_strdup("<STX>"), tmp);
+		tmp = ft_strs_join(tmp, ft_strdup("<ETX>"));
 	}
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/10 03:44:57 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 00:50:21 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	ft_quotes_cpy(char *d, char *s, char qt, int *t)
 		if (s[t[0]] == qt)
 			break ;
 		else if (!ft_strncmp(&s[t[0]], "<STX>", 5))
-			t[0] = ft_copy_encapsule(d, s, t[0]);
+			ft_copy_encapsule(d, s, t);
 		else
-			d[t[1]++] = s[t[0]];
+			(d[t[1]] = s[t[0]], t[1]++);
 	}
 }
 
@@ -59,7 +59,7 @@ static int	ft_count_qts(char *s)
 			if (rf != i && s[i] == qt)
 				nb += 1;
 		}
-		if (s[i])
+		else if (s[i])
 			i++;
 	}
 	return (nb);
@@ -82,7 +82,7 @@ char	*ft_remove_qts(char *s)
 			if (s[t[0]] == '\'' || s[t[0]] == '\"')
 				ft_quotes_cpy(str, s, s[t[0]], t);
 			else if (!ft_strncmp(&s[t[0]], "<STX>", 5))
-				t[0] = ft_copy_encapsule(str, s, t[0]);
+				ft_copy_encapsule(str, s, t);
 			else
 				(str[t[1]] = s[t[0]], t[1]++);
 			if (s[t[0]])
@@ -115,6 +115,7 @@ int	ft_remove_quotes(t_cmd *lst)
 				if (ptr)
 					(free(tab[t[0]]), tab[t[0]] = ptr);
 			}
+			tab[t[0]] = ft_desencapsule(tab[t[0]]);
 		}
 		if (t[1])
 			(tmp = tmp->next, t[1]--);
