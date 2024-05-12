@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expander.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:06:10 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 07:54:42 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 23:25:11 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	ft_expand_redir(t_pars *args, char ***redir)
 	char		*tmp;
 
 	i = -1;
-	(ref = NULL, tmp = NULL);
+	ref = NULL;
+	tmp = NULL;
 	while ((*redir) && (*redir)[++i])
 	{
 		tmp = ft_strdup((*redir)[i]);
@@ -45,7 +46,7 @@ int	ft_expand_cmd(t_pars *args, char ***tab, int fl)
 	int			en;
 	char		*ref;
 	char		*new;
-	
+
 	i = -1;
 	while ((*tab) && (*tab)[++i])
 	{
@@ -70,13 +71,13 @@ int	ft_expander(t_pars *args, t_cmd *lst)
 	tmp = lst;
 	while (tmp)
 	{
-		if (ft_expand_cmd(args, &tmp->data, 1) ||
-			ft_expand_redir(args, &tmp->redir) ||
-			ft_resplit_tok(&tmp->data) ||
-			ft_remove_quotes(tmp) ||
-			ft_remove_scaper(&tmp->data) ||
+		if (ft_expand_cmd(args, &tmp->data, 1) || \
+			ft_expand_redir(args, &tmp->redir) || \
+			ft_resplit_tok(&tmp->data) || \
+			ft_remove_quotes(tmp) || \
+			ft_remove_scaper(&tmp->data) || \
 			ft_remove_scaper(&tmp->redir))
-			return(-1);
+			return (-1);
 		tmp = tmp->next;
 	}
 	return (0);

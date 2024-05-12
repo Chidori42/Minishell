@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 07:33:48 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 23:22:25 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_get_exit(t_pars *args, pid_t rt)
 		{
 			if (g_sig == 3)
 				tcsetattr(fileno(stdout), TCSANOW, &args->term_st);
-			break ;	
+			break ;
 		}
 	}
 	if (!b && !g_sig)

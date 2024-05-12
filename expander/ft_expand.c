@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 04:29:39 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 06:43:44 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 23:23:50 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*ft_get_value(t_pars *args, char *tp, int en, int i)
 {
 	int			len;
 	char		*value;
-	
+
 	value = NULL;
 	len = varlen(tp, (i + 1));
 	if (tp[i + 1] == '?')
@@ -53,7 +53,7 @@ char	*ft_expand_it(char *s, int fl)
 	int			i;
 	int			dbq;
 	char		*ref;
-	
+
 	i = -1;
 	dbq = 3;
 	ref = ft_strdup(s);

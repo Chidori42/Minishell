@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_remove_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 04:29:33 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 06:07:24 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 23:26:23 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static void	ft_quotes_cpy(char *d, char *s, char qt, int *t)
 			(!t[0] || s[t[0] != '\\']))
 			break ;
 		else
-			(d[t[1]] = s[t[0]], t[1]++);
+		{
+			d[t[1]] = s[t[0]];
+			t[1]++;
+		}
 	}
 }
 
@@ -45,13 +48,16 @@ static int	ft_count_qts(char *s)
 	int			rf;
 	char		qt;
 
-	(i = 0, nb = 0);
+	i = 0;
+	nb = 0;
 	while (s && s[i])
 	{
 		if ((s[i] == '\'' || s[i] == '\"') && \
 			(!i || s[i - 1] != '\\'))
 		{
-			(rf = i, nb += 1, qt = s[i]);
+			rf = i;
+			nb += 1;
+			qt = s[i];
 			i = ft_scape_quotes(s, i);
 			if (rf != i && s[i] == qt)
 				nb += 1;

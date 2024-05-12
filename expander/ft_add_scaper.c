@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_add_scaper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 01:24:53 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 04:01:12 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 23:23:29 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	ft_rm_scaper(char **tmp, int i)
 static void	ft_inject_scaper(char **tmp, int *i)
 {
 	char		*scd;
-	
+
 	scd = ft_strs_join(ft_strdup("\\"), \
 		ft_substr((*tmp), (*i), ft_strlen((*tmp))));
 	(free((*tmp)), (*tmp) = ft_strs_join(ft_substr((*tmp), \
@@ -45,7 +45,8 @@ int	ft_remove_scaper(char ***tab)
 	j = -1;
 	while ((*tab) && ((*tab)[++j]))
 	{
-		(i = -1, tmp = ft_strdup((*tab)[j]));
+		i = -1;
+		tmp = ft_strdup((*tab)[j]);
 		while (tmp && tmp[++i])
 			if (tmp[i] == '\\' && (tmp[i + 1] == '\'' || \
 				tmp[i + 1] == '\"'))
@@ -58,14 +59,14 @@ int	ft_remove_scaper(char ***tab)
 	return (0);
 }
 
-
 char	*ft_add_scaper(char *str)
 {
 	int			i;
 	char		qt;
 	char		*tmp;
 
-	(i = -1, tmp = ft_strdup(str));
+	i = -1;
+	tmp = ft_strdup(str);
 	while (tmp && tmp[++i])
 	{
 		if (tmp[i] == '\'' || tmp[i] == '\"')

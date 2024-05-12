@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:01:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/08 19:33:54 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/11 23:22:08 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_update_env(t_pars *args, char *par, int *b, int i)
 			if (!ft_strcmp(opr, "+="))
 				value = ft_substr(args->envp[i], (ft_strlen(name) + 1), \
 					ft_strlen(args->envp[i]));
-			ref= args->envp[i];
+			ref = args->envp[i];
 			args->envp[i] = ft_new_var(ft_strdup(par), value);
 			(free(opr), free(ref));
 		}

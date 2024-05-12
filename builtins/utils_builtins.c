@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/07 01:15:35 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/11 23:19:23 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	display(t_cmd *node, char *envp, char *nm, char *vl)
 	if (vl && ft_strchr(envp, '='))
 	{
 		ft_putstr_fd("=\"", node->out);
-		ft_putstr_fd(vl, node->out);
+		ft_print_value(node, vl);
 		ft_putstr_fd("\"", node->out);
 	}
 	write(node->out, "\n", 1);

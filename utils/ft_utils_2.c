@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 03:34:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/11 06:10:22 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/12 01:55:21 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_redir_error(char *s)
+{
+	char		*tmp;
+
+	ft_get_status(0, NULL, 1, 2);
+	tmp = ft_strs_join(ft_strdup(s), \
+		ft_strdup(": ambiguous redirect"));
+	if (!tmp)
+		return (-1);
+	ft_putendl_fd(tmp, 2);
+	return (free(tmp), -1);
+}
 
 int	last_arg(t_pars *args, t_cmd *node, char **tab, int ind)
 {
@@ -35,7 +48,7 @@ int	last_arg(t_pars *args, t_cmd *node, char **tab, int ind)
 int	ft_is_builtin(char **tab)
 {
 	char		*ref;
-	
+
 	ref = "cd unset exit env pwd echo export";
 	if (tab && tab[0])
 	{
@@ -80,4 +93,3 @@ char	*ft_getenv(char **envp, char *name)
 	}
 	return (free(name), NULL);
 }
-

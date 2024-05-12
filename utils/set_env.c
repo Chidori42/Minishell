@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/11 07:31:25 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/12 02:00:00 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ static void	ft_update_shell_lvl(t_pars *data, t_cmd *node)
 	}
 }
 
-static int ft_duplicate_env(t_pars *args, char **env)
+static int	ft_duplicate_env(t_pars *args, char **env)
 {
 	char		**tmp;
-	
+
 	if (args)
 	{
 		ft_dup_env(env, &args->envp, NULL);
 		tmp = ft_split_fr(ft_strdup("unset OLDPWD"), ' ');
 		if (tmp)
 			ft_unset(args, tmp);
-		ft_export(args, NULL, tmp), ft_free_2_dm(tmp);
+		(ft_export(args, NULL, tmp), ft_free_2_dm(tmp));
 		ft_update_shell_lvl(args, NULL);
 	}
 	return (0);
@@ -79,7 +79,7 @@ void	ft_set_env(t_pars *args, char **env)
 				ft_strs_join(ft_strdup("PWD="), \
 					ft_strdup(ft_getcwd(args))))), ' ');
 		if (tmp)
-			ft_export(args, NULL, tmp), ft_free_2_dm(tmp);
+			(ft_export(args, NULL, tmp), ft_free_2_dm(tmp));
 	}
 	else if (args)
 		ft_duplicate_env(args, env);

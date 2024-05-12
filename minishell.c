@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:47:24 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 07:34:34 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/12 00:28:19 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,24 @@ static void	ft_proced_process(t_pars *args)
 	int			st;
 
 	st = 1;
-	args->tab = NULL;
-	args->input = ft_inject_space(args->input);
-	if (!ft_split_input(&args->tab, args->input))
+	if (args)
 	{
-		if (!ft_parse(args, args->tab))
+		args->tab = NULL;
+		args->input = ft_inject_space(args->input);
+		if (!ft_split_input(&args->tab, args->input))
 		{
-			if (args->tab && args->tab[0])
+			if (!ft_parse(args, args->tab))
 			{
-				if (!ft_create_list(args, args->tab) && \
-					!ft_expander(args, args->lst))
-					ft_executer(args);
-				ft_free_list(args->lst);
+				if (args->tab && args->tab[0])
+				{
+					if (!ft_create_list(args, args->tab) && \
+						!ft_expander(args, args->lst))
+						ft_executer(args);
+					ft_free_list(args->lst);
+				}
 			}
+			ft_free_2_dm(args->tab);
 		}
-		ft_free_2_dm(args->tab);
 	}
 }
 

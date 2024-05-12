@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 05:52:29 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/12 01:52:50 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ int	ft_heredoc(t_pars *args, char **lim)
 	int		st;
 	char	*tmp;
 
-	(qt = 1, st = 0, fd = -1, tmp = *lim);
+	qt = 1;
+	st = 0;
+	fd = -1;
+	tmp = *lim;
 	if (lim && (ft_pipe_file(lim, &fd) < 0))
 		return (1);
 	if (ft_is_there_quotes(tmp))

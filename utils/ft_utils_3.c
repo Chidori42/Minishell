@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 03:35:50 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/11 06:47:39 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/12 01:55:11 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,6 @@ int	ft_strstr(char *ref, char *s)
 	return (ft_free_2_dm(tab), 0);
 }
 
-int	ft_redir_error(char *s)
-{
-	char		*tmp;
-
-	ft_get_status(0, NULL, 1, 2);
-	tmp = ft_strs_join(ft_strdup(s), \
-		ft_strdup(": ambiguous redirect"));
-	if (!tmp)
-		return (-1);
-	ft_putendl_fd(tmp, 2);
-	return (free(tmp), -1);
-}
 char	*ft_encapsule(char *str)
 {
 	char		*tmp;
@@ -80,6 +68,7 @@ char	*ft_encapsule(char *str)
 	}
 	return (tmp);
 }
+
 int	ft_encapsule_or(char *cmd, char *str, char *ref)
 {
 	int		i;
