@@ -6,13 +6,13 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:01:48 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 23:22:08 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:59:30 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_get_operator(char *arg)
+static char	*ft_get_operator(char *arg)
 {
 	int			i;
 
@@ -34,8 +34,8 @@ char	*ft_new_var(char *var, char *old_vl)
 	char	**tmp;
 	char	*opr;
 
-	value = NULL;
 	tmp = NULL;
+	value = NULL;
 	opr = ft_get_operator(var);
 	name = ft_substr(var, 0, ft_var_len(var));
 	if (opr && name)

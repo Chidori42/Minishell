@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:14 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 06:08:33 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/14 19:32:53 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	ft_scape_word(char *input, int i)
 {
 	while (input && input[i])
 	{
-		if (input[i] == '\'' || input[i] == '\"')
+		if ((input[i] == '\'' || input[i] == '\"') && \
+			(!i || input[i - 1] != '\\'))
 			i = ft_scape_quotes(input, i);
 		else if (input[i] == 32 || (9 <= input[i] && \
 			input[i] <= 13))
@@ -81,16 +82,16 @@ int	ft_count_words(char *input)
 int	ft_split_input(char ***tab, char *input)
 {
 	int			t[2];
-	int			l_nb;
+	int			wrd_nb;
 	int			wrd_len;
 
 	t[1] = 0;
-	l_nb = ft_count_words(input);
-	(*tab) = (char **)malloc(sizeof(char *) * (l_nb + 1));
+	wrd_nb = ft_count_words(input);
+	(*tab) = (char **)malloc(sizeof(char *) * (wrd_nb + 1));
 	if (!(*tab))
 		return (-1);
 	t[0] = -1;
-	while (++t[0] < l_nb)
+	while (++t[0] < wrd_nb)
 	{
 		t[1] = ft_scape_spaces(input, t[1]);
 		wrd_len = ft_word_len(input, t[1]);
@@ -99,6 +100,6 @@ int	ft_split_input(char ***tab, char *input)
 			return (ft_free_2_dm((*tab)), -1);
 		t[1] += wrd_len;
 	}
-	(*tab)[l_nb] = NULL;
+	(*tab)[wrd_nb] = NULL;
 	return (0);
 }

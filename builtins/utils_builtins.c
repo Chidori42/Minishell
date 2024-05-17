@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 10:06:36 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/11 23:19:23 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:53:22 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,23 @@ void	ft_builts_error(char *cmd, char *err, char *des)
 	ft_putendl_fd(des, 2);
 }
 
-void	ft_cd_error(void)
+void	ft_cd_error(int ref)
 {
 	char	*err_msg;
 
 	err_msg = NULL;
-	err_msg = ft_strs_join(err_msg, ft_strdup("cd: error retrieving current "));
-	err_msg = ft_strs_join(err_msg, ft_strdup("directory: getcwd: cannot "));
-	err_msg = ft_strs_join(err_msg, ft_strdup("access parent directories: "));
-	err_msg = ft_strs_join(err_msg, ft_strdup("No such file or director"));
-	ft_putendl_fd(err_msg, 2);
+	if (ref)
+	{
+		err_msg = ft_strs_join(err_msg, \
+			ft_strdup("cd: error retrieving current "));
+		err_msg = ft_strs_join(err_msg, \
+			ft_strdup("directory: getcwd: cannot "));
+		err_msg = ft_strs_join(err_msg, \
+			ft_strdup("access parent directories: "));
+		err_msg = ft_strs_join(err_msg, \
+			ft_strdup("No such file or director"));
+		ft_putendl_fd(err_msg, 2);
+	}
 	free (err_msg);
 }
 
@@ -55,7 +62,7 @@ static void	display(t_cmd *node, char *envp, char *nm, char *vl)
 	if (vl && ft_strchr(envp, '='))
 	{
 		ft_putstr_fd("=\"", node->out);
-		ft_print_value(node, vl);
+		print_value(node, vl);
 		ft_putstr_fd("\"", node->out);
 	}
 	write(node->out, "\n", 1);

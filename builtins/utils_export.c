@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:00:06 by abdeltif          #+#    #+#             */
-/*   Updated: 2024/05/11 23:18:26 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:54:11 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,6 @@ int	ft_var_len(char *arg)
 	return (len);
 }
 
-void	ft_print_value(t_cmd *node, char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '\"')
-			ft_putchar_fd('\\', node->out);
-		ft_putchar_fd(str[i], node->out);
-	}
-}
-
 int	ft_check_arg(char *arg, int *st)
 {
 	int			i;
@@ -62,6 +49,18 @@ int	ft_check_arg(char *arg, int *st)
 			break ;
 	}
 	return (0);
+}
+
+void	print_value(t_cmd *node, char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!(str[i] == '\\' && str[i + 1] == '\''))
+			ft_putchar_fd(str[i], node->out);
+	}
 }
 
 int	ft_check_var(char *arg, int *st)

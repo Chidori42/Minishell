@@ -6,24 +6,11 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 03:34:22 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/12 01:55:21 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:47:50 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_redir_error(char *s)
-{
-	char		*tmp;
-
-	ft_get_status(0, NULL, 1, 2);
-	tmp = ft_strs_join(ft_strdup(s), \
-		ft_strdup(": ambiguous redirect"));
-	if (!tmp)
-		return (-1);
-	ft_putendl_fd(tmp, 2);
-	return (free(tmp), -1);
-}
 
 int	last_arg(t_pars *args, t_cmd *node, char **tab, int ind)
 {
@@ -69,6 +56,25 @@ int	ft_strcmp(char *s_1, char *s_2)
 	while (s_1[i] && s_2[i] && (s_1[i] == s_2[i]))
 		i++;
 	return (s_1[i] - s_2[i]);
+}
+
+int	ft_strstr(char *ref, char *s)
+{
+	int			i;
+	char		**tab;
+
+	i = -1;
+	tab = NULL;
+	if (ref && s)
+	{
+		tab = ft_split(ref, ' ');
+		if (!tab)
+			return (0);
+		while (tab[++i])
+			if (!ft_strcmp(tab[i], s))
+				return (ft_free_2_dm(tab), 1);
+	}
+	return (ft_free_2_dm(tab), 0);
 }
 
 char	*ft_getenv(char **envp, char *name)

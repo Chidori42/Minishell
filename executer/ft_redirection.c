@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:49:50 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 19:51:53 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/13 10:30:59 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ static int	ft_open_file(char *pth, char *op)
 	return (fd);
 }
 
-static int	ft_redir_in(t_cmd *node, char **redir)
+static int	ft_redir_in(t_cmd *node, char *opr, char *path)
 {
 	int			fd;
 
-	fd = ft_open_file(redir[1], redir[0]);
+	fd = ft_open_file(path, opr);
 	if (fd < 0)
 		return (1);
 	if ((2 < node->in) && (close(node->in) < 0))
@@ -61,11 +61,11 @@ static int	ft_redir_in(t_cmd *node, char **redir)
 	return (0);
 }
 
-static int	ft_redir_out(t_cmd *node, char **redir)
+static int	ft_redir_out(t_cmd *node, char *opr, char *path)
 {
 	int		fd;
 
-	fd = ft_open_file(redir[1], redir[0]);
+	fd = ft_open_file(path, opr);
 	if (fd < 0)
 		return (1);
 	if ((2 < node->out) && (close(node->out) < 0))
@@ -75,31 +75,25 @@ static int	ft_redir_out(t_cmd *node, char **redir)
 	return (0);
 }
 
-int	ft_redirection(t_cmd *node, int *st)
+int	ft_redirection(t_pars *args, t_cmd *node, int *st)
 {
 	int			i;
-	char		**redir;
 
 	i = -1;
 	(*st) = 0;
-	redir = NULL;
 	if (node && node->redir)
 	{
-		redir = (char **)malloc(sizeof(char *) * 3);
-		if (!redir)
-			return (-1);
-		redir[2] = NULL;
+		(*st) = ft_expand_redir(args, &node->redir);
 		while (!(*st) && node->redir[++i])
 		{
-			redir[0] = node->redir[i];
-			redir[1] = node->redir[i + 1];
 			if (!ft_strncmp(node->redir[i], ">", 1))
-				(*st) = ft_redir_out(node, redir);
+				(*st) = ft_redir_out(node, node->redir[i], \
+					node->redir[i + 1]);
 			else if (!ft_strncmp(node->redir[i], "<", 1))
-				(*st) = ft_redir_in(node, redir);
+				(*st) = ft_redir_in(node, node->redir[i], \
+					node->redir[i + 1]);
 			i++;
 		}
-		free(redir);
 	}
 	return (*st);
 }

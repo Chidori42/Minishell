@@ -6,7 +6,7 @@
 /*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:31:58 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/06 22:27:40 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:06:11 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_get_status(pid_t new_pid, int *cont, int vl, int lvl)
 
 void	ft_parse_error(char *str)
 {
-	write(2, "bash: syntax error near unexpected token `", 43);
+	write(2, "mini: syntax error near unexpected token `", 43);
 	write(2, str, ft_strlen(str));
 	write(2, "'\n", 2);
 	free (str);

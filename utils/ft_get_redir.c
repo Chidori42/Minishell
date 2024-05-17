@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:33:05 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/05 11:18:40 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/14 19:36:45 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	ft_get_redir(char ***redir, char **tab, int i)
 
 	j = -1;
 	(*redir) = NULL;
-	if (ft_redir_nbr(tab, &rdr_nbr, i))
-		(*redir) = (char **)malloc(sizeof(char *) * (rdr_nbr + 1));
+	if (!ft_redir_nbr(tab, &rdr_nbr, i))
+		return (0);
+	(*redir) = (char **)malloc(sizeof(char *) * (rdr_nbr + 1));
 	if (!(*redir))
 		return (-1);
-	while ((*redir) && tab && tab[i] && \
-		ft_strcmp(tab[i], "|"))
+	while ((*redir) && tab && tab[i] && ft_strcmp(tab[i], "|"))
 	{
 		if (ft_is_redir(tab[i]) && tab[i + 1])
 		{

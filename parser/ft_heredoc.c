@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:07:27 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/12 01:52:50 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/14 02:31:38 by bramzil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ static int	ft_generate_name(char **name)
 	return (0);
 }
 
-static int	ft_pipe_file(char **path, int *tab)
+static int	ft_pipe_file(char **path, int *fd)
 {
 	char		*pipe;
 
 	pipe = NULL;
-	*path = NULL;
-	if (tab && !ft_generate_name(&pipe))
+	if (*fd && !ft_generate_name(&pipe))
 	{
-		tab[0] = open(pipe, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-		if ((tab[0] < 0))
+		*fd = open(pipe, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+		if (*fd < 0)
 			return (free(pipe), \
 				ft_putendl_fd(strerror(errno), 2), -1);
 		*path = pipe;
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 static void	ft_child(t_pars *ags, char *lim, int fd, int qt)
@@ -64,14 +64,13 @@ static void	ft_child(t_pars *ags, char *lim, int fd, int qt)
 	{
 		buf[0] = readline("> ");
 		if (!buf[0] || !ft_strcmp(buf[0], lim))
-			break ;
+			exit(0);
 		if (qt && ags && buf)
 			ft_expand_cmd(ags, &buf, 0);
 		buf[0] = ft_strs_join(buf[0], ft_strdup("\n"));
 		ft_putstr_fd(buf[0], fd);
 		free (buf[0]);
 	}
-	exit(0);
 }
 
 static int	ft_read(t_pars *ags, char *lim, int fd, int qt)
@@ -106,7 +105,7 @@ int	ft_heredoc(t_pars *args, char **lim)
 	tmp = *lim;
 	if (lim && (ft_pipe_file(lim, &fd) < 0))
 		return (1);
-	if (ft_is_there_quotes(tmp))
+	else if (ft_is_there_quotes(tmp))
 	{
 		tmp = ft_remove_qts(tmp);
 		qt = 0;

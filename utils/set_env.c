@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:32:01 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/12 02:00:00 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:08:48 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,4 @@ void	ft_set_env(t_pars *args, char **env)
 	}
 	else if (args)
 		ft_duplicate_env(args, env);
-	ft_free_2_dm(tmp);
 }

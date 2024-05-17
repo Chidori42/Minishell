@@ -6,7 +6,7 @@
 /*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:46:25 by bramzil           #+#    #+#             */
-/*   Updated: 2024/05/11 23:22:25 by ael-fagr         ###   ########.fr       */
+/*   Updated: 2024/05/14 20:34:20 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ static int	ft_get_exit(t_pars *args, pid_t rt)
 	while (true)
 	{
 		pid = wait(&st);
-		if (0 < pid && (rt == pid) && ++b)
+		if (0 < pid && (rt == pid) && ++b && WIFSIGNALED(st))
+			ft_get_status(rt, NULL, (WTERMSIG(st) + 128), 3);
+		else if (0 < pid && (rt == pid) && ++b)
 			ft_get_status(rt, NULL, WEXITSTATUS(st), 3);
-		else if (pid < 0)
-		{
-			if (g_sig == 3)
-				tcsetattr(fileno(stdout), TCSANOW, &args->term_st);
+		if (g_sig == 3)
+			tcsetattr(fileno(stdout), TCSANOW, &args->term_st);
+		if (pid < 0)
 			break ;
-		}
 	}
 	if (!b && !g_sig)
-		ft_get_status(0, NULL, rt, 3);
+		ft_get_status(0, NULL, rt, 2);
 	return (0);
 }
 
@@ -72,8 +72,9 @@ static pid_t	ft_child(t_pars *args, t_cmd *node)
 	{
 		pid = fork();
 		if (pid < 0)
-			return (ft_putendl_fd(strerror(errno), 2), -1);
-		if (pid == 0)
+			return (ft_putendl_fd(strerror(errno), 2), \
+				kill(0, SIGINT), -1);
+		else if (pid == 0)
 		{
 			if (node->next && node->next->in && \
 				(close(node->next->in) < 0))
@@ -99,12 +100,12 @@ int	ft_executer(t_pars *args)
 	{
 		last_arg(args, lst, lst->data, i);
 		if (!ft_pipe(lst, &st) && \
-			!ft_redirection(lst, &st))
+			!ft_redirection(args, lst, &st))
 		{
 			if ((i == 1) && !lst->next && \
 				ft_is_builtin(lst->data))
 				st = ft_builtins(args, lst);
-			else
+			else if (lst->data)
 				st = ft_child(args, lst);
 		}
 		ft_close_fd(lst);

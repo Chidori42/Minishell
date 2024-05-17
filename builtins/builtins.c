@@ -3,28 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramzil <bramzil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-fagr <ael-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:45:15 by ael-fagr          #+#    #+#             */
-/*   Updated: 2024/05/07 16:29:03 by bramzil          ###   ########.fr       */
+/*   Updated: 2024/05/14 20:08:47 by ael-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_echo(t_cmd *node)
+static int	ft_echo(t_cmd *node)
 {
 	int		j;
-	int		i;
+	int		n;
 
 	j = 1;
-	i = 0;
-	while (node->data[j] && !ft_strcmp(node->data[j], "-n"))
-	{
-		i = 1;
+	n = 0;
+	while (node && node->data[j] && \
+		!ft_strcmp(node->data[j], "-n") && ++n)
 		j++;
-	}
-	while (node->data && node->data[j])
+	while (node && node->data && node->data[j])
 	{
 		if (node->data[j])
 		{
@@ -34,16 +32,16 @@ int	ft_echo(t_cmd *node)
 		}
 		j++;
 	}
-	if (i == 0)
+	if (n == 0)
 		ft_putstr_fd("\n", node->out);
 	return (0);
 }
 
-int	ft_pwd(t_pars *args, t_cmd *node)
+static int	ft_pwd(t_pars *args, t_cmd *node)
 {
 	char	*tmp;
 
-	if (node && node->data && node->data[0])
+	if (node && args && node->data && node->data[0])
 	{
 		tmp = ft_getcwd(args);
 		if (!tmp)
@@ -53,7 +51,7 @@ int	ft_pwd(t_pars *args, t_cmd *node)
 	return (0);
 }
 
-int	ft_env(t_pars *arg, t_cmd *node)
+static int	ft_env(t_pars *arg, t_cmd *node)
 {
 	int		i;
 
@@ -61,7 +59,7 @@ int	ft_env(t_pars *arg, t_cmd *node)
 	if (arg && node && node->data && node->data[1])
 		return (ft_builts_error("env", node->data[1], \
 			"No such file or directory"), 127);
-	if (arg && arg->envp)
+	if (node && arg && arg->envp)
 	{
 		while (arg->envp[++i])
 		{
